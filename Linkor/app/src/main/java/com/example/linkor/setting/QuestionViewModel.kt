@@ -2,6 +2,7 @@ package com.example.linkor.setting
 
 import android.location.Location
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.linkor.setting.question.Communication
 import com.example.linkor.setting.question.Gender
+import com.example.linkor.setting.question.WeekItem
 
 enum class Questions {
     Mode,
@@ -46,10 +48,10 @@ class QuestionViewModel(): ViewModel(){
     /*  지역, 요일 지정 창 */
     /*  db연동시 selectedWeeks 활용가능  */
 
-    data class WeekItem(
+   /* data class WeekItem(
         val title: String,
         val checkedStatus: MutableState<Boolean>
-    )
+    )*/
 
     // 선택된 week 아이템 리스트
     private val _selectedWeeks = mutableStateListOf<WeekItem>()
@@ -133,6 +135,13 @@ class QuestionViewModel(): ViewModel(){
     }
 
     /* introduction 필요 */
+    private val _selectedCity = mutableStateOf<String>("") // 선택된 값의 초기값을 설정
+    val selectedCity: State<String> = _selectedCity
+
+    // 선택된 도시를 저장하는 함수
+    fun setSelectedCity(city: String) {
+        _selectedCity.value = city
+    }
 
 
     private fun createQuestionScreenData(): questionScreenData {

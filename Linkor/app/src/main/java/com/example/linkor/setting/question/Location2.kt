@@ -3,6 +3,7 @@ package com.example.linkor.setting.question
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,8 +22,10 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -34,6 +37,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -44,6 +48,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -58,6 +63,11 @@ import com.example.linkor.setting.QuestionWrapper
 import java.util.ArrayList
 
 
+data class WeekItem(
+    val title: String,
+    val checkedStatus: MutableState<Boolean>
+)
+
 @Composable
 fun Location2(
     @StringRes titleResourceId: Int,
@@ -65,16 +75,16 @@ fun Location2(
     modifier: Modifier = Modifier,
 ){
 
-    val week: List<QuestionViewModel.WeekItem> = remember {
+    val week: List<WeekItem> = remember {
         listOf(
-            QuestionViewModel.WeekItem("SUN", mutableStateOf(false)),
-            QuestionViewModel.WeekItem("MON", mutableStateOf(false)),
-            QuestionViewModel.WeekItem("TUE", mutableStateOf(false)),
-            QuestionViewModel.WeekItem("WED", mutableStateOf(false)),
-            QuestionViewModel.WeekItem("THU", mutableStateOf(false)),
-            QuestionViewModel.WeekItem("FRI", mutableStateOf(false)),
-            QuestionViewModel.WeekItem("SAT", mutableStateOf(false)),
-            QuestionViewModel.WeekItem("ALL", mutableStateOf(false))
+            WeekItem("SUN", mutableStateOf(false)),
+            WeekItem("MON", mutableStateOf(false)),
+            WeekItem("TUE", mutableStateOf(false)),
+            WeekItem("WED", mutableStateOf(false)),
+            WeekItem("THU", mutableStateOf(false)),
+            WeekItem("FRI", mutableStateOf(false)),
+            WeekItem("SAT", mutableStateOf(false)),
+            WeekItem("ALL", mutableStateOf(false))
         )
     }
     val All: Boolean = week.all { it.checkedStatus.value }
@@ -110,7 +120,7 @@ fun Location2(
                 .padding(16.dp, vertical = 20.dp)
                 .fillMaxWidth()
         ){
-            CityDropDown2()
+            CityDropDown2(QuestionViewModel())
             Spacer(modifier = Modifier.width(44.dp))
             DistrictDropDown2()
         }
@@ -309,14 +319,14 @@ fun Weekend2(
 
 
 @Composable
-fun CityDropDown2(){
+fun CityDropDown2(viewModel: QuestionViewModel){
     //드롭다운 펼쳐짐 정의
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
     var selectedIndex by remember{ mutableStateOf(0) }
 
     Box(
         modifier = Modifier
-            .size(width = 142.29.dp, height = 50.dp)
+           .size(width = 142.29.dp, height = 50.dp)
         ,
         contentAlignment = Alignment.Center
     ) {
@@ -343,6 +353,7 @@ fun CityDropDown2(){
                     .clickable(onClick = { isDropDownMenuExpanded = true })
                 //  .wrapContentSize(Alignment.TopStart) //wrapcontent이녀석..
             ) {
+
                 Text(text = city.getOrNull(selectedIndex) ?: "City", textAlign = TextAlign.Center, color = Color.Black)
 
                 Spacer(modifier = Modifier.width(8.dp))
@@ -354,23 +365,27 @@ fun CityDropDown2(){
                 )
             }
 
-            // 드롭다운 메뉴
-            DropdownMenu(
-                modifier = Modifier.wrapContentSize(),
-                expanded = isDropDownMenuExpanded,
-                onDismissRequest = { isDropDownMenuExpanded = false }
-            ) {
-                city.forEachIndexed { index, cityName ->
-                    DropdownMenuItem(
-                        onClick = {
-                            selectedIndex = index
-                            isDropDownMenuExpanded = false
-                        },
-                        text = {Text(cityName)}
+                // 드롭다운 메뉴
+                DropdownMenu(
+                    modifier = Modifier.size(width = 142.29.dp, height = 350.dp)
+                        .background(Color.White)
+              //          .border(width = 1.dp, color = Color(R.color.primary_color))
+                    ,
+                    expanded = isDropDownMenuExpanded,
+                    onDismissRequest = { isDropDownMenuExpanded = false }
+                ) {
+                    city.forEachIndexed { index, cityName ->
+                        DropdownMenuItem(
+                            onClick = {
+                                selectedIndex = index
+                                isDropDownMenuExpanded = false
+                                viewModel.setSelectedCity(cityName)
+                            },
+                            text = {Text(cityName)}
 
-                    )
+                        )
+                    }
                 }
-            }
         }
     }
 
@@ -422,9 +437,11 @@ fun DistrictDropDown2(){
                 )
             }
 
-            // 드롭다운 메뉴
             DropdownMenu(
-                modifier = Modifier.wrapContentSize(),
+                modifier = Modifier.size(width = 142.29.dp, height = 350.dp)
+                    .background(Color.White)
+                //          .border(width = 1.dp, color = Color(R.color.primary_color))
+                ,
                 expanded = isDropDownMenuExpanded,
                 onDismissRequest = { isDropDownMenuExpanded = false }
             ) {

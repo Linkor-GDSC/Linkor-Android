@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -40,10 +42,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -69,7 +73,9 @@ fun Introduction(
 
         Spacer(Modifier.height(20.dp)) //타이틀과 여백
 
-        var text by remember { mutableStateOf("") }
+        /*  focus control - 자기소개 작성 완료 버튼 누르면 커서 안보이게  */
+        val localFocusManager = LocalFocusManager.current
+
         Surface(
             color = Color.Transparent,
             border = BorderStroke(
@@ -98,6 +104,16 @@ fun Introduction(
                     unfocusedLabelColor = Color.LightGray
                 ),
                 label = { Text(text = "about me")},
+
+                /*  자기소개 작성 완료 버튼 누르면 커서 안보이게  */
+
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions{
+                    localFocusManager.clearFocus()
+                },
+
                 //내부 변경
                 modifier = Modifier
                     .fillMaxSize()
