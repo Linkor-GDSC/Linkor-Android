@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.gdsc.linkor.R
 
 
+
 data class Mode(@StringRes val stringResourceId: Int)
 
 @Composable
@@ -42,6 +43,7 @@ fun Mode(
     modifier: Modifier = Modifier,
 ) {
     QuestionWrapper(
+        viewModel = QuestionViewModel(),
         titleResourceId = titleResourceId,
         modifier = modifier
             .selectableGroup()
