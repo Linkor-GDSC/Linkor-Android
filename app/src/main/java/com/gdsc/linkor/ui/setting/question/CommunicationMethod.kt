@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gdsc.linkor.R
+import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.setting.QuestionWrapper
 
 data class Communication(@StringRes val stringResourceId: Int)
@@ -43,6 +44,7 @@ fun CommunicationMethod(
     modifier: Modifier = Modifier,
 ) {
         QuestionWrapper(
+            viewModel = QuestionViewModel(),
         titleResourceId = titleResourceId,
         modifier = modifier
             .selectableGroup()
@@ -56,7 +58,7 @@ fun CommunicationMethod(
 
         )
 
-        Spacer(Modifier.height(100.dp))
+        Spacer(Modifier.height(120.dp))
 
         possibleAnswers.forEach {
             val selected = it == selectedAnswer

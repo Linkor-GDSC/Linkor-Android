@@ -1,9 +1,11 @@
 package com.gdsc.linkor
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -54,7 +56,7 @@ class SignInViewModel():ViewModel() {
     }
 
     // 파이어베이스 구글 로그인 성공시 수행할 메소드
-    private fun onSignInGoogleAuthTask(task: Task<AuthResult>) {
+    fun onSignInGoogleAuthTask(task: Task<AuthResult>) {
         viewModelScope.launch {
             try{
                 if (task.isSuccessful) {
@@ -63,6 +65,7 @@ class SignInViewModel():ViewModel() {
                     val user = auth.currentUser
                     val name = user?.displayName
                     val email = user?.email
+                    val photoUrl = user?.photoUrl
                     // val uId = user.getIdToken()
                     Log.d("MyTagSignInViewModela","이름: $name 이메일: $email")
                     TODO("서버에 이메일 전송, 신규 회원인지 아니면 기존 회원인지 결과값 받아오기")
@@ -78,6 +81,25 @@ class SignInViewModel():ViewModel() {
                 Log.e("MyTagSignInViewModel", "파이어베이스 인증 에러", e)
             }
         }
+    }
+
+    /*  이름 정보 받아오기 */
+    fun getName(): String? {
+        return auth.currentUser?.displayName
+    }
+
+    /*  email 정보 받아오기 */
+
+    fun getEmail(): String? {
+        return auth.currentUser?.email
+    }
+
+    fun getImage(): Uri? {
+        return auth.currentUser?.photoUrl
+    }
+
+    fun clearUserData() {
+        // 여기에서 사용자 정보 초기화 또는 필요한 처리 수행
     }
 }
 
