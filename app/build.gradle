@@ -59,6 +59,8 @@ kapt {
 }
 
 dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+
     //coil 관련
     implementation "io.coil-kt:coil-compose:2.5.0"
 
