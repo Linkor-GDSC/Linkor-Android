@@ -13,6 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.ui.mypage.Mypage
 import com.gdsc.linkor.ui.theme.LinkorTheme
+import com.gdsc.linkor.ui.tutorlist.TutorDetailScreen
+import com.gdsc.linkor.ui.tutorlist.TutorListScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -21,11 +23,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LinkorTheme {
-               //  SignInScreen(signInViewModel = SignInViewModel())
+                //SignInScreen()
+                //TutorListScreen()
+                //TutorDetailScreen(Tutor("https://lh3.googleusercontent.com/a/ACg8ocLvVDbkmsKPGOwT0iOIMf2vuk_9CeWhI_SqyZObY73bVgk=s96-c","Nunsong Kim","Woman","Seoul","Yong San","MON,TUE","FTF","Hello nice to meet you. I'll teach you how to pronounce Korean by listening k-pop"))
+                RootNavHost()
 
-               // LinkorNavHost()
-               //  Mypage(questionViewModel = QuestionViewModel(), signInViewModel = SignInViewModel())
-
+                //LinkorNavHost()
 
             }
         }
