@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">linkor</string>
+
+    <!-- tutorList -->
+    <string name="filter">Filter</string>
+    <string name="send_message">Send Message</string>
+    <string name="search">Search</string>
+    <string name="ftf">FTF</string>
+    <string name="nftf">NFTF</string>
+
+    <!-- 로그인 시 필요 -->
     <string name="web_client_id">***REMOVED***</string>
+
     <!-- 성별 -->
     <string name="titleGender">I am a </string>
     <string name="Woman">Woman</string>
