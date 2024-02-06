@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 fun MultipleButton(text: String, isChosen: Boolean, onClick: (Any) -> Unit){
     Button(onClick = { onClick(!isChosen) },
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isChosen) Color(0xFFD9D9D9) else Color(0xFFE0E0E0),
+            containerColor = if (isChosen) Color(0xFFD9D9D9) else Color.Transparent,
             //contentColor = if (isChosen) Color.White else Color(0xFF000000)
             contentColor = Color(0xFF000000)
         ),
