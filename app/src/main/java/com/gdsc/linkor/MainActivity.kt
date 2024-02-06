@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.gdsc.linkor.setting.QuestionViewModel
+import com.gdsc.linkor.ui.mypage.Mypage
 import com.gdsc.linkor.ui.theme.LinkorTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,9 +21,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LinkorTheme {
-                //SignInScreen(signInViewModel = SignInViewModel())
+               //  SignInScreen(signInViewModel = SignInViewModel())
 
-                LinkorNavHost()
+               // LinkorNavHost()
+               //  Mypage(questionViewModel = QuestionViewModel(), signInViewModel = SignInViewModel())
+
+
             }
         }
     }

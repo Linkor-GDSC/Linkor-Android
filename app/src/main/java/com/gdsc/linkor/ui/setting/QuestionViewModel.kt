@@ -1,5 +1,7 @@
 package com.gdsc.linkor.setting
 
+import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -10,6 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.gdsc.linkor.setting.question.Communication
 import com.gdsc.linkor.setting.question.Gender
 import com.gdsc.linkor.setting.question.WeekItem
+import com.gdsc.linkor.ui.setting.RetrofitClient
+import com.gdsc.linkor.ui.setting.Role
+import kotlinx.coroutines.MainScope
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 enum class Questions {
     Mode,
@@ -46,14 +54,16 @@ class QuestionViewModel(): ViewModel(){
     /*  지역, 요일 지정 창 */
     /*  db연동시 selectedWeeks 활용가능  */
 
-   /* data class WeekItem(
-        val title: String,
-        val checkedStatus: MutableState<Boolean>
-    )*/
 
    //도시 지정
-    private val _selectedCity = mutableStateOf<String>("") // 선택된 값의 초기값을 설정
-    val selectedCity: State<String> = _selectedCity
+    private val _selectedCity = mutableStateOf<String?>(null) // 선택된 값의 초기값을 설정
+    val selectedCity: String?
+        get() = _selectedCity.value
+
+    //군구 지정
+    private val _selectedDistrict = mutableStateOf<String?>(null) // 선택된 값의 초기값을 설정
+    val selectedDistrict: String?
+        get() = _selectedDistrict.value
 
     // 선택된 week 아이템 리스트
     private val _selectedWeeks = mutableStateListOf<WeekItem>()
@@ -122,9 +132,33 @@ class QuestionViewModel(): ViewModel(){
         // Here is where you could validate that the requirements of the survey are complete
         onSurveyComplete()
     }
+    val mainScope = MainScope()
 
     fun onModeResponse(Mode: Mode) {
-        _ModeResponse.value = Mode
+            _ModeResponse.value = Mode
+/*
+        val Role = Role(Role = Mode)
+        val call: Call<Any> = RetrofitClient.WebService.addUserRegister(Role)
+
+        call.enqueue(object : Callback<Any> {
+            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                // 서버 응답을 처리
+                if (response.isSuccessful) {
+                    // 성공적으로 응답을 받았을 때의 처리
+                    Log.d("QuestionViewModel", "성공 메시지: ${response.body()}") // 성공 메시지 로그 출력
+                } else {
+                    // 응답이 실패한 경우에 대한 처리
+                    Log.e("QuestionViewModel", "응답 실패: ") // 실패 메시지 로그 출력
+                }
+            }
+       //     ${t.message}
+
+            override fun onFailure(call: Call<Any>, t: Throwable) {
+                // 통신 실패시의 처리
+                Log.e("QuestionViewModel", "통신 실패:*") // 실패 메시지 로그 출력
+                t.printStackTrace()
+            }
+        })*/
     }
 
     fun onGenderResponse(Gender: Gender) {
@@ -142,6 +176,10 @@ class QuestionViewModel(): ViewModel(){
     // 선택된 도시를 저장하는 함수
     fun setSelectedCity(city: String) {
         _selectedCity.value = city
+    }
+
+    fun setSelectedDisitrict(city: String) {
+        _selectedDistrict.value = city
     }
 
 
