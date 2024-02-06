@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun QuestionWrapper(
+    viewModel: QuestionViewModel,
     @StringRes titleResourceId: Int,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,

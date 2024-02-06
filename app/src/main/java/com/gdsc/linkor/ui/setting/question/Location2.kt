@@ -56,7 +56,7 @@ data class WeekItem(
 @Composable
 fun Location2(
     @StringRes titleResourceId: Int,
-    viewModel: QuestionViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    viewModel: QuestionViewModel ,
     modifier: Modifier = Modifier,
 ){
 
@@ -82,6 +82,7 @@ fun Location2(
 
 
     QuestionWrapper(
+        viewModel = QuestionViewModel(),
         titleResourceId = titleResourceId,
         modifier = modifier
             .selectableGroup()
@@ -105,9 +106,9 @@ fun Location2(
                 .padding(16.dp, vertical = 20.dp)
                 .fillMaxWidth()
         ){
-            CityDropDown2(QuestionViewModel())
+            CityDropDown2(viewModel = viewModel)
             Spacer(modifier = Modifier.width(44.dp))
-            DistrictDropDown2()
+            DistrictDropDown2(viewModel = viewModel)
         }
 
         Spacer(Modifier.height(30.dp)) //로케이션과 여백으로 간격 조정
@@ -308,6 +309,8 @@ fun CityDropDown2(viewModel: QuestionViewModel){
     //드롭다운 펼쳐짐 정의
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
     var selectedIndex by remember{ mutableStateOf(0) }
+    var selectedSido by remember { mutableStateOf(viewModel.selectedCity) }
+    val cities = cityDistrictsMap.keys.toList()
 
     Box(
         modifier = Modifier
@@ -339,7 +342,7 @@ fun CityDropDown2(viewModel: QuestionViewModel){
                 //  .wrapContentSize(Alignment.TopStart) //wrapcontent이녀석..
             ) {
 
-                Text(text = city.getOrNull(selectedIndex) ?: "City", textAlign = TextAlign.Center, color = Color.Black)
+                Text(text = selectedSido ?: "City", textAlign = TextAlign.Center, color = Color.Black)
 
                 Spacer(modifier = Modifier.width(8.dp))
 
@@ -359,12 +362,13 @@ fun CityDropDown2(viewModel: QuestionViewModel){
                     expanded = isDropDownMenuExpanded,
                     onDismissRequest = { isDropDownMenuExpanded = false }
                 ) {
-                    city.forEachIndexed { index, cityName ->
+                    cities.forEachIndexed { index, cityName ->
                         DropdownMenuItem(
                             onClick = {
                                 selectedIndex = index
                                 isDropDownMenuExpanded = false
                                 viewModel.setSelectedCity(cityName)
+                                selectedSido = cityName
                             },
                             text = {Text(cityName)}
 
@@ -380,9 +384,14 @@ fun CityDropDown2(viewModel: QuestionViewModel){
 
 
 @Composable
-fun DistrictDropDown2(){
+fun DistrictDropDown2(viewModel: QuestionViewModel){
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
     var selectedIndex by remember{ mutableStateOf(0) }
+
+    var selectedGungu by remember { mutableStateOf(viewModel.selectedDistrict) }
+    val selectedCity = viewModel.selectedCity
+
+    val districts = cityDistrictsMap[selectedCity] ?: emptyList()
 
     Box(
         modifier = Modifier
@@ -412,7 +421,7 @@ fun DistrictDropDown2(){
                     .clip(MaterialTheme.shapes.small)
                     .clickable(onClick = { isDropDownMenuExpanded = true })
             ) {
-                Text(text = city.getOrNull(selectedIndex) ?: "City", textAlign = TextAlign.Center, color = Color.Black)
+                Text(text = selectedGungu ?: "District", textAlign = TextAlign.Center, color = Color.Black)
 
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
@@ -430,11 +439,13 @@ fun DistrictDropDown2(){
                 expanded = isDropDownMenuExpanded,
                 onDismissRequest = { isDropDownMenuExpanded = false }
             ) {
-                city.forEachIndexed { index, cityName ->
+                districts.forEachIndexed { index, cityName ->
                     DropdownMenuItem(
                         onClick = {
                             selectedIndex = index
                             isDropDownMenuExpanded = false
+                            viewModel.setSelectedDisitrict(cityName)
+                            selectedGungu = cityName
                         },
                         text = {Text(cityName)}
 
@@ -446,12 +457,13 @@ fun DistrictDropDown2(){
 
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun DropdownMenuPreview2() {
 
     Location2(
         titleResourceId = R.string.titleLocation,
-
+        viewModel = viewModel
         )
-}
+}*/

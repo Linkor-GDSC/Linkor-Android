@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.gdsc.linkor.setting.QuestionViewModel
+import com.gdsc.linkor.ui.mypage.Mypage
 import com.gdsc.linkor.ui.theme.LinkorTheme
 import com.gdsc.linkor.ui.tutorlist.TutorDetailScreen
 import com.gdsc.linkor.ui.tutorlist.TutorListScreen
@@ -27,6 +29,7 @@ class MainActivity : ComponentActivity() {
                 RootNavHost()
 
                 //LinkorNavHost()
+
             }
         }
     }
