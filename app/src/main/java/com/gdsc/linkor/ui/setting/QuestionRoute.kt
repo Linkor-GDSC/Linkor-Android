@@ -5,7 +5,6 @@ import android.content.ContextWrapper
 import androidx.activity.compose.BackHandler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,6 +34,7 @@ fun QuestionRoute(
     }
 
     QuestionScreen(
+        viewModel = viewModel,
         questionScreenData = questionScreenData,
         isNextEnabled = viewModel.isNextEnabled,
         onClosePressed = {
@@ -70,6 +70,7 @@ fun QuestionRoute(
 
                 Questions.Location -> {
                     LocationQuestion(
+                        viewModel =viewModel,
                         modifier = Modifier,
                     )
                 }
@@ -97,22 +98,6 @@ fun QuestionRoute(
 
 }
 
-private fun getTransitionDirection(
-    initialIndex: Int,
-    targetIndex: Int
-): AnimatedContentTransitionScope.SlideDirection {
-    return if (targetIndex > initialIndex) {
-        // Going forwards in the survey: Set the initial offset to start
-        // at the size of the content so it slides in from right to left, and
-        // slides out from the left of the screen to -fullWidth
-        AnimatedContentTransitionScope.SlideDirection.Left
-    } else {
-        // Going back to the previous question in the set, we do the same
-        // transition as above, but with different offsets - the inverse of
-        // above, negative fullWidth to enter, and fullWidth to exit.
-        AnimatedContentTransitionScope.SlideDirection.Right
-    }
-}
 
 private tailrec fun Context.findActivity(): AppCompatActivity =
     when (this) {

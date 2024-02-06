@@ -11,6 +11,7 @@ import com.gdsc.linkor.setting.QuestionResultScreen
 import com.gdsc.linkor.setting.QuestionRoute
 
 object Destinations{
+
     const val QUESTION_ROUTE = "question"
     const val QUESTION_RESULTS_ROUTE = "questionresults"
 }

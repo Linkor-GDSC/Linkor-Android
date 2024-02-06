@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -32,6 +33,7 @@ import com.gdsc.linkor.setting.util.supportWideScreen
 
 @Composable
 fun QuestionScreen(
+    viewModel: QuestionViewModel,
     questionScreenData: questionScreenData,
     isNextEnabled: Boolean,
     onClosePressed: () -> Unit,
@@ -136,6 +138,7 @@ fun QuestionBottomBar(
         ) {
             if (shouldShowPreviousButton) {
                 OutlinedButton(
+                    shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp),
@@ -151,16 +154,22 @@ fun QuestionBottomBar(
             }
             if (shouldShowDoneButton) {
                 Button(
+                    shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp),
                     onClick = onDonePressed,
                    // enabled = isNextButtonEnabled, -> 선택지 선택 시 next 보이게
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = Color.White, // 텍스트 색상 변경
+                        containerColor = Color(android.graphics.Color.parseColor("#4C6ED7")) //배경색 색상 변경
+                    )
                 ) {
                     Text(text = stringResource(id = R.string.done))
                 }
             } else {
                 Button(
+                    shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp),
