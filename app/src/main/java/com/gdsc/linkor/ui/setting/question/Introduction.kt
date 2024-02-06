@@ -41,6 +41,7 @@ fun Introduction(
     modifier: Modifier = Modifier,
 ) {
     QuestionWrapper(
+        viewModel = QuestionViewModel(),
         titleResourceId = titleResourceId,
         modifier = modifier
             .selectableGroup()

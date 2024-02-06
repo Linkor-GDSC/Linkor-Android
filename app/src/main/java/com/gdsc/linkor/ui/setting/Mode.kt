@@ -29,6 +29,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gdsc.linkor.R
+import com.gdsc.linkor.setting.question.Gender
+import kotlin.reflect.KSuspendFunction1
 
 
 data class Mode(@StringRes val stringResourceId: Int)
@@ -42,6 +44,7 @@ fun Mode(
     modifier: Modifier = Modifier,
 ) {
     QuestionWrapper(
+        viewModel = QuestionViewModel(),
         titleResourceId = titleResourceId,
         modifier = modifier
             .selectableGroup()
