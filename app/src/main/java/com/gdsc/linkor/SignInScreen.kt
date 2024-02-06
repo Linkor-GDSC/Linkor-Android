@@ -1,5 +1,6 @@
     package com.gdsc.linkor
 
+import android.content.Context
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.BorderStroke
@@ -12,6 +13,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -20,8 +22,10 @@ import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.launch
 
 @Composable
-fun SignInScreen (signInViewModel: SignInViewModel) {
+fun SignInScreen (signInViewModel: SignInViewModel= SignInViewModel()) {
     val coroutineScope = rememberCoroutineScope()
+
+    val context = LocalContext.current
 
     val authResultLauncher =
         rememberLauncherForActivityResult(contract = AuthResultContract()) { task ->
@@ -59,7 +63,13 @@ fun SignInScreen (signInViewModel: SignInViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             SignInGoogleButton {
-                authResultLauncher.launch(123)
+                authResultLauncher.launch(9001)
+                //signInViewModel.trySignIn(context = context)
+                //signInViewModel.signInWithGoogle(context,launcher=)
+                /*signInViewModel.signInWithGoogle(context) { intent, callback ->
+                    (context as? ComponentActivity)?.startActivityForResult(intent, callback)
+                }*/
+
             }
         }
     }
