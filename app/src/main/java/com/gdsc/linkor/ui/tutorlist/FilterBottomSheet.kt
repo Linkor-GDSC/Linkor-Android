@@ -2,7 +2,6 @@
 
 package com.gdsc.linkor.ui.tutorlist
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,29 +13,25 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gdsc.linkor.R
+import com.gdsc.linkor.setting.QuestionViewModel
+import com.gdsc.linkor.setting.question.Gender
+import com.gdsc.linkor.ui.component.GenderDropDown2
 import com.gdsc.linkor.ui.component.TimeButtons
 import com.gdsc.linkor.ui.component.TutoringMethodButtons
+import com.gdsc.linkor.ui.component.sidoDropdown
+import com.gdsc.linkor.ui.component.gunguDropdown
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,6 +55,7 @@ fun FilterBottomSheet(onDismiss: () -> Unit){
 
 @Composable
 fun BottomSheetContent(){
+    val viewModel = QuestionViewModel()
     Surface{
         Column(
             modifier = Modifier.padding(horizontal = 45.dp,vertical=30.dp),
@@ -71,12 +67,20 @@ fun BottomSheetContent(){
             //성별
             Text(text="Gender")
             Spacer(modifier = Modifier.height(spaceSmall))
-            GenderDropDown()
+            GenderDropDown2(viewModel = viewModel, possibleAnswers = listOf(
+                Gender(R.string.Woman),
+                Gender(R.string.Man),
+                Gender(R.string.Other),
+            ))
             Spacer(modifier = Modifier.height(spaceBig))
             //지역
             Text(text="Location")
             Spacer(modifier = Modifier.height(spaceSmall))
-            LocationDropDown()
+            Row{
+                sidoDropdown(viewModel)
+                Spacer(modifier = Modifier.width(35.dp))
+                gunguDropdown(viewModel)
+            }
             Spacer(modifier = Modifier.height(spaceBig))
             //날짜
             Text(text="Time")
@@ -97,7 +101,7 @@ fun BottomSheetContent(){
 }
 
 //드롭다운
-@OptIn(ExperimentalMaterial3Api::class)
+/*@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropDown(dropDownMenuItemList:List<String>){
     var isExpanded by remember { mutableStateOf(false) }
@@ -149,7 +153,7 @@ fun LocationDropDown(){
         Spacer(modifier = Modifier.width(50.dp))
         DropDown(dropDownMenuItemList = listOf(""))
     }
-}
+}*/
 
 
 @Preview

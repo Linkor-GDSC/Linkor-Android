@@ -49,7 +49,7 @@ fun sidoDropdown(
 
 Row {
 
-    Spacer(modifier = Modifier.width(35.dp))
+    //Spacer(modifier = Modifier.width(35.dp))
     Box(
         modifier = Modifier
             .size(width = 125.dp, height = 40.dp)
@@ -141,7 +141,7 @@ fun gunguDropdown(
 
     Row {
 
-        Spacer(modifier = Modifier.width(35.dp))
+        //Spacer(modifier = Modifier.width(35.dp))
         Box(
             modifier = Modifier
                 .size(width = 125.dp, height = 40.dp)
