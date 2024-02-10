@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">linkor</string>
 
+    <!-- bottomNavigation -->
+    <string name="text_tutor_list">tutor list</string>
+    <string name="text_learning">learning</string>
+    <string name="text_community">community</string>
+    <string name="text_mypage">mypage</string>
+
     <!-- tutorList -->
     <string name="filter">Filter</string>
     <string name="send_message">Send Message</string>
