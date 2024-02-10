@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,11 +32,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.gdsc.linkor.R
 import com.gdsc.linkor.Tutor
+import com.gdsc.linkor.navigation.LinkorBottomNavigation
 import com.gdsc.linkor.toRouteString
 
 @Composable
@@ -56,27 +60,36 @@ fun TutorListScreen(navController: NavController) {
         FilterBottomSheet() { showBottomSheet = false }
     }
 
-    Column(
-        modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
-    ) {
-        //필터 버튼
-        FilterButton { showBottomSheet = true }
-        //튜터 리스트
-        LazyColumn{
-            items(tutors){tutor->
-            TutorListItem(tutor = tutor ) {
-                try {
-                    navController.navigate(
-                        "tutor_detail/${tutor.toRouteString()}"
-                    )
-                }catch (e:Exception){
-                    Log.e("MYTAG","navigation 오류",e)
-                }
+    Scaffold(
+        bottomBar = { LinkorBottomNavigation(navController = navController) }
+    )
+    {
+        Surface(modifier = Modifier.padding(it)){
+            Column(
+                modifier = Modifier.padding(start=20.dp,end=20.dp, top = 10.dp)
+            ) {
+                //필터 버튼
+                FilterButton { showBottomSheet = true }
+                //튜터 리스트
+                LazyColumn{
+                    items(tutors){tutor->
+                        TutorListItem(tutor = tutor ) {
+                            try {
+                                navController.navigate(
+                                    "tutor_detail/${tutor.toRouteString()}"
+                                )
+                            }catch (e:Exception){
+                                Log.e("MYTAG","navigation 오류",e)
+                            }
 
+                        }
+                    }
+                }
             }
         }
-        }
+
     }
+
 }
 //튜터 리스트 아이템
 @Composable
@@ -161,9 +174,10 @@ fun FilterButtonPreview() {
 
 
 
-/*@Composable
+@Composable
 @Preview
 fun TutorListPreview(){
-    val tutor = Tutor("https://lh3.googleusercontent.com/a/ACg8ocLvVDbkmsKPGOwT0iOIMf2vuk_9CeWhI_SqyZObY73bVgk=s96-c","Nunsong Kim","Woman","Seoul","Yong San","FTF","Hello nice to meet you. I'll teach you how to pronounce Korean by listening k-pop")
-    TutorListItem(tutor = tutor)
-}*/
+    //val tutor = Tutor("https://lh3.googleusercontent.com/a/ACg8ocLvVDbkmsKPGOwT0iOIMf2vuk_9CeWhI_SqyZObY73bVgk=s96-c","Nunsong Kim","Woman","Seoul","Yong San","FTF","Hello nice to meet you. I'll teach you how to pronounce Korean by listening k-pop")
+    val navController = rememberNavController()
+    TutorListScreen(navController = navController)
+}
