@@ -12,4 +12,6 @@ object Route {
     const val COMMUNITY = "community"
 
     const val MYPAGE = "mypage"
+
+    const val MESSAGE = "message"
 }
