@@ -22,8 +22,7 @@ fun LinkorBottomNavigation(navController:NavController){
     ){
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
-        val currentDestination = navBackStackEntry?.destination
-        val items = listOf<BottomNavItem>(
+        val items = listOf(
             BottomNavItem.TutorList,
             BottomNavItem.Learning,
             BottomNavItem.Community,
@@ -45,14 +44,6 @@ fun LinkorBottomNavigation(navController:NavController){
                 selected = currentRoute == item.screenRoute,
                 onClick = {
                     navController.navigate(item.screenRoute) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        /*navController.graph.startDestinationRoute?.let {
-                            popUpTo(it) {
-                                saveState = true
-                            }
-                        }*/
                         // Avoid multiple copies of the same destination when
                         // reselecting the same item
                         launchSingleTop = true
