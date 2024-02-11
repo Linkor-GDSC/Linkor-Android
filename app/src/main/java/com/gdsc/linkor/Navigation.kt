@@ -19,6 +19,7 @@ import com.gdsc.linkor.navigation.Route
 import com.gdsc.linkor.setting.QuestionResultScreen
 import com.gdsc.linkor.setting.QuestionRoute
 import com.gdsc.linkor.ui.learning.LearningScreen
+import com.gdsc.linkor.ui.message.MessageScreen
 import com.gdsc.linkor.ui.tutorlist.TutorDetailScreen
 import com.gdsc.linkor.ui.tutorlist.TutorListScreen
 
@@ -127,6 +128,11 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
         //마이페이지
         composable(BottomNavItem.MyPage.screenRoute) {
 
+        }
+
+        composable("${Route.MESSAGE}/{otherUserName}"){
+            val otherUserName = it.arguments?.getString("otherUserName")?:""
+            MessageScreen(navController=navController,otherUserName = otherUserName)
         }
     }
 }

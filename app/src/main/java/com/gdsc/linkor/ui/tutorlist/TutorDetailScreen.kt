@@ -31,6 +31,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.gdsc.linkor.R
 import com.gdsc.linkor.Tutor
+import com.gdsc.linkor.navigation.Route
 
 @Composable
 fun TutorDetailScreen(navController: NavController,
@@ -105,14 +106,14 @@ fun TutorDetailScreen(navController: NavController,
         .padding(vertical = 30.dp, horizontal = 20.dp),
         verticalArrangement = Arrangement.Bottom) {
         //채팅 버튼
-        SendMessageButton()
+        SendMessageButton { navController.navigate("${Route.MESSAGE}/${tutor.name}") }
     }
 
 }
 
 @Composable
-fun SendMessageButton(/*onClick: () -> Unit*/){
-    Button(onClick = { TODO("채팅 화면으로 넘어가기") },
+fun SendMessageButton(onClick: () -> Unit){
+    Button(onClick = onClick ,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFF4C6ED7),
             contentColor = Color(0xFFFDFDFD),),

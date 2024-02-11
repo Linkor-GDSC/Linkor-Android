@@ -47,6 +47,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.gdsc.linkor.R
 import com.gdsc.linkor.model.Message
@@ -54,7 +55,7 @@ import com.gdsc.linkor.model.Message
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageScreen(otherUserName:String){
+fun MessageScreen(navController: NavController, otherUserName:String){
 
     //var messages by remember { mutableStateOf(listOf<Message>()) }
     val myEmail="nykim1016@naver.com"
@@ -73,7 +74,7 @@ fun MessageScreen(otherUserName:String){
 
     //화면
     Scaffold(
-        topBar = { MessageTopAppBar(otherUserName) }
+        topBar = { MessageTopAppBar(otherUserName) { navController.navigateUp() } }
     ) {innerPadding->
         Surface(modifier = Modifier
             .fillMaxSize()
@@ -119,19 +120,19 @@ fun Preview(){
     //SentMessage()
     //SendButton()
     //MessageTextField()
-    MessageScreen(otherUserName = "Nunsong")
+    //MessageScreen(otherUserName = "Nunsong")
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageTopAppBar(otherUserName: String){
+fun MessageTopAppBar(otherUserName: String,onClick:()->Unit){
     TopAppBar(
         title = {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 //뒤로 가기 버튼
-                IconButton(onClick = { TODO() }) {
+                IconButton(onClick = onClick) {
                     Image(painter = painterResource(id = R.drawable.ic_arrow_left), contentDescription = "arrow left",
                     )
                 }
