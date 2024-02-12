@@ -22,6 +22,7 @@ class UserPreferencesDataStore @Inject constructor(private val context: Context)
 
     }
 
+    //사용자 이메일 불러오기
     fun getEmail(): Flow<String?> = context.dataStore.data
         .map{preferences->
             preferences[USER_EMAIL_KEY]?:""
@@ -32,18 +33,20 @@ class UserPreferencesDataStore @Inject constructor(private val context: Context)
             preferences[USER_EMAIL_KEY]?:""
         }
 
-
+    //사용자 이메일 저장하기
     suspend fun saveEmail(email:String){
         context.dataStore.edit{ preferences ->
             preferences[USER_EMAIL_KEY] = email
         }
     }
 
+    //사용자 이름 불러오기
     fun getName(): Flow<String?> = context.dataStore.data
         .map{preferences->
             preferences[USER_NAME]?:""
         }
 
+    //사용자 이름 저장하기
     suspend fun saveName(name:String){
         context.dataStore.edit{ preferences ->
             preferences[USER_NAME] = name
