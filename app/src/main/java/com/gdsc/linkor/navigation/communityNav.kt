@@ -1,4 +1,4 @@
-package com.gdsc.linkor.ui.community
+package com.gdsc.linkor.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
@@ -7,24 +7,24 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.gdsc.linkor.ui.community.Post
 import com.gdsc.linkor.ui.community.comment.commentScreen
+import com.gdsc.linkor.ui.community.CommunityScreen
 
 
 @Composable
 fun communityNavHost(){
     val navController = rememberNavController()
-    NavHost(navController, startDestination = Graph.COMMUNITY) {
+    NavHost(navController, startDestination = Route.COMMUNITY) {
         communityListGraph(navController)
     }
 }
 
-object Graph {
-    const val COMMUNITY = "community_graph"
-}
+
 
 fun NavGraphBuilder.communityListGraph(navController: NavController) {
-    navigation(startDestination = "community_list", route = Graph.COMMUNITY) {
-        composable("community_list") { communityScreen(navController)
+    navigation(startDestination = "community_list", route = Route.COMMUNITY) {
+        composable(Route.COMMUNITYLIST) { CommunityScreen(navController)
         }
         composable("comment/{id}/{photoUrl}/{name}/{title}/{content}")
         {

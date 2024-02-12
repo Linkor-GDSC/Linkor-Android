@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gdsc.linkor.data.UserPreferencesDataStore
+import com.gdsc.linkor.navigation.Route
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.coroutines.launch
@@ -48,7 +49,7 @@ fun SignInScreen(signInViewModel: SignInViewModel, navController: NavController,
     ) {
         signInViewModel.googleSignIn(activityResult = it) { user->
             Toast.makeText(context, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-            navController.navigate(Destinations.QUESTION_ROUTE)
+            navController.navigate(Route.QUESTION_ROUTE)
             //navController.navigate(Route.TUTOR)
             coroutineScope.launch {
                 try {

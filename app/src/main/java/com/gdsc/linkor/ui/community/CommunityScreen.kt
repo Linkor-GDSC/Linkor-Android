@@ -1,5 +1,6 @@
 package com.gdsc.linkor.ui.community
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -8,19 +9,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,45 +31,54 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.gdsc.linkor.R
-import com.gdsc.linkor.Tutor
-import com.gdsc.linkor.toRouteString
+import com.gdsc.linkor.navigation.LinkorBottomNavigation
 
 @Composable
-fun communityScreen(navController: NavController) {
+fun CommunityScreen(navController: NavController) {
     val posts = remember { getPosts() }
-    Surface(
-        modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
-        color = Color.Transparent
+
+    Scaffold(
+        bottomBar = { LinkorBottomNavigation(navController = navController) }
     ) {
+        Surface(Modifier.padding(it)) {
+            Surface(
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+                color = Color.Transparent
+            ) {
 
 
-        LazyColumn {
-            items(posts) { post ->
-                PostItem(post){
-                    try {
-                        navController.navigate(
-                            "comment/${post.toRouteString()}"
-                        )
-                    }catch (e:Exception){
-                        Log.e("MYTAG","navigation 오류",e)
+                LazyColumn {
+                    items(posts) { post ->
+                        PostItem(post){
+                            try {
+                                navController.navigate(
+                                    "comment/${post.toRouteString()}"
+                                )
+                            }catch (e:Exception){
+                                Log.e("MYTAG","navigation 오류",e)
+                            }
+                        }
                     }
                 }
+                //추가 버튼
+                IconButton(
+                    modifier = Modifier
+                        .size(60.dp)
+                        .offset(300.dp, 600.dp),
+                    onClick = {  /*클릭 후 액션 */ }
+                ){
+                    Image(painter = painterResource(id = R.drawable.add_box),
+                        contentDescription =null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.White)
+                    )
+                }
             }
-        }
-        //추가 버튼
-        IconButton(
-            modifier = Modifier.size(60.dp).offset(300.dp, 600.dp),
-            onClick = {  /*클릭 후 액션 */ }
-        ){
-            Image(painter = painterResource(id = R.drawable.add_box),
-                contentDescription =null,
-                modifier = Modifier.fillMaxSize().background(Color.White)
-            )
         }
     }
 
