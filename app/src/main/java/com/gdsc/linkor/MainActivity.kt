@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.gdsc.linkor.setting.QuestionViewModel
+import com.gdsc.linkor.ui.community.communityNavHost
 import com.gdsc.linkor.ui.mypage.Mypage
 import com.gdsc.linkor.ui.theme.LinkorTheme
 import com.gdsc.linkor.ui.tutorlist.TutorDetailScreen
@@ -26,9 +27,10 @@ class MainActivity : ComponentActivity() {
                 //SignInScreen()
                 //TutorListScreen()
                 //TutorDetailScreen(Tutor("https://lh3.googleusercontent.com/a/ACg8ocLvVDbkmsKPGOwT0iOIMf2vuk_9CeWhI_SqyZObY73bVgk=s96-c","Nunsong Kim","Woman","Seoul","Yong San","MON,TUE","FTF","Hello nice to meet you. I'll teach you how to pronounce Korean by listening k-pop"))
-                RootNavHost()
-
+               // RootNavHost()
+              //  Mypage(questionViewModel = QuestionViewModel(), signInViewModel = SignInViewModel())
                 //LinkorNavHost()
+                communityNavHost()
 
             }
         }

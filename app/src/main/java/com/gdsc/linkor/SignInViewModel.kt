@@ -3,7 +3,6 @@ package com.gdsc.linkor
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
