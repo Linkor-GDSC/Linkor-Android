@@ -25,12 +25,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             LinkorTheme {
                 //SignInScreen()
-                //TutorListScreen()
-                //TutorDetailScreen(Tutor("https://lh3.googleusercontent.com/a/ACg8ocLvVDbkmsKPGOwT0iOIMf2vuk_9CeWhI_SqyZObY73bVgk=s96-c","Nunsong Kim","Woman","Seoul","Yong San","MON,TUE","FTF","Hello nice to meet you. I'll teach you how to pronounce Korean by listening k-pop"))
-               // RootNavHost()
-              //  Mypage(questionViewModel = QuestionViewModel(), signInViewModel = SignInViewModel())
-                //LinkorNavHost()
-                communityNavHost()
+
 
             }
         }
