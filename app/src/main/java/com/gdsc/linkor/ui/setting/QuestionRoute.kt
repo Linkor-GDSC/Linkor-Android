@@ -3,7 +3,7 @@ package com.gdsc.linkor.setting
 import android.content.Context
 import android.content.ContextWrapper
 import androidx.activity.compose.BackHandler
-import androidx.appcompat.app.AppCompatActivity
+
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -99,9 +99,3 @@ fun QuestionRoute(
 }
 
 
-private tailrec fun Context.findActivity(): AppCompatActivity =
-    when (this) {
-        is AppCompatActivity -> this
-        is ContextWrapper -> this.baseContext.findActivity()
-        else -> throw IllegalArgumentException("Could not find activity!")
-    }
