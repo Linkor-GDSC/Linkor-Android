@@ -4,12 +4,16 @@ object Route {
     const val ROOT = "root"
     const val SIGNIN = "sign_in"
 
+    const val QUESTION_ROUTE = "question"
+    const val QUESTION_RESULTS_ROUTE = "questionresults"
+
     const val TUTOR = "tutor_graph"
     const val TUTORLIST = "tutor_list"
 
     const val LEARNING = "learning"
 
-    const val COMMUNITY = "community"
+    const val COMMUNITY = "community_graph"
+    const val COMMUNITYLIST = "community"
 
     const val MYPAGE = "mypage"
 

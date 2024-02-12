@@ -1,6 +1,5 @@
 package com.gdsc.linkor
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,26 +10,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.gdsc.linkor.Destinations.QUESTION_RESULTS_ROUTE
-import com.gdsc.linkor.Destinations.QUESTION_ROUTE
 import com.gdsc.linkor.data.UserPreferencesDataStore
 import com.gdsc.linkor.navigation.BottomNavItem
 import com.gdsc.linkor.navigation.Route
 import com.gdsc.linkor.setting.QuestionResultScreen
 import com.gdsc.linkor.setting.QuestionRoute
+import com.gdsc.linkor.navigation.communityListGraph
+import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.ui.learning.LearningScreen
 import com.gdsc.linkor.ui.message.MessageScreen
+import com.gdsc.linkor.ui.mypage.Mypage
 import com.gdsc.linkor.ui.tutorlist.TutorDetailScreen
 import com.gdsc.linkor.ui.tutorlist.TutorListScreen
 
-object Destinations{
 
-    const val QUESTION_ROUTE = "question"
-    const val QUESTION_RESULTS_ROUTE = "questionresults"
-}
-/*object Graph {
-    const val TUTOR = "tutor_graph"
-}*/
 
 @Composable
 fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
@@ -59,6 +52,9 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
         }
 
     }*/
+
+    val signInViewModel = SignInViewModel()
+    val questionViewModel = QuestionViewModel()
 
 
     NavHost(navController = navController,
@@ -89,12 +85,15 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
 
         //로그인
         composable(Route.SIGNIN){
-            SignInScreen(signInViewModel = SignInViewModel(), navController = navController, userPreferencesDataStore = userPreferencesDataStore)
+            SignInScreen(signInViewModel = signInViewModel, navController = navController, userPreferencesDataStore = userPreferencesDataStore)
         }
 
-        composable(QUESTION_ROUTE){
+        composable(Route.QUESTION_ROUTE){
             QuestionRoute(
-                onQuestionComplete = { navController.navigate(QUESTION_RESULTS_ROUTE)},
+                onQuestionComplete = {
+                    navController.navigate(Route.TUTOR){
+                        popUpTo(Route.QUESTION_ROUTE){inclusive=true}
+                    }},
                 onNavUp = navController::navigateUp,
 
                 )
@@ -103,10 +102,11 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
         /*  done 클릭 이후 보여지는 화면 연결 > 나중에 수정하면 될듯..
         *  > Question.kt 안의 QuestionResultScreen() 도 함께 수정해야함 */
 
-        composable(QUESTION_RESULTS_ROUTE) {
-            QuestionResultScreen {
+        composable(Route.QUESTION_RESULTS_ROUTE) {
+            /*QuestionResultScreen {
                 navController.popBackStack(QUESTION_ROUTE, false)
-            }
+            }*/
+
         }
 
 
@@ -123,11 +123,11 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
             LearningScreen(navController = navController)
         }
         //커뮤니티
-        composable(BottomNavItem.Community.screenRoute) {
-        }
+        communityListGraph(navController)
+
         //마이페이지
         composable(BottomNavItem.MyPage.screenRoute) {
-
+            Mypage(questionViewModel = questionViewModel, signInViewModel = signInViewModel, navController = navController)
         }
 
         composable("${Route.MESSAGE}/{otherUserName}"){
