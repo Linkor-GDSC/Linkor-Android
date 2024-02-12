@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.gdsc.linkor.data.UserPreferencesDataStore
 import com.gdsc.linkor.setting.QuestionViewModel
+import com.gdsc.linkor.ui.community.communityNavHost
 import com.gdsc.linkor.ui.mypage.Mypage
 import com.gdsc.linkor.ui.theme.LinkorTheme
 import com.gdsc.linkor.ui.tutorlist.TutorDetailScreen
@@ -32,6 +33,7 @@ class MainActivity : ComponentActivity() {
                 val userPreferencesDataStore = remember { UserPreferencesDataStore(context) }
 
                 LinkorNavHost(userPreferencesDataStore)
+
 
             }
         }
