@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.gdsc.linkor.setting.QuestionViewModel
+import com.gdsc.linkor.ui.community.communityNavHost
 import com.gdsc.linkor.ui.mypage.Mypage
 import com.gdsc.linkor.ui.theme.LinkorTheme
 import com.gdsc.linkor.ui.tutorlist.TutorDetailScreen
@@ -25,7 +26,6 @@ class MainActivity : ComponentActivity() {
             LinkorTheme {
                 //SignInScreen()
 
-                LinkorNavHost()
 
             }
         }

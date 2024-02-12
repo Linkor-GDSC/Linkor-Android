@@ -97,16 +97,30 @@ fun Mypage(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Text(text = "Hello, $Name !",
-                fontStyle = FontStyle.Normal,
-                fontSize = 30.sp,
-                color = Color.Black,
+            Column(
                 modifier = Modifier
-                    .padding(horizontal = 35.dp)
-                    .wrapContentSize()
-            )
 
-            Spacer(Modifier.width(63.dp))
+            ) {
+                Text(text = "Hello, $Name !",
+                    fontStyle = FontStyle.Normal,
+                    fontSize = 30.sp,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(horizontal = 35.dp)
+                        .wrapContentSize()
+                )
+
+                Spacer(Modifier.height(10.dp))
+
+                Text(text ="Sharing your knowlege \n" +
+                        "makes the world more beautiful!",
+                    fontStyle = FontStyle.Normal,
+                    fontSize = 15.sp,
+                    color = Color.DarkGray,
+                    modifier = Modifier
+                        .padding(horizontal = 35.dp)
+                )
+            }
 
 
             if (Photo != null) {
@@ -134,14 +148,7 @@ fun Mypage(
             
         }
 
-        Text(text ="Sharing your knowlege \n" +
-                "makes the world more beautiful!",
-            fontStyle = FontStyle.Normal,
-            fontSize = 15.sp,
-            color = Color.DarkGray,
-            modifier = Modifier
-                .padding(horizontal = 35.dp)
-            )
+
 
         Spacer(Modifier.height(30.dp))
 
