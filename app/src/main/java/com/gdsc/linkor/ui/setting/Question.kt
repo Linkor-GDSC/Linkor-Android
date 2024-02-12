@@ -7,8 +7,7 @@ import com.gdsc.linkor.setting.question.Communication
 import com.gdsc.linkor.setting.question.CommunicationMethod
 import com.gdsc.linkor.setting.question.Gender
 import com.gdsc.linkor.setting.question.Introduction
-import com.gdsc.linkor.setting.question.Location2
-import kotlin.reflect.KSuspendFunction1
+import com.gdsc.linkor.setting.question.Location
 
 @Composable
 fun ModeQuestion(
@@ -56,7 +55,7 @@ fun LocationQuestion(
     viewModel: QuestionViewModel,
     modifier: Modifier = Modifier
 ){
-    Location2(
+    Location(
         titleResourceId = R.string.titleLocation,
         viewModel = viewModel
     )

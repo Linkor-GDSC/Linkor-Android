@@ -38,9 +38,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.gdsc.linkor.R
-import com.gdsc.linkor.Tutor
+import com.gdsc.linkor.model.Tutor
 import com.gdsc.linkor.navigation.LinkorBottomNavigation
-import com.gdsc.linkor.toRouteString
+import com.gdsc.linkor.model.toRouteString
 
 @Composable
 fun TutorListScreen(navController: NavController) {

@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import com.gdsc.linkor.data.UserPreferencesDataStore
+import com.gdsc.linkor.navigation.LinkorNavHost
 import com.gdsc.linkor.ui.theme.LinkorTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +16,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LinkorTheme {
-                //SignInScreen()
 
                 val context = LocalContext.current
                 val userPreferencesDataStore = remember { UserPreferencesDataStore(context) }

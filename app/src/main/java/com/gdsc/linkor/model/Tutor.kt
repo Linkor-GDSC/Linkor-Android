@@ -1,4 +1,4 @@
-package com.gdsc.linkor
+package com.gdsc.linkor.model
 
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets

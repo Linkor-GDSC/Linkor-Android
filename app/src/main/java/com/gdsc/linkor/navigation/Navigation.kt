@@ -1,4 +1,4 @@
-package com.gdsc.linkor
+package com.gdsc.linkor.navigation
 
 import android.util.Log
 import androidx.compose.runtime.Composable
@@ -11,15 +11,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.gdsc.linkor.data.UserPreferencesDataStore
-import com.gdsc.linkor.navigation.BottomNavItem
-import com.gdsc.linkor.navigation.Route
-import com.gdsc.linkor.setting.QuestionResultScreen
+import com.gdsc.linkor.model.Tutor
 import com.gdsc.linkor.setting.QuestionRoute
-import com.gdsc.linkor.navigation.communityListGraph
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.ui.learning.LearningScreen
 import com.gdsc.linkor.ui.message.MessageScreen
 import com.gdsc.linkor.ui.mypage.Mypage
+import com.gdsc.linkor.ui.signin.SignInScreen
+import com.gdsc.linkor.ui.signin.SignInViewModel
 import com.gdsc.linkor.ui.tutorlist.TutorDetailScreen
 import com.gdsc.linkor.ui.tutorlist.TutorListScreen
 
