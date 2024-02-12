@@ -1,6 +1,5 @@
 package com.gdsc.linkor.ui.community
 
-import com.gdsc.linkor.Tutor
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 

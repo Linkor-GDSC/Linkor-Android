@@ -1,4 +1,4 @@
-package com.gdsc.linkor
+package com.gdsc.linkor.ui.signin
 
 import android.util.Log
 import android.widget.Toast
@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.gdsc.linkor.R
 import com.gdsc.linkor.data.UserPreferencesDataStore
 import com.gdsc.linkor.navigation.Route
 import com.google.android.gms.auth.api.signin.GoogleSignIn

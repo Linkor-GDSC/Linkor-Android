@@ -34,7 +34,7 @@ import com.gdsc.linkor.R
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.setting.question.Gender
 
-import com.gdsc.linkor.ui.component.GenderDropDown2
+import com.gdsc.linkor.ui.component.GenderDropDown
 import com.gdsc.linkor.ui.component.gunguDropdown
 import com.gdsc.linkor.ui.mypage.Edit.introEdit
 import com.gdsc.linkor.ui.component.sidoDropdown
@@ -82,7 +82,7 @@ fun MypageEdit(viewModel: QuestionViewModel){
 
         /*  성별 수정 */
 
-        GenderDropDown2(  viewModel , possibleAnswers = listOf(
+        GenderDropDown(  viewModel , possibleAnswers = listOf(
             Gender(R.string.Woman),
             Gender(R.string.Man),
             Gender(R.string.Other),

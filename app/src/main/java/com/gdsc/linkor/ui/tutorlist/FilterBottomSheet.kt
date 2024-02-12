@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.gdsc.linkor.R
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.setting.question.Gender
-import com.gdsc.linkor.ui.component.GenderDropDown2
+import com.gdsc.linkor.ui.component.GenderDropDown
 import com.gdsc.linkor.ui.component.TimeButtons
 import com.gdsc.linkor.ui.component.TutoringMethodButtons
 import com.gdsc.linkor.ui.component.sidoDropdown
@@ -67,7 +67,7 @@ fun BottomSheetContent(){
             //성별
             Text(text="Gender")
             Spacer(modifier = Modifier.height(spaceSmall))
-            GenderDropDown2(viewModel = viewModel, possibleAnswers = listOf(
+            GenderDropDown(viewModel = viewModel, possibleAnswers = listOf(
                 Gender(R.string.Woman),
                 Gender(R.string.Man),
                 Gender(R.string.Other),
@@ -99,61 +99,6 @@ fun BottomSheetContent(){
 
     }
 }
-
-//드롭다운
-/*@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DropDown(dropDownMenuItemList:List<String>){
-    var isExpanded by remember { mutableStateOf(false) }
-
-    var value by remember { mutableStateOf("Woman") }
-    ExposedDropdownMenuBox(expanded = isExpanded, onExpandedChange = {isExpanded=it}) {
-
-        TextField(
-            value = value,
-            onValueChange = {},
-            readOnly = true,
-            trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)},
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                //textColor = Black
-            ),
-            modifier = Modifier
-                .menuAnchor()
-                .border(2.dp, color = Color(0xFFE0E0E0), shape = RoundedCornerShape(10.dp))
-                .width(120.dp)
-                .height(50.dp)
-        )
-        ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded=false }
-        ) {
-            for(item in dropDownMenuItemList){
-                DropdownMenuItem(
-                    text = { Text(text=item) },
-                    onClick = {
-                        value=item
-                        isExpanded = false })
-            }
-        }
-    }
-}
-
-@Composable
-fun GenderDropDown(){
-    DropDown(dropDownMenuItemList = listOf("Woman","Man"))
-}
-
-@Composable
-fun LocationDropDown(){
-    Row{
-        DropDown(dropDownMenuItemList = listOf("Seoul","GyeongGi"))
-        Spacer(modifier = Modifier.width(50.dp))
-        DropDown(dropDownMenuItemList = listOf(""))
-    }
-}*/
 
 
 @Preview

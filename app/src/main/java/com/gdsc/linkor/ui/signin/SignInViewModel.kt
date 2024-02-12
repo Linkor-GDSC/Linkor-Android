@@ -1,8 +1,5 @@
-package com.gdsc.linkor
+package com.gdsc.linkor.ui.signin
 
-import android.content.ContentValues.TAG
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.activity.result.ActivityResult

@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.gdsc.linkor.R
-import com.gdsc.linkor.Tutor
+import com.gdsc.linkor.model.Tutor
 import com.gdsc.linkor.navigation.Route
 
 @Composable
@@ -41,7 +41,8 @@ fun TutorDetailScreen(navController: NavController,
                       locationSido:String,
                       time:String,
                       tutoringMethod:String*/
-                      tutor: Tutor) {
+                      tutor: Tutor
+) {
 
 
     //뒤로 가기 버튼
