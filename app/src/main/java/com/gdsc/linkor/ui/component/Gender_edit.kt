@@ -42,7 +42,7 @@ fun GenderDropDown2(
     )
 {
     Row {
-        Spacer(modifier = Modifier.width(35.dp))
+        //Spacer(modifier = Modifier.width(35.dp))
         //드롭다운 펼쳐짐 정의
         var isDropDownMenuExpanded by remember { mutableStateOf(false) }
 

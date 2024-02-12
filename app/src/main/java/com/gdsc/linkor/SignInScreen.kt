@@ -1,13 +1,26 @@
-    package com.gdsc.linkor
+package com.gdsc.linkor
 
-import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -18,33 +31,47 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.android.gms.common.api.ApiException
+import androidx.navigation.NavController
+import com.gdsc.linkor.data.UserPreferencesDataStore
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.coroutines.launch
 
 @Composable
-fun SignInScreen (signInViewModel: SignInViewModel= SignInViewModel()) {
+fun SignInScreen(signInViewModel: SignInViewModel, navController: NavController, userPreferencesDataStore: UserPreferencesDataStore){
+    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
-    val context = LocalContext.current
 
-    val authResultLauncher =
-        rememberLauncherForActivityResult(contract = AuthResultContract()) { task ->
-            try {
-                val account = task?.getResult(ApiException::class.java)
-                if (account == null) {
-                    Log.e("MyTagSignInScreen","account is null")
-                } else {
-                    Log.d("MyTagSignInScreen","account success")
-                    coroutineScope.launch {
-                        signInViewModel.onGoogleSignInAccount(account)
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) {
+        signInViewModel.googleSignIn(activityResult = it) { user->
+            Toast.makeText(context, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+            navController.navigate(Destinations.QUESTION_ROUTE)
+            //navController.navigate(Route.TUTOR)
+            coroutineScope.launch {
+                try {
+                    if (user != null) {
+                        user.displayName?.let { it1 -> userPreferencesDataStore.saveName(it1) }
+                        user.email?.let { it1 -> userPreferencesDataStore.saveEmail(it1) }
+                        Log.d("mytag","savedEmail: ${userPreferencesDataStore.savedEmail}")
+
+                    }else{
+                        Log.e("mytag","user is null")
                     }
+                }catch (e:Exception){
+                    Log.e("MYTAG","저장 실패",e)
                 }
-            } catch (e: ApiException) {
-                Log.e("MyTagSignInScreen","account error")
+
             }
         }
+
+
+    }
+
     Surface(
-        modifier=Modifier
+        modifier= Modifier
             .fillMaxHeight(),
         color = Color(0xFF4C6ED7),
     ) {
@@ -52,7 +79,7 @@ fun SignInScreen (signInViewModel: SignInViewModel= SignInViewModel()) {
             .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
-            ){
+        ){
             LinkorLogo()
         }
         Column(
@@ -63,18 +90,21 @@ fun SignInScreen (signInViewModel: SignInViewModel= SignInViewModel()) {
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             SignInGoogleButton {
-                authResultLauncher.launch(9001)
-                //signInViewModel.trySignIn(context = context)
-                //signInViewModel.signInWithGoogle(context,launcher=)
-                /*signInViewModel.signInWithGoogle(context) { intent, callback ->
-                    (context as? ComponentActivity)?.startActivityForResult(intent, callback)
-                }*/
+                val googleSignInOptions = GoogleSignInOptions
+                    .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(context.getString(R.string.web_client_id))
+                    .requestEmail()
+                    .build()
+
+                val googleSignInClient = GoogleSignIn.getClient(context, googleSignInOptions)
+                launcher.launch(googleSignInClient.signInIntent)
+
 
             }
         }
     }
-
 }
+
 @Composable
 fun LinkorLogo(){
     Image(painter = painterResource(id = R.drawable.ic_linkor_logo),
@@ -99,9 +129,9 @@ fun SignInGoogleButton(onClick: () -> Unit) {
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .padding(
-                top = 15.dp,
-                bottom = 15.dp
-            )
+                    top = 15.dp,
+                    bottom = 15.dp
+                )
         ) {
             Icon(painter = painterResource(id = R.drawable.ic_google), contentDescription = "Google sign button", tint = Color.Unspecified, modifier = Modifier.size(35.dp))
             Spacer(modifier = Modifier.width(24.dp))
