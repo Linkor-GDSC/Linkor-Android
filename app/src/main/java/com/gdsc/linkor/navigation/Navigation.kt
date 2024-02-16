@@ -10,11 +10,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.gdsc.linkor.TTSManager
 import com.gdsc.linkor.data.UserPreferencesDataStore
 import com.gdsc.linkor.model.Tutor
 import com.gdsc.linkor.setting.QuestionRoute
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.ui.learning.LearningScreen
+import com.gdsc.linkor.ui.learning.LearningSentencesScreen
 import com.gdsc.linkor.ui.message.MessageScreen
 import com.gdsc.linkor.ui.mypage.Mypage
 import com.gdsc.linkor.ui.signin.SignInScreen
@@ -25,7 +27,7 @@ import com.gdsc.linkor.ui.tutorlist.TutorListScreen
 
 
 @Composable
-fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
+fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore,ttsManager: TTSManager){
 
     val navController: NavHostController = rememberNavController()
     /*NavHost(
@@ -121,6 +123,12 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
         composable(BottomNavItem.Learning.screenRoute) {
             LearningScreen(navController = navController)
         }
+
+        composable("${Route.LEARNING_SENTENCES}/{step}"){
+            val step = it.arguments?.getString("step")?:""
+            LearningSentencesScreen(navController=navController,ttsManager =ttsManager,step=step)
+        }
+
         //커뮤니티
         communityListGraph(navController)
 
