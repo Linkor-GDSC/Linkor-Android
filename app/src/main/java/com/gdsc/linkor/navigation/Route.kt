@@ -11,6 +11,7 @@ object Route {
     const val TUTORLIST = "tutor_list"
 
     const val LEARNING = "learning"
+    const val LEARNING_SENTENCES = "learning_sentences"
 
     const val COMMUNITY = "community_graph"
     const val COMMUNITYLIST = "community"
