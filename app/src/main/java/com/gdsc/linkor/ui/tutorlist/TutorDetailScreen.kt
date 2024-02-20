@@ -1,5 +1,6 @@
 package com.gdsc.linkor.ui.tutorlist
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,11 +29,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.gdsc.linkor.R
 import com.gdsc.linkor.model.Tutor
 import com.gdsc.linkor.navigation.Route
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun TutorDetailScreen(navController: NavController,
@@ -41,8 +46,14 @@ fun TutorDetailScreen(navController: NavController,
                       locationSido:String,
                       time:String,
                       tutoringMethod:String*/
-                      tutor: Tutor
+                      //tutor: Tutor,
+                      email:String,
+                      viewModel: TutorListViewModel = hiltViewModel()
 ) {
+
+
+    viewModel.getTutorDetail(email = email)
+    val tutor = viewModel.tutorDetail.value.tutor
 
 
     //뒤로 가기 버튼
@@ -66,7 +77,7 @@ fun TutorDetailScreen(navController: NavController,
                 model = tutor.photoUrl,
                 "tutor profile",
                 modifier = Modifier
-                    .size(100.dp,100.dp)
+                    .size(100.dp, 100.dp)
                     .clip(RoundedCornerShape(50))
             )
             Spacer(modifier = Modifier.height(10.dp))
@@ -89,7 +100,8 @@ fun TutorDetailScreen(navController: NavController,
                 Column {
                     Text(text = tutor.gender)
                     Text(text = tutor.locationGu + ", " + tutor.locationSido)
-                    Text(text = tutor.time)
+
+                    Text(text = tutor.time.joinToString())
                     Text(text = tutor.tutoringMethod)
                 }
             }
@@ -107,7 +119,16 @@ fun TutorDetailScreen(navController: NavController,
         .padding(vertical = 30.dp, horizontal = 20.dp),
         verticalArrangement = Arrangement.Bottom) {
         //채팅 버튼
-        SendMessageButton { navController.navigate("${Route.MESSAGE}/${tutor.name}") }
+        SendMessageButton {
+            try {
+                val photoUrl = if (tutor.photoUrl.isNotEmpty()) URLEncoder.encode(tutor.photoUrl, StandardCharsets.UTF_8.toString()) else tutor.photoUrl
+                navController.navigate("${Route.MESSAGE}/${tutor.name}/${tutor.email}/${photoUrl}")
+                Log.d("mytag tutordetail","${photoUrl}")
+                Log.d("mytag tutordetail","${tutor.photoUrl}")
+            }catch (e:Exception){
+                Log.e("MYTAG tutordetailscreen","채팅 화면 이동 실패",e)
+            }
+        }
     }
 
 }

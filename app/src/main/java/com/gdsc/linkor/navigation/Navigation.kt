@@ -10,12 +10,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.gdsc.linkor.TTSManager
 import com.gdsc.linkor.data.UserPreferencesDataStore
 import com.gdsc.linkor.model.Tutor
 import com.gdsc.linkor.setting.QuestionRoute
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.ui.community.CommunityViewmodel
 import com.gdsc.linkor.ui.learning.LearningScreen
+import com.gdsc.linkor.ui.learning.LearningSentencesScreen
 import com.gdsc.linkor.ui.message.MessageScreen
 import com.gdsc.linkor.ui.mypage.Mypage
 import com.gdsc.linkor.ui.signin.SignInScreen
@@ -26,7 +28,7 @@ import com.gdsc.linkor.ui.tutorlist.TutorListScreen
 
 
 @Composable
-fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
+fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore,ttsManager: TTSManager){
 
     val navController: NavHostController = rememberNavController()
     /*NavHost(
@@ -123,6 +125,12 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
         composable(BottomNavItem.Learning.screenRoute) {
             LearningScreen(navController = navController)
         }
+
+        composable("${Route.LEARNING_SENTENCES}/{step}"){
+            val step = it.arguments?.getString("step")?:""
+            LearningSentencesScreen(navController=navController,ttsManager =ttsManager,step=step)
+        }
+
         //커뮤니티
         communityListGraph(navController, communityViewModel)
 
@@ -131,9 +139,12 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
             Mypage(questionViewModel = questionViewModel, signInViewModel = signInViewModel, navController = navController)
         }
 
-        composable("${Route.MESSAGE}/{otherUserName}"){
+        composable("${Route.MESSAGE}/{otherUserName}/{otherUserEmail}/{otherUserPhotoUrl}"){
             val otherUserName = it.arguments?.getString("otherUserName")?:""
-            MessageScreen(navController=navController,otherUserName = otherUserName)
+            val otherUserEmail = it.arguments?.getString("otherUserEmail")?:""
+            val otherUserPhotoUrl = it.arguments?.getString("photoUrl")?:""
+
+            MessageScreen(navController=navController,otherUserName = otherUserName, otherUserEmail = otherUserEmail,otherUserPhotoUrl=otherUserPhotoUrl)
         }
     }
 }
@@ -142,7 +153,11 @@ fun NavGraphBuilder.tutorListGraph(navController: NavController) {
     navigation(startDestination = Route.TUTORLIST, route = Route.TUTOR) {
         composable(BottomNavItem.TutorList.screenRoute) { TutorListScreen(navController)
         }
-        composable("tutor_detail/{photoUrl}/{name}/{gender}/{locationGu}/{locationSido}/{time}/{tutoringMethod}/{introduction}")
+        composable("${Route.TUTOR_DETAIL}/{email}"){
+            val email = it.arguments?.getString("email")?:""
+            TutorDetailScreen(navController = navController,email=email)
+        }
+        /*composable("tutor_detail/{photoUrl}/{name}/{gender}/{locationGu}/{locationSido}/{time}/{tutoringMethod}/{introduction}")
         {
             val tutor = Tutor(
                 //photoUrl = URLEncoder.encode(it.arguments?.getString("photoUrl"), StandardCharsets.UTF_8.toString()),
@@ -157,7 +172,8 @@ fun NavGraphBuilder.tutorListGraph(navController: NavController) {
             )
 
             TutorDetailScreen(navController = navController, tutor = tutor)
-            //TutorDetailScreen(/*tutor = */navController=navController,name=name,gender=gender,locationGu=locationGu)
-        }
+
+        }*/
+
     }
 }
