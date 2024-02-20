@@ -1,17 +1,13 @@
-package com.gdsc.linkor.ui.component
+package com.gdsc.linkor.ui.tutorlist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.gdsc.linkor.R
-import com.gdsc.linkor.ui.tutorlist.TutorListViewModel
+import com.gdsc.linkor.ui.component.MultipleButton
 
 //FTF/NFTF 버튼들
 @Composable

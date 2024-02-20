@@ -32,17 +32,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.gdsc.linkor.R
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.setting.question.Gender
 
-import com.gdsc.linkor.ui.component.GenderDropDown
-import com.gdsc.linkor.ui.component.TimeButtons
-import com.gdsc.linkor.ui.component.TutoringMethodButtons
-import com.gdsc.linkor.ui.component.gunguDropdown
+import com.gdsc.linkor.ui.mypage.Edit.GenderDropDown
+import com.gdsc.linkor.ui.tutorlist.TimeButtons
+import com.gdsc.linkor.ui.tutorlist.TutoringMethodButtons
+import com.gdsc.linkor.ui.mypage.Edit.gunguDropdown
 import com.gdsc.linkor.ui.mypage.Edit.introEdit
-import com.gdsc.linkor.ui.component.sidoDropdown
+import com.gdsc.linkor.ui.mypage.Edit.sidoDropdown
 
 
 @OptIn(ExperimentalMaterial3Api::class)

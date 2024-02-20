@@ -1,4 +1,5 @@
-package com.gdsc.linkor.ui.component
+package com.gdsc.linkor.ui.tutorlist
+
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -35,7 +36,7 @@ import com.gdsc.linkor.setting.question.cityDistrictsMap
 
 
 @Composable
-fun sidoDropdown(
+fun SidoFilter(
     viewModel: QuestionViewModel,
 )
 {
@@ -47,16 +48,16 @@ fun sidoDropdown(
     val cities = cityDistrictsMap.keys.toList()
 
 
-Row {
+    Row {
 
-    //Spacer(modifier = Modifier.width(35.dp))
-    Box(
-        modifier = Modifier
-            .size(width = 125.dp, height = 40.dp)
+        //Spacer(modifier = Modifier.width(35.dp))
+        Box(
+            modifier = Modifier
+                .size(width = 125.dp, height = 40.dp)
 
-        ,
-        contentAlignment = Alignment.Center
-    ) {
+            ,
+            contentAlignment = Alignment.Center
+        ) {
 
             // 드롭다운 버튼
             Button(
@@ -119,14 +120,14 @@ Row {
                 }
             }
 
+        }
     }
-}
 
 
 }
 
 @Composable
-fun gunguDropdown(
+fun GuFilter(
     viewModel: QuestionViewModel,
 )
 {

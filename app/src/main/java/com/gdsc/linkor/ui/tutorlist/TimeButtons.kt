@@ -1,4 +1,4 @@
-package com.gdsc.linkor.ui.component
+package com.gdsc.linkor.ui.tutorlist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.gdsc.linkor.R
+import com.gdsc.linkor.ui.component.MultipleButton
 
 //Time 버튼들
 @Composable
