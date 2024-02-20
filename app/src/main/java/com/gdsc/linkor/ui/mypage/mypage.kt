@@ -59,6 +59,7 @@ fun Mypage(
     {
         Column(
             modifier=Modifier
+                .background(Color.White)
                 .fillMaxSize()
                 .padding(it)
         ) {
@@ -261,7 +262,7 @@ fun Mypage(
                 ) {
                 Text(text = "LOG OUT",
                     fontStyle = FontStyle.Normal,
-                    fontSize = 23.sp,
+                    fontSize = 20.sp,
                     color = Color(android.graphics.Color.parseColor("#4C6ED7")),
                     modifier = Modifier
                         .padding(0.dp)

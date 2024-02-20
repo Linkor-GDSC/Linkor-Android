@@ -12,8 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.gdsc.linkor.setting.question.Communication
 import com.gdsc.linkor.setting.question.Gender
 import com.gdsc.linkor.setting.question.WeekItem
-import com.gdsc.linkor.ui.setting.RetrofitClient
-import com.gdsc.linkor.ui.setting.Role
 import kotlinx.coroutines.MainScope
 import retrofit2.Call
 import retrofit2.Callback

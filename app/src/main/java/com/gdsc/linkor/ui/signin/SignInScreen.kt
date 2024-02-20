@@ -55,8 +55,8 @@ fun SignInScreen(signInViewModel: SignInViewModel, navController: NavController,
             coroutineScope.launch {
                 try {
                     if (user != null) {
-                        user.displayName?.let { it1 -> userPreferencesDataStore.saveName(it1) }
-                        user.email?.let { it1 -> userPreferencesDataStore.saveEmail(it1) }
+                    //    user.displayName?.let { it1 -> userPreferencesDataStore.saveName(it1) }
+                    //    user.email?.let { it1 -> userPreferencesDataStore.saveEmail(it1) }
                         Log.d("mytag","savedEmail: ${userPreferencesDataStore.savedEmail}")
 
                     }else{
