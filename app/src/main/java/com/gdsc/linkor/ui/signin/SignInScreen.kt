@@ -31,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.gdsc.linkor.R
 import com.gdsc.linkor.data.UserPreferencesDataStore
@@ -40,7 +41,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.coroutines.launch
 
 @Composable
-fun SignInScreen(signInViewModel: SignInViewModel, navController: NavController, userPreferencesDataStore: UserPreferencesDataStore){
+fun SignInScreen(signInViewModel: SignInViewModel= hiltViewModel(), navController: NavController, userPreferencesDataStore: UserPreferencesDataStore){
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
@@ -49,15 +50,24 @@ fun SignInScreen(signInViewModel: SignInViewModel, navController: NavController,
         contract = ActivityResultContracts.StartActivityForResult()
     ) {
         signInViewModel.googleSignIn(activityResult = it) { user->
-            Toast.makeText(context, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-            navController.navigate(Route.QUESTION_ROUTE)
-            //navController.navigate(Route.TUTOR)
+            Toast.makeText(context, "Sign in Success", Toast.LENGTH_SHORT).show()
+            if (user!=null){
+                //기존 회원일 경우 세부조건 선택 건너뛰고 튜터 리스트로
+                if (signInViewModel.isExistingMember){
+                    navController.navigate(Route.TUTOR)
+                }else{ // 신규 회원일 경우 세부조건 선택 화면으로
+                    navController.navigate(Route.QUESTION_ROUTE)
+                }
+            }
+
             coroutineScope.launch {
                 try {
                     if (user != null) {
+                        //자동 로그인을 위해 사용자 이메일, 이름 저장
                     //    user.displayName?.let { it1 -> userPreferencesDataStore.saveName(it1) }
                     //    user.email?.let { it1 -> userPreferencesDataStore.saveEmail(it1) }
                         Log.d("mytag","savedEmail: ${userPreferencesDataStore.savedEmail}")
+
 
                     }else{
                         Log.e("mytag","user is null")

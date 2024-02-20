@@ -55,7 +55,7 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore,ttsManager:
 
     }*/
 
-    val signInViewModel = SignInViewModel()
+    //val signInViewModel = SignInViewModel()
     val questionViewModel = QuestionViewModel()
     val communityViewModel = CommunityViewmodel()
 
@@ -88,7 +88,7 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore,ttsManager:
 
         //로그인
         composable(Route.SIGNIN){
-            SignInScreen(signInViewModel = signInViewModel, navController = navController, userPreferencesDataStore = userPreferencesDataStore)
+            SignInScreen(/*signInViewModel = signInViewModel,*/ navController = navController, userPreferencesDataStore = userPreferencesDataStore)
         }
 
         composable(Route.QUESTION_ROUTE){
@@ -136,7 +136,7 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore,ttsManager:
 
         //마이페이지
         composable(BottomNavItem.MyPage.screenRoute) {
-            Mypage(questionViewModel = questionViewModel, signInViewModel = signInViewModel, navController = navController)
+            Mypage(questionViewModel = questionViewModel, /*signInViewModel = signInViewModel,*/ navController = navController)
         }
 
         composable("${Route.MESSAGE}/{otherUserName}/{otherUserEmail}/{otherUserPhotoUrl}"){
