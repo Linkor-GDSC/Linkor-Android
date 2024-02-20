@@ -1,4 +1,4 @@
-package com.gdsc.linkor.ui.component
+package com.gdsc.linkor.ui.mypage.Edit
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

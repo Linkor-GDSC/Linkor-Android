@@ -26,11 +26,9 @@ import androidx.compose.ui.unit.dp
 import com.gdsc.linkor.R
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.setting.question.Gender
-import com.gdsc.linkor.ui.component.GenderDropDown
-import com.gdsc.linkor.ui.component.TimeButtons
-import com.gdsc.linkor.ui.component.TutoringMethodButtons
-import com.gdsc.linkor.ui.component.sidoDropdown
-import com.gdsc.linkor.ui.component.gunguDropdown
+import com.gdsc.linkor.ui.mypage.Edit.GenderDropDown
+import com.gdsc.linkor.ui.mypage.Edit.sidoDropdown
+import com.gdsc.linkor.ui.mypage.Edit.gunguDropdown
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
