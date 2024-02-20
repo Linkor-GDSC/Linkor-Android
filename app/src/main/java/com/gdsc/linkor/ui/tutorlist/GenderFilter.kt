@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.gdsc.linkor.R
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.setting.question.Gender
@@ -37,6 +38,7 @@ import com.gdsc.linkor.setting.question.Gender
 fun GenderFilter(
     viewModel: QuestionViewModel,
     possibleAnswers: List<Gender>,
+    tutorListViewModel: TutorListViewModel= hiltViewModel()
 )
 {
     Row {
@@ -45,7 +47,8 @@ fun GenderFilter(
         var isDropDownMenuExpanded by remember { mutableStateOf(false) }
 
 
-        var selectGender by remember { mutableStateOf(viewModel.GenderResponse) }
+        //var selectGender by remember { mutableStateOf(viewModel.GenderResponse) }
+        var selectGender by remember{mutableStateOf(tutorListViewModel.finalSelectedGender)}
 
         Box(
             modifier = Modifier
@@ -80,22 +83,30 @@ fun GenderFilter(
 
                     ,
                 ) {
-                    Text( text = if (selectGender != null) {
-                        stringResource(id = selectGender!!.stringResourceId)
+                    (if (selectGender != null) {
+                        //stringResource(id = selectGender!!.stringResourceId)
+                        selectGender
                     } else {
                         "Gender"
-                    } ,
-                        textAlign = TextAlign.Center, color = Color.Black, fontSize = 12.sp,
-                        modifier = Modifier.align(Alignment.CenterVertically).weight(1f)
+                    })?.let {
+                        Text( text =
+                        it,
+                            textAlign = TextAlign.Center, color = Color.Black, fontSize = 12.sp,
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .weight(1f)
 
-                    )
+                        )
+                    }
 
 
                     Icon(
                         painter = painterResource(id = R.drawable.bottom_nav),
                         contentDescription = "bottom nav",
                         tint = Color.DarkGray,
-                        modifier = Modifier.size(24.dp).weight(0.5f)
+                        modifier = Modifier
+                            .size(24.dp)
+                            .weight(0.5f)
                     )
                 }
 
@@ -112,17 +123,43 @@ fun GenderFilter(
                 expanded = isDropDownMenuExpanded,
                 onDismissRequest = { isDropDownMenuExpanded = false }
             ) {
-                possibleAnswers.forEachIndexed { index, gender ->
+                
+                DropdownMenuItem(text =  {Text(text = "man")},
+                    onClick = {
+                        isDropDownMenuExpanded = false
+                        selectGender = "man"
+                        tutorListViewModel.selectGender(gender="man")
+                    }
+                )
+
+                DropdownMenuItem(text =  {Text(text = "woman")},
+                    onClick = {
+                        isDropDownMenuExpanded = false
+                        selectGender = "woman"
+                        tutorListViewModel.selectGender(gender="woman")
+                    }
+                )
+
+                DropdownMenuItem(text =  {Text(text = "other")},
+                    onClick = {
+                        isDropDownMenuExpanded = false
+                        selectGender = "other"
+                        tutorListViewModel.selectGender(gender="other")
+                    }
+                )
+
+
+                /*possibleAnswers.forEachIndexed { index, gender ->
                     DropdownMenuItem(
                         onClick = {
                             isDropDownMenuExpanded = false
-                            viewModel.onGenderResponse(gender)
-                            selectGender = gender
+                            //viewModel.onGenderResponse(gender)
+                            //selectGender = gender
                         },
                         text = { Text(text = stringResource(id = gender.stringResourceId)) }
 
                     )
-                }
+                }*/
             }
 
         }
