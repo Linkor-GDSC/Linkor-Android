@@ -1,6 +1,7 @@
 package com.gdsc.linkor.ui.message
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -47,34 +48,40 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.gdsc.linkor.R
 import com.gdsc.linkor.model.Message
 
+val myEmail="test01@gmail.com"
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageScreen(navController: NavController, otherUserName:String){
+fun MessageScreen(navController: NavController,
+                  otherUserName:String,
+                  otherUserEmail:String,
+                  otherUserPhotoUrl:String,
+                  viewModel:MessageViewModel= hiltViewModel()){
 
-    //var messages by remember { mutableStateOf(listOf<Message>()) }
-    val myEmail="nykim1016@naver.com"
+    //Log.d("mytag message","url: ${otherUserPhotoUrl}")
+    //Log.d("mytag message","email: ${otherUserEmail}")
 
-    val viewModel = MessageViewModel()
-
-    //TODO("서버에서 메세지 목록 가져오기")
-    var messages by remember { mutableStateOf(listOf(
-        Message(content="Hello nice to meet you", senderEmail = "s@naver.com", receiverEmail = "nykim1016@naver.com", regDate = "2024-02-04T19:11:39.58454"),
-        Message(content="Hello nice to meet you. My name is Nunsong. I want to learn korean.", senderEmail = "s@naver.com", receiverEmail = "nykim1016@naver.com", regDate = "2024-02-04T19:11:39.58454"),
-        Message(content="Hello nice to meet you", senderEmail = "nykim1016@naver.com", receiverEmail = "s@naver.com", regDate = "2024-02-04T19:11:39.58454"),
+    /*var messages by remember { mutableStateOf(listOf(
+        Message(content="Hello nice to meet you", senderEmail = "s@naver.com", receiverEmail = "nykim1016@naver.com", regDate = "2024-02-04 9:11"),
+        Message(content="My name is Nunsong. I want to learn korean.", senderEmail = "s@naver.com", receiverEmail = "nykim1016@naver.com", regDate = "2024-02-04 9:11"),
+        Message(content="Nice to meet you", senderEmail = "nykim1016@naver.com", receiverEmail = "s@naver.com", regDate = "2024-02-04 9:13"),
     ))
-    }
+    }*/
+    //메세지 목록
+    viewModel.getAllMessage(senderEmail = myEmail, receiverEmail = otherUserEmail)
+    val messages = viewModel.messages.value
+
     val listState = rememberLazyListState()
     //val coroutineScope = rememberCoroutineScope()
 
     //화면
     Scaffold(
-        topBar = { MessageTopAppBar(otherUserName) { navController.navigateUp() } }
+        topBar = { MessageTopAppBar(otherUserName,otherUserPhotoUrl) { navController.navigateUp() } }
     ) {innerPadding->
         Surface(modifier = Modifier
             .fillMaxSize()
@@ -95,7 +102,7 @@ fun MessageScreen(navController: NavController, otherUserName:String){
                         .padding(horizontal = 10.dp),
                     state = listState
                 ) {
-                    items(messages) { message ->
+                    items(messages.data.orEmpty()) { message ->
                         Message(isMyMessage = (myEmail==message.senderEmail),message=message)
                     }
                 }
@@ -105,7 +112,7 @@ fun MessageScreen(navController: NavController, otherUserName:String){
                         .fillMaxWidth(),
                     color = Color(0xFFFDFDFD)
                 ) {
-                    MessageInput(viewModel = viewModel)
+                    MessageInput(viewModel = viewModel,otherUserEmail)
                 }
             }
         }
@@ -125,7 +132,7 @@ fun Preview(){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageTopAppBar(otherUserName: String,onClick:()->Unit){
+fun MessageTopAppBar(otherUserName: String,otherUserPhotoUrl: String,onClick:()->Unit){
     TopAppBar(
         title = {
             Row(
@@ -138,7 +145,7 @@ fun MessageTopAppBar(otherUserName: String,onClick:()->Unit){
                 }
                 //상대방 프로필
                 AsyncImage(
-                    model = "https://lh3.googleusercontent.com/a/ACg8ocLvVDbkmsKPGOwT0iOIMf2vuk_9CeWhI_SqyZObY73bVgk=s96-c",
+                    model = otherUserPhotoUrl,
                     "tutor profile",
                     modifier = Modifier
                         .size(30.dp, 30.dp)
@@ -154,11 +161,11 @@ fun MessageTopAppBar(otherUserName: String,onClick:()->Unit){
 
 
 @Composable
-fun MessageInput(viewModel: MessageViewModel){
+fun MessageInput(viewModel: MessageViewModel, otherUserEmail: String){
     var inputValue by remember{ mutableStateOf("") }
 
     fun sendMessage() {
-        viewModel.sendMessage(inputValue)
+        viewModel.postMessage(email = myEmail, content = inputValue, receiverEmail = otherUserEmail)
         inputValue = ""
     }
 
