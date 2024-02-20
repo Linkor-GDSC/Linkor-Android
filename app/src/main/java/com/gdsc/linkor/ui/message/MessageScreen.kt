@@ -54,6 +54,7 @@ import coil.compose.AsyncImage
 import com.gdsc.linkor.R
 import com.gdsc.linkor.model.Message
 import com.gdsc.linkor.ui.signin.SignInViewModel
+import com.gdsc.linkor.util.DateConverter
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -226,6 +227,7 @@ fun MessageInput(viewModel: MessageViewModel= hiltViewModel(), signInViewModel: 
 
 @Composable
 fun Message(isMyMessage:Boolean,message: Message){
+    val dateConverter = DateConverter()
     Column(
         horizontalAlignment = if (isMyMessage) Alignment.End else Alignment.Start,
         modifier = Modifier
@@ -254,11 +256,14 @@ fun Message(isMyMessage:Boolean,message: Message){
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 //시간
-                Text(
-                    text = message.regDate,
-                    color = if (isMyMessage) Color(0xFFD0CDCD) else Color(0xFF4F4F4F),
-                    modifier = Modifier.align(Alignment.End)
-                )
+                dateConverter.convertDateToString(message.regDate)?.let {
+                    Text(
+                        //text = message.regDate,
+                        text = it,
+                        color = if (isMyMessage) Color(0xFFD0CDCD) else Color(0xFF4F4F4F),
+                        modifier = Modifier.align(Alignment.End)
+                    )
+                }
             }
         }
     }
