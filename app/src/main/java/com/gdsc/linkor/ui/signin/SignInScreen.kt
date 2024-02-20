@@ -137,7 +137,7 @@ fun SignInGoogleButton(onClick: () -> Unit) {
         ) {
             Icon(painter = painterResource(id = R.drawable.ic_google), contentDescription = "Google sign button", tint = Color.Unspecified, modifier = Modifier.size(35.dp))
             Spacer(modifier = Modifier.width(24.dp))
-            Text(text = "Sign in with Google", style = MaterialTheme.typography.overline, color = Color(0xFF000000).copy(alpha = 0.54f), fontSize = 15.sp, fontWeight = FontWeight.Normal)
+            Text(text = "Sign in with Google", style = MaterialTheme.typography.overline, /*color = Color(0xFF000000).copy(alpha = 0.54f),*/ fontSize = 15.sp, fontWeight = FontWeight.Normal)
         }
     }
 }

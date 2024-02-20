@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gdsc.linkor.R
 import com.gdsc.linkor.setting.QuestionViewModel
@@ -35,7 +34,7 @@ import com.gdsc.linkor.ui.component.gunguDropdown
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilterBottomSheet(onDismiss: () -> Unit){
+fun FilterBottomSheet(onDismiss: () -> Unit,onClick: () -> Unit){
     val filterBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     //val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
@@ -48,14 +47,14 @@ fun FilterBottomSheet(onDismiss: () -> Unit){
     )
 
     {
-        BottomSheetContent()
+        BottomSheetContent(onDismiss=onDismiss,onClick=onClick)
     }
 
 }
 
 @Composable
-fun BottomSheetContent(){
-    val viewModel = QuestionViewModel()
+fun BottomSheetContent(onDismiss: () -> Unit,onClick: () -> Unit){
+    val questionViewModel = QuestionViewModel()
     Surface{
         Column(
             modifier = Modifier.padding(horizontal = 45.dp,vertical=30.dp),
@@ -67,7 +66,7 @@ fun BottomSheetContent(){
             //성별
             Text(text="Gender")
             Spacer(modifier = Modifier.height(spaceSmall))
-            GenderDropDown(viewModel = viewModel, possibleAnswers = listOf(
+            GenderDropDown(viewModel = questionViewModel, possibleAnswers = listOf(
                 Gender(R.string.Woman),
                 Gender(R.string.Man),
                 Gender(R.string.Other),
@@ -77,9 +76,9 @@ fun BottomSheetContent(){
             Text(text="Location")
             Spacer(modifier = Modifier.height(spaceSmall))
             Row{
-                sidoDropdown(viewModel)
+                sidoDropdown(questionViewModel)
                 Spacer(modifier = Modifier.width(35.dp))
-                gunguDropdown(viewModel)
+                gunguDropdown(questionViewModel)
             }
             Spacer(modifier = Modifier.height(spaceBig))
             //날짜
@@ -94,23 +93,26 @@ fun BottomSheetContent(){
             Spacer(modifier = Modifier.height(spaceBig))
 
             //누르면 필터링
-            SearchButton()
+            SearchButton(){
+                onDismiss()
+                onClick()
+            }
         }
 
     }
 }
 
 
-@Preview
+/*@Preview
 @Composable
 fun FilterBottomSheetPreview(){
     BottomSheetContent()
-}
+}*/
 
 
 @Composable
-fun SearchButton(/*onClick: () -> Unit*/){
-    Button(onClick = { /*TODO*/ },
+fun SearchButton(onClick: () -> Unit){
+    Button(onClick = { onClick() },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFF4C6ED7),
             contentColor = Color(0xFFFDFDFD),),
