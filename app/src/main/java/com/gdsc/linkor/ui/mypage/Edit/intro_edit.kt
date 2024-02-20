@@ -40,7 +40,6 @@ fun introEdit(
         modifier = Modifier
             .fillMaxWidth()
             .size(200.dp)
-            .padding(horizontal = 35.dp)
     ) {
 
         OutlinedTextField(

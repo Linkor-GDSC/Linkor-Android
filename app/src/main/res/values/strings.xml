@@ -55,4 +55,8 @@
     <string name="back">Back</string>
     <string name="close">Close</string>
 
+    <!--commnuity writing -->
+    <string name="user_community_writing_titlebox_content_placeholder">Title</string>
+    <string name="user_community_writing_contentbox_content_placeholder">Content</string>
+
 </resources>
