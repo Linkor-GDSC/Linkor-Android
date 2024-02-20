@@ -19,11 +19,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-val signInViewModel = SignInViewModel()
+//val signInViewModel = SignInViewModel()
 val questionViewModel = QuestionViewModel()
 
 class CommunityViewmodel(): ViewModel(){
-    val Email = signInViewModel.getEmail()
+    //val Email = signInViewModel.getEmail()
 
     //writing
     var  titleWriting by mutableStateOf("")
@@ -68,7 +68,6 @@ class CommunityViewmodel(): ViewModel(){
 
     fun getPosts2() {
      //   val posts =  mutableListOf<Post>()
-
 
         CommnunityBuilder.communityService.getPostList()
             .enqueue(object: Callback<PostWriteResponse>{

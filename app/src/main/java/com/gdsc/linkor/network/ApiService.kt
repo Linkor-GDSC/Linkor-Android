@@ -16,6 +16,10 @@ import javax.inject.Singleton
 
 @Singleton
 interface ApiService {
+    //기존 회원인지 확인
+    @GET("user/register/{email}/exists")
+    suspend fun checkExistingMember(@Path("email") email:String): Response<Boolean>
+
     //튜터 전체 조회
     /*@GET("user/filter?")
     suspend fun getAllTutor(): Response<TutorListResponse>*/
