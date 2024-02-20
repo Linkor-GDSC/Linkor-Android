@@ -14,6 +14,7 @@ import com.gdsc.linkor.data.UserPreferencesDataStore
 import com.gdsc.linkor.model.Tutor
 import com.gdsc.linkor.setting.QuestionRoute
 import com.gdsc.linkor.setting.QuestionViewModel
+import com.gdsc.linkor.ui.community.CommunityViewmodel
 import com.gdsc.linkor.ui.learning.LearningScreen
 import com.gdsc.linkor.ui.message.MessageScreen
 import com.gdsc.linkor.ui.mypage.Mypage
@@ -54,6 +55,7 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
 
     val signInViewModel = SignInViewModel()
     val questionViewModel = QuestionViewModel()
+    val communityViewModel = CommunityViewmodel()
 
 
     NavHost(navController = navController,
@@ -122,7 +124,7 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore){
             LearningScreen(navController = navController)
         }
         //커뮤니티
-        communityListGraph(navController)
+        communityListGraph(navController, communityViewModel)
 
         //마이페이지
         composable(BottomNavItem.MyPage.screenRoute) {

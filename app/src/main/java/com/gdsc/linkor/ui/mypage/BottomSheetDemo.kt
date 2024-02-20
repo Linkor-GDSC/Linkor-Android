@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
@@ -35,6 +38,8 @@ import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.setting.question.Gender
 
 import com.gdsc.linkor.ui.component.GenderDropDown
+import com.gdsc.linkor.ui.component.TimeButtons
+import com.gdsc.linkor.ui.component.TutoringMethodButtons
 import com.gdsc.linkor.ui.component.gunguDropdown
 import com.gdsc.linkor.ui.mypage.Edit.introEdit
 import com.gdsc.linkor.ui.component.sidoDropdown
@@ -46,7 +51,7 @@ fun BottomSheetDemo(
     viewModel: QuestionViewModel,
     onDismiss: () -> Unit
 ) {
-    val modalBottomSheetState = rememberModalBottomSheetState()
+    val modalBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss()},
@@ -66,6 +71,8 @@ fun MypageEdit(viewModel: QuestionViewModel){
     
     Column(
         modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 45.dp,)
             .fillMaxSize()
         
     ) {
@@ -73,12 +80,12 @@ fun MypageEdit(viewModel: QuestionViewModel){
 
         Text(text = "Gender",
             fontStyle = FontStyle.Normal,
-            fontSize = 18.sp,
+          //  fontSize = 18.sp,
             color = Color.Black,
             modifier = Modifier
-                .padding(horizontal = 35.dp)
+
             )
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(10.dp))
 
         /*  성별 수정 */
 
@@ -89,74 +96,87 @@ fun MypageEdit(viewModel: QuestionViewModel){
         ))
 
 
-        Spacer(Modifier.height(30.dp))
+        Spacer(Modifier.height(50.dp))
 
         Text(text = "Location",
             fontStyle = FontStyle.Normal,
-            fontSize = 18.sp,
+          //  fontSize = 18.sp,
             color = Color.Black,
             modifier = Modifier
-                .padding(horizontal = 35.dp)
+
         )
 
         /*  위치 수정 */
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(10.dp))
 
         Row {
             sidoDropdown(
                 viewModel
             )
+            Spacer(modifier = Modifier.width(35.dp))
             gunguDropdown( viewModel )
         }
 
 
 
-        Spacer(Modifier.height(30.dp))
+        Spacer(Modifier.height(50.dp))
 
         Text(text = "Time",
             fontStyle = FontStyle.Normal,
-            fontSize = 18.sp,
+          //  fontSize = 18.sp,
             color = Color.Black,
             modifier = Modifier
-                .padding(horizontal = 35.dp)
+
         )
 
-        Spacer(Modifier.height(30.dp))
+        Spacer(Modifier.height(10.dp))
+
+        TimeButtons()
+
+
+        /*  대면/비대면 수정 */
+        Spacer(Modifier.height(50.dp))
 
         Text(text = "FTF/NFTF",
             fontStyle = FontStyle.Normal,
-            fontSize = 18.sp,
+         //   fontSize = 18.sp,
             color = Color.Black,
             modifier = Modifier
-                .padding(horizontal = 35.dp)
-        )
 
-        Spacer(Modifier.height(30.dp))
+        )
+        Spacer(Modifier.height(10.dp))
+
+        TutoringMethodButtons()
+
+
+
+        /*  자기소개 수정 */
+        Spacer(Modifier.height(50.dp))
 
         Text(text = "Self-Introudction",
             fontStyle = FontStyle.Normal,
-            fontSize = 18.sp,
+          //  fontSize = 18.sp,
             color = Color.Black,
             modifier = Modifier
-                .padding(horizontal = 35.dp)
+
         )
 
         introEdit(viewModel=viewModel)
 
-        Spacer(Modifier.height(30.dp))
+        Spacer(Modifier.height(10.dp))
         
         Button(onClick = {   },
-            shape = RoundedCornerShape(10.dp),
+            shape = RoundedCornerShape(5.dp),
             colors = ButtonDefaults.buttonColors( Color(android.graphics.Color.parseColor("#4C6ED7"))),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 35.dp)
+
 
 
         ) {
             Text(text = "Save",
                 fontStyle = FontStyle.Normal,
-                fontSize = 18.sp,
+        //        fontSize = 18.sp,
                 color = Color.White,
                 modifier = Modifier
                     //  버튼 위아래 크기 조절
