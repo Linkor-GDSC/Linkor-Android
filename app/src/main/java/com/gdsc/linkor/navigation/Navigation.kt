@@ -137,9 +137,12 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore,ttsManager:
             Mypage(questionViewModel = questionViewModel, signInViewModel = signInViewModel, navController = navController)
         }
 
-        composable("${Route.MESSAGE}/{otherUserName}"){
+        composable("${Route.MESSAGE}/{otherUserName}/{otherUserEmail}/{otherUserPhotoUrl}"){
             val otherUserName = it.arguments?.getString("otherUserName")?:""
-            MessageScreen(navController=navController,otherUserName = otherUserName)
+            val otherUserEmail = it.arguments?.getString("otherUserEmail")?:""
+            val otherUserPhotoUrl = it.arguments?.getString("photoUrl")?:""
+
+            MessageScreen(navController=navController,otherUserName = otherUserName, otherUserEmail = otherUserEmail,otherUserPhotoUrl=otherUserPhotoUrl)
         }
     }
 }
@@ -148,7 +151,11 @@ fun NavGraphBuilder.tutorListGraph(navController: NavController) {
     navigation(startDestination = Route.TUTORLIST, route = Route.TUTOR) {
         composable(BottomNavItem.TutorList.screenRoute) { TutorListScreen(navController)
         }
-        composable("tutor_detail/{photoUrl}/{name}/{gender}/{locationGu}/{locationSido}/{time}/{tutoringMethod}/{introduction}")
+        composable("${Route.TUTOR_DETAIL}/{email}"){
+            val email = it.arguments?.getString("email")?:""
+            TutorDetailScreen(navController = navController,email=email)
+        }
+        /*composable("tutor_detail/{photoUrl}/{name}/{gender}/{locationGu}/{locationSido}/{time}/{tutoringMethod}/{introduction}")
         {
             val tutor = Tutor(
                 //photoUrl = URLEncoder.encode(it.arguments?.getString("photoUrl"), StandardCharsets.UTF_8.toString()),
@@ -163,7 +170,8 @@ fun NavGraphBuilder.tutorListGraph(navController: NavController) {
             )
 
             TutorDetailScreen(navController = navController, tutor = tutor)
-            //TutorDetailScreen(/*tutor = */navController=navController,name=name,gender=gender,locationGu=locationGu)
-        }
+
+        }*/
+
     }
 }

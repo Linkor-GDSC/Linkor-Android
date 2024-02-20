@@ -34,37 +34,47 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.gdsc.linkor.R
 import com.gdsc.linkor.model.Tutor
 import com.gdsc.linkor.navigation.LinkorBottomNavigation
-import com.gdsc.linkor.model.toRouteString
+import com.gdsc.linkor.navigation.Route
 
 @Composable
-fun TutorListScreen(navController: NavController) {
-    val tutors= listOf(
+fun TutorListScreen(navController: NavController,viewModel: TutorListViewModel = hiltViewModel()) {
+    /*val tutors= listOf(
         Tutor("https://lh3.googleusercontent.com/a/ACg8ocLvVDbkmsKPGOwT0iOIMf2vuk_9CeWhI_SqyZObY73bVgk=s96-c","Nunsong Kim","Woman","Seoul","Yong San","MON, TUE","FTF","Hello nice to meet you. I'll teach you how to pronounce Korean by listening k-pop"),
         Tutor("https://lh3.googleusercontent.com/a/ACg8ocLvVDbkmsKPGOwT0iOIMf2vuk_9CeWhI_SqyZObY73bVgk=s96-c","Sookmyung Lee","Woman","Seoul","Yong San","MON, TUE","NFTF","Hello nice to meet you."),
         Tutor("https://lh3.googleusercontent.com/a/ACg8ocLvVDbkmsKPGOwT0iOIMf2vuk_9CeWhI_SqyZObY73bVgk=s96-c","Nunsong Kim","Woman","Seoul","Yong San","MON, TUE","FTF","Hello nice to meet you."),
         Tutor("https://lh3.googleusercontent.com/a/ACg8ocLvVDbkmsKPGOwT0iOIMf2vuk_9CeWhI_SqyZObY73bVgk=s96-c","Sookmyung Lee","Woman","Seoul","Yong San","MON, TUE","NFTF","Hello nice to meet you."),
         Tutor("https://lh3.googleusercontent.com/a/ACg8ocLvVDbkmsKPGOwT0iOIMf2vuk_9CeWhI_SqyZObY73bVgk=s96-c","Nunsong Kim","Woman","Seoul","Yong San","MON, TUE","FTF","Hello nice to meet you."),
         Tutor("https://lh3.googleusercontent.com/a/ACg8ocLvVDbkmsKPGOwT0iOIMf2vuk_9CeWhI_SqyZObY73bVgk=s96-c","Sookmyung Lee","Woman","Seoul","Yong San","MON, TUE","NFTF","Hello nice to meet you.")
-    )
+    )*/
 
+    val tutors by viewModel.tutorList
+    Log.d("MYTAGTUTORLISTSCREEN","${tutors}")
     var showBottomSheet by remember { mutableStateOf(false) }
 
     //bottom sheet 보여주기
     if (showBottomSheet) {
-        FilterBottomSheet() { showBottomSheet = false }
+        FilterBottomSheet(
+            onDismiss = {showBottomSheet = false},
+            onClick = {
+                viewModel.getAllTutor()
+            }
+        )
     }
 
     Scaffold(
         bottomBar = { LinkorBottomNavigation(navController = navController) }
     )
     {
-        Surface(modifier = Modifier.padding(it)){
+        Surface(modifier = Modifier.padding(it),
+            color=Color(0xffFFFFFF)
+        ){
             Column(
                 modifier = Modifier.padding(start=20.dp,end=20.dp, top = 10.dp)
             ) {
@@ -72,11 +82,14 @@ fun TutorListScreen(navController: NavController) {
                 FilterButton { showBottomSheet = true }
                 //튜터 리스트
                 LazyColumn{
-                    items(tutors){tutor->
+                    items(tutors.tutor){ tutor->
                         TutorListItem(tutor = tutor ) {
                             try {
-                                navController.navigate(
+                                /*navController.navigate(
                                     "tutor_detail/${tutor.toRouteString()}"
+                                )*/
+                                navController.navigate(
+                                    "${Route.TUTOR_DETAIL}/${tutor.email}"
                                 )
                             }catch (e:Exception){
                                 Log.e("MYTAG","navigation 오류",e)
@@ -113,7 +126,8 @@ fun TutorListItem(
             //프로필
             AsyncImage(
                 model = tutor.photoUrl,
-                "Tutor Profile Image",
+                //model = tutor.photoUrl.ifEmpty { "https://lh3.googleusercontent.com/a/ACg8ocIEuFKe7nru_wkMIgvUTufE09Z5w6PKHfu8VjOTBWMutbro6XPdmQQAiG4qe_7U0ceWrEuOdWSxe9H6OSupUnWVtME=s576-c-no" },
+                contentDescription = "Tutor Profile Image",
                 modifier = Modifier
                     .size(100.dp, 100.dp)
                     .clip(RoundedCornerShape(50))
@@ -130,7 +144,7 @@ fun TutorListItem(
                 //위치
                 Text(text=tutor.locationGu+", "+tutor.locationSido,style=MaterialTheme.typography.bodySmall)
                 //시간
-                Text(text=tutor.time,style=MaterialTheme.typography.bodySmall)
+                Text(text=tutor.time.joinToString(),style=MaterialTheme.typography.bodySmall)
                 //수업 방식
                 Text(text=tutor.tutoringMethod,style=MaterialTheme.typography.bodySmall)
                 //자기소개
