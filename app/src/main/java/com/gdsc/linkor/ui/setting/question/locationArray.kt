@@ -1,7 +1,23 @@
 package com.gdsc.linkor.setting.question
 
 val cityDistrictsMap = mapOf(
-    "서울특별시" to listOf("강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"),
+    "Seoul" to listOf("Gangnam-gu", "Gangdong-gu", "Gangbuk-gu", "Gangseo-gu", "Gwanak-gu", "Gwangjin-gu", "Guro-gu", "Geumcheon-gu", "Nowon-gu", "Dobong-gu", "Dongdaemun-gu", "Dongjak-gu", "Mapo-gu", "Seodaemun-gu", "Seocho-gu", "Seongdong-gu", "Seongbuk-gu", "Songpa-gu", "Yangcheon-gu", "Yeongdeungpo-gu", "Yongsan-gu", "Eunpyeong-gu", "Jongno-gu", "Jung-gu", "Jungnang-gu"),
+    "Busan" to listOf("Gangseo-gu", "Geumjeong-gu", "Nam-gu", "Dong-gu", "Dongnae-gu", "Busanjin-gu", "Buk-gu", "Sasang-gu", "Saha-gu", "Seo-gu", "Suyeong-gu", "Yeonje-gu", "Yeongdo-gu", "Jung-gu", "Haeundae-gu"),
+    "Daegu" to listOf("Jung-gu", "Dong-gu", "Seo-gu", "Nam-gu", "Buk-gu", "Suseong-gu", "Dalseo-gu", "Dalseong-gun", "Gunwi-gun"),
+    "Incheon" to listOf("Jung-gu", "Dong-gu", "Michuhol-gu", "Yeonsu-gu", "Namdong-gu", "Bupyeong-gu", "Gyeyang-gu", "Seo-gu", "Ganghwa-gun", "Ongjin-gun"),
+    "Gwangju" to listOf("Dong-gu", "Seo-gu", "Nam-gu", "Buk-gu", "Gwangsan-gu"),
+    "Daejeon" to listOf("Dong-gu", "Jung-gu", "Seo-gu", "Yuseong-gu", "Daejeon"),
+    "Ulsan" to listOf("Jung-gu", "Nam-gu", "Dong-gu", "Buk-gu", "Ulsan"),
+    "Gyeonggi-do" to listOf("Suwon", "Yongin", "Goyang", "Hwaseong", "Seongnam", "Bucheon", "Namyangju", "Ansan", "Pyeongtaek", "Anyang", "Siheung", "Paju", "Gimpo", "Uijeongbu", "Gwangju", "Hanam", "Gwangmyeong", "Gunpo", "Yangju", "Osan", "Icheon", "Anseong", "Guri", "Uiwang", "Pocheon", "Yangpyeong", "Yeoju", "Dongducheon", "Gwacheon", "Gapyeong"),
+    "Gangwon-do" to listOf("Chuncheon", "Wonju", "Gangneung", "Donghae", "Taebaek", "Sokcho", "Samcheok", "Hongcheon-gun", "Hoengseong-gun", "Yeongwol-gun", "Pyeongchang-gun", "Jeongseon-gun", "Cheorwon-gun", "Hwacheon-gun", "Yanggu-gun", "Inje-gun", "Goseong-gun"),
+    "Chungcheongbuk-do" to listOf("Cheongju", "Chungju", "Jecheon", "Boeun-gun", "Okcheon-gun", "Yeongdong-gun", "Jeungpyeong-gun", "Jincheon-gun", "Goesan-gun", "Eumseong-gun", "Danyang-gun"),
+    "Chungcheongnam-do" to listOf("Cheonan", "Gongju", "Boryeong", "Asan", "Seosan", "Nonsan", "Gyeryong-si", "Dangjin", "Geumsan-gun", "Boeun-gun", "Seocheon-gun", "Cheongyang-gun", "Hongseong-gun", "Yesan-gun", "Taean-gun"),
+    "Jeollabuk-do" to listOf("Jeonju", "Gunsan", "Iksan", "Jeongeup", "Namwon", "Gimje", "Wanju-gun", "Jinan-gun", "Muju-gun", "Jangsu-gun", "Imsil-gun", "Sunchang-gun", "Gochang-gun", "Buan-gun"),
+    "Jeollanam-do" to listOf("Mokpo", "Yeosu", "Suncheon", "Naju", "Gwangyang", "Damyang-gun", "Gokseong-gun", "Gurye-gun", "Goheung-gun", "Boseong-gun", "Hwaseong-gun", "Jangheung-gun", "Gangjin-gun", "Haenam-gun", "Yeongam-gun", "Muan-gun", "Hampyeong-gun", "Yeoncheon-gun", "Jindo-gun", "Sinan-gun"),
+    "Gyeongsangbuk-do" to listOf("Pohang", "Gyeongju", "Gimcheon", "Andong", "Gumi", "Yeongju", "Yecheon-gun", "Sangju", "Mungyeong-gun", "Uiseong-gun", "Cheongdo-gun", "Yeongyang-gun", "Yeongdeok-gun", "Cheondo-gun", "Goryeong-gun", "Seongju-gun", "Chilgok-gun", "Yeongcheon-gun", "Bonghwa-gun", "Uljin-gun", "Ulleung-gun"),
+    "Gyeongsangnam-do" to listOf("Changwon", "Jinju", "Tongyeong", "Sacheon", "Gimhae", "Miryang", "Geoje", "Yangsan", "Uiryeong-gun", "Haman-gun", "Changnyeong-gun", "Goseong-gun", "Namhae-gun", "Hadong-gun", "Sancheong-gun", "Hamyang-gun", "Geochang-gun", "Hapcheon-gun"),
+    "Jeju-do" to listOf("Jeju City", "Seogwipo City")
+   /* "서울특별시" to listOf("강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"),
     "부산광역시" to listOf("강서구", "금정구", "남구", "동구", "동래구", "부산진구", "북구", "사상구", "사하구", "서구", "수영구", "연제구", "영도구", "중구", "해운대구"),
     "대구광역시" to listOf("중구", "동구", "서구", "남구", "북구", "수성구", "달서구", "달성군", "군위군"),
     "인천광역시" to listOf("중구", "동구", "미추홀구", "연수구", "남동구", "부평구", "계양구", "서구", "강화군", "옹진군"),
@@ -16,5 +32,5 @@ val cityDistrictsMap = mapOf(
     "전라남도" to listOf("목포시", "여수시", "순천시", "나주시", "광양시", "담양군", "곡성군", "구례군", "고흥군", "보성군", "화순군", "장흥군", "강진군", "해남군", "영암군", "무안군", "함평군", "영광군", "장성군", "완도군", "진도군", "신안군"),
     "경상북도" to listOf("포항시", "경주시", "김천시", "안동시", "구미시", "영주시", "영천시", "상주시", "문경시", "경산시", "의성군", "청송군", "영양군", "영덕군", "청도군", "고령군", "성주군", "칠곡군", "예천군", "봉화군", "울진군", "울릉군"),
     "경상남도" to listOf("창원시", "진주시", "통영시", "사천시", "김해시", "밀양시", "거제시", "양산시", "의령군", "함안군", "창녕군", "고성군", "남해군", "하동군", "산청군", "함양군", "거창군", "합천군"),
-    "제주특별자치도" to listOf("제주시", "서귀포시")
+    "제주특별자치도" to listOf("제주시", "서귀포시")*/
 )
