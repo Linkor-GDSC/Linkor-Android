@@ -58,9 +58,9 @@ fun CommunityScreen(
     Scaffold(
         bottomBar = { LinkorBottomNavigation(navController = navController) }
     ) {
-        Surface(color = Color.White,modifier = Modifier.padding(it)) {
+        Surface(color = Color.White,modifier = Modifier.padding(it).fillMaxSize()) {
             Surface(
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp).fillMaxSize(),
                 color = Color.White
             ) {
                 LazyColumn {
@@ -86,8 +86,8 @@ fun CommunityScreen(
                 //추가 버튼
                 IconButton(
                     modifier = Modifier
-                        .size(60.dp)
-                        .offset(300.dp, 600.dp),
+                        .size(40.dp)
+                        .offset(100.dp, 300.dp),
                     onClick = { navController.navigate("writingScreenRoute") },
 
                 ){

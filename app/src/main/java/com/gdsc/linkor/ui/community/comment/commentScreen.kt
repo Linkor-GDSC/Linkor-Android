@@ -272,7 +272,7 @@ fun Postcomment(comment: Comment, viewmodel: CommunityViewmodel){
 fun CommentInput(post : PostDetail, viewmodel: CommunityViewmodel) {
 
     fun sendComment() {
-        post.id?.let { viewmodel.sendComment(it,viewmodel.commentWriting) }
+        post.id?.let { viewmodel.sendComment(it,viewmodel.commentWriting,"jac@gmail.com" ) }
         viewmodel.commentWriting = ""
     }
 
