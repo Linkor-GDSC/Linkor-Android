@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.gdsc.linkor.R
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.setting.question.cityDistrictsMap
@@ -38,12 +39,14 @@ import com.gdsc.linkor.setting.question.cityDistrictsMap
 @Composable
 fun SidoFilter(
     viewModel: QuestionViewModel,
+    tutorListViewModel: TutorListViewModel= hiltViewModel()
 )
 {
     //드롭다운 펼쳐짐 정의
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
 
-    var selectedSido by remember { mutableStateOf(viewModel.selectedCity) }
+    //var selectedSido by remember { mutableStateOf(viewModel.selectedCity) }
+    var selectedSido by remember { mutableStateOf(tutorListViewModel.finalSelectedLocationSido) }
 
     val cities = cityDistrictsMap.keys.toList()
 
@@ -111,7 +114,8 @@ fun SidoFilter(
                     DropdownMenuItem(
                         onClick = {
                             isDropDownMenuExpanded = false
-                            viewModel.setSelectedCity(cityName)
+                            //viewModel.setSelectedCity(cityName)
+                            tutorListViewModel.selectSido(sido=cityName)
                             selectedSido = cityName
                         },
                         text = { Text(cityName) }
@@ -129,16 +133,23 @@ fun SidoFilter(
 @Composable
 fun GuFilter(
     viewModel: QuestionViewModel,
+    tutorListViewModel: TutorListViewModel= hiltViewModel(),
 )
 {
     //드롭다운 펼쳐짐 정의
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
 
 
-    var selectedGungu by remember { mutableStateOf(viewModel.selectedDistrict) }
-    val selectedCity = viewModel.selectedCity
+    /*var selectedGungu by remember { mutableStateOf(viewModel.selectedDistrict) }
+    val selectedCity = viewModel.selectedCity*/
+    //var selectSido by remember { mutableStateOf(tutorListViewModel.finalSelectedLocationSido) }
 
-    val districts = cityDistrictsMap[selectedCity] ?: emptyList()
+    //val selectedSido by remember { mutableStateOf(tutorListViewModel.selectedLocationSido) }
+    val selectedSido = tutorListViewModel.selectedLocationSido
+    var selectedGu by remember { mutableStateOf(tutorListViewModel.finalSelectedLocationGu) }
+
+
+    val districts = cityDistrictsMap[selectedSido] ?: emptyList()
 
     Row {
 
@@ -168,7 +179,7 @@ fun GuFilter(
                 //  .wrapContentSize(Alignment.TopStart) //wrapcontent이녀석..
             ) {
                 Row {
-                    Text( text = selectedGungu ?: "District" ,
+                    Text( text = selectedGu ?: "District" ,
                         textAlign = TextAlign.Center, color = Color.Black, fontSize = 12.sp,
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )
@@ -201,8 +212,9 @@ fun GuFilter(
                     DropdownMenuItem(
                         onClick = {
                             isDropDownMenuExpanded = false
-                            viewModel.setSelectedDisitrict(cityName)
-                            selectedGungu = cityName
+                            //viewModel.setSelectedDisitrict(cityName)
+                            tutorListViewModel.selectGu(cityName)
+                            selectedGu = cityName
                         },
                         text = { Text(cityName) }
 

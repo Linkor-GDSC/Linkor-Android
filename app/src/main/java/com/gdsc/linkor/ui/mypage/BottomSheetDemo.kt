@@ -35,8 +35,10 @@ import androidx.compose.ui.unit.dp
 import com.gdsc.linkor.R
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.setting.question.Gender
+import com.gdsc.linkor.ui.mypage.Edit.FTFEdit
 
 import com.gdsc.linkor.ui.mypage.Edit.GenderDropDown
+import com.gdsc.linkor.ui.mypage.Edit.TimeEdit
 import com.gdsc.linkor.ui.tutorlist.TimeButtons
 import com.gdsc.linkor.ui.tutorlist.TutoringMethodButtons
 import com.gdsc.linkor.ui.mypage.Edit.gunguDropdown
@@ -130,7 +132,8 @@ fun MypageEdit(viewModel: QuestionViewModel){
 
         Spacer(Modifier.height(10.dp))
 
-        TimeButtons()
+        //TimeButtons()
+        TimeEdit()
 
 
         /*  대면/비대면 수정 */
@@ -145,7 +148,8 @@ fun MypageEdit(viewModel: QuestionViewModel){
         )
         Spacer(Modifier.height(10.dp))
 
-        TutoringMethodButtons()
+        //TutoringMethodButtons()
+        FTFEdit()
 
 
 

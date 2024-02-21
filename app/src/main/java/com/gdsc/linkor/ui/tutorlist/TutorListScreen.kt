@@ -63,7 +63,7 @@ fun TutorListScreen(navController: NavController,viewModel: TutorListViewModel =
         FilterBottomSheet(
             onDismiss = {showBottomSheet = false},
             onClick = {
-                viewModel.getAllTutor()
+                viewModel.getTutor()
             }
         )
     }
