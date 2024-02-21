@@ -101,13 +101,13 @@ class TutorListViewModel @Inject constructor(private val tutorRepository: TutorR
         finalSelectedDaysOfWeek = selectedDaysOfWeek
         for (i in finalSelectedDaysOfWeek.indices){
             when (i) {
-                0 -> time1 = if (finalSelectedDaysOfWeek[i]) "Sunday" else null
-                1 -> time2 = if (finalSelectedDaysOfWeek[i]) "Monday" else null
-                2 -> time3 = if (finalSelectedDaysOfWeek[i]) "Tuesday" else null
-                3 -> time4 = if (finalSelectedDaysOfWeek[i]) "Wednesday" else null
-                4 -> time5 = if (finalSelectedDaysOfWeek[i]) "Thursday" else null
-                5 -> time6 = if (finalSelectedDaysOfWeek[i]) "Friday" else null
-                6 -> time7 = if (finalSelectedDaysOfWeek[i]) "Saturday" else null
+                0 -> time1 = if (finalSelectedDaysOfWeek[i]) "SUN" else null
+                1 -> time2 = if (finalSelectedDaysOfWeek[i]) "MON" else null
+                2 -> time3 = if (finalSelectedDaysOfWeek[i]) "TUE" else null
+                3 -> time4 = if (finalSelectedDaysOfWeek[i]) "WED" else null
+                4 -> time5 = if (finalSelectedDaysOfWeek[i]) "THU" else null
+                5 -> time6 = if (finalSelectedDaysOfWeek[i]) "FRI" else null
+                6 -> time7 = if (finalSelectedDaysOfWeek[i]) "SAT" else null
             }
         }
     }
