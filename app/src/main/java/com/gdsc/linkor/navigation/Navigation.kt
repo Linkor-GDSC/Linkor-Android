@@ -96,7 +96,7 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore,ttsManager:
                 onQuestionComplete = {
                     navController.navigate(Route.TUTOR){
                         popUpTo(Route.QUESTION_ROUTE){inclusive=true}
-                    }},
+                    }  },
                 onNavUp = navController::navigateUp,
 
                 )
