@@ -69,7 +69,8 @@ fun Mypage(
     val tuteeList by myPageViewModel.tuteeList.collectAsState()
 
     Scaffold (
-        bottomBar = { LinkorBottomNavigation(navController = navController) }
+        bottomBar = { LinkorBottomNavigation(navController = navController) },
+        containerColor = Color.White
     )
     {
         Column(
