@@ -60,21 +60,21 @@ class CommunityViewmodel(): ViewModel(){
 */
 
 // comment 전송
-    fun sendComment(id: Int, commentWriting: String){
-        var data = PostCommentWriting(commentWriting,"jiwons@gmail.com" )
+    fun sendComment(id: Int, commentWriting: String, writer: String){
+        var data = PostCommentWriting(commentWriting, writer )
         CommnunityBuilder.communityService.addComment(id,data)
             .enqueue(object : Callback<PostCommentResponse>{
                 override fun onResponse(call: Call<PostCommentResponse>, response: Response<PostCommentResponse>){
                     if(response.isSuccessful.not()){
-                        Log.e(TAG, response.toString())
+                        Log.e("MyTAG 댓글보내기", response.toString())
                         return
                     }else{
-                        Log.e(TAG, response.toString())
+                        Log.e("MyTAG 댓글보내기", "$id 댓글 작성 성공")
                     }
                 }
                 override fun onFailure(call: Call<PostCommentResponse?>, t: Throwable){
-                    Log.e(TAG, "연결 실패")
-                    Log.e(TAG, t.toString())
+                    Log.e("MyTAG 댓글보내기", "연결 실패")
+                    Log.e("MyTAG 댓글보내기", t.toString())
                 }
 
             })
