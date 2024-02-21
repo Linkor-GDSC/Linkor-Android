@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(private val repository: SignInRepository): ViewModel() {
+class SignInViewModel @Inject constructor(/*private val repository: SignInRepository*/): ViewModel() {
     private val auth: FirebaseAuth = Firebase.auth
 
     private val _isFailState = mutableStateOf(false)
@@ -62,14 +62,14 @@ class SignInViewModel @Inject constructor(private val repository: SignInReposito
         }
     }
 
-    suspend fun checkExistingMember(email: String): Boolean {
+    /*suspend fun checkExistingMember(email: String): Boolean {
         return try {
             repository.checkExistingMember(email = email) == true
         } catch (e: Exception) {
             Log.e("MYTAGSingInViewModel", "signin api error", e)
             false
         }
-    }
+    }*/
 
 
     /*  이름 정보 받아오기 */
