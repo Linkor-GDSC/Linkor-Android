@@ -69,7 +69,8 @@ fun TutorListScreen(navController: NavController,viewModel: TutorListViewModel =
     }
 
     Scaffold(
-        bottomBar = { LinkorBottomNavigation(navController = navController) }
+        bottomBar = { LinkorBottomNavigation(navController = navController) },
+        containerColor = Color(0xffFFFFFF)
     )
     {
         Surface(modifier = Modifier.padding(it),

@@ -2,6 +2,7 @@ package com.gdsc.linkor.di
 
 import com.gdsc.linkor.network.ApiService
 import com.gdsc.linkor.repository.MessageRepository
+import com.gdsc.linkor.repository.MyPageRepository
 import com.gdsc.linkor.repository.SignInRepository
 import com.gdsc.linkor.repository.TutorRepository
 import dagger.Module
@@ -38,4 +39,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideSignInRepository(api:ApiService) = SignInRepository(api)
+
+    @Singleton
+    @Provides
+    fun provideMyPageRepository(api:ApiService) = MyPageRepository(api)
 }
