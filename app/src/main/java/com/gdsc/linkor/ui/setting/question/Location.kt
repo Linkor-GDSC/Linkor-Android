@@ -140,6 +140,7 @@ fun Location(
             items(week.size) { index ->
                 val weekItem = week[index]
                 Weekend2(
+                    viewModel = viewModel,
                     title = weekItem.title,
                     checkedStatus = weekItem.checkedStatus,
                     onClick = { viewModel.toggleWeekItem(weekItem) }
@@ -147,6 +148,7 @@ fun Location(
 
                 if (index == week.size - 1) {
                     AllAgree2(
+                        viewModel = viewModel,
                         title = weekItem.title,
                         shouldChecked = All,
                         allBoxChecked = allBoxChecked,
@@ -163,6 +165,7 @@ fun Location(
 
 @Composable
 fun AllAgree2(
+    viewModel: QuestionViewModel,
     title: String,
     shouldChecked: Boolean,
     allBoxChecked: (Boolean) -> Unit,
@@ -230,6 +233,7 @@ fun AllAgree2(
 
 @Composable
 fun Weekend2(
+    viewModel: QuestionViewModel,
     title: String,
     checkedStatus: MutableState<Boolean>,
     onClick: () -> Unit // 클릭 이벤트 핸들러 추가

@@ -10,7 +10,13 @@ interface SettingInterface {
     @POST ("user/register")
     fun addUserInfo(
         @Body userInfo: UserInfo
-    ): Call<UserInfo>
+    ): Call<Boolean>
+
+    //user 시간 보내기
+    @POST("user/register/time")
+    fun addUserTime(
+        @Body userInfoTime: UserInfoTime
+    ):Call<UserInfoTimeResponse>
 }
 
 

@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.gdsc.linkor.setting.question.Communication
@@ -14,6 +15,8 @@ import com.gdsc.linkor.setting.question.WeekItem
 import com.gdsc.linkor.ui.community.signInViewModel
 import com.gdsc.linkor.ui.setting.dataSetting.SettingBuilder
 import com.gdsc.linkor.ui.setting.dataSetting.UserInfo
+import com.gdsc.linkor.ui.setting.dataSetting.UserInfoTime
+import com.gdsc.linkor.ui.setting.dataSetting.UserInfoTimeResponse
 import kotlinx.coroutines.MainScope
 import retrofit2.Call
 import retrofit2.Callback
@@ -49,6 +52,12 @@ class QuestionViewModel: ViewModel(){
     val ModeResponse: Mode?
         get()= _ModeResponse.value
 
+/*    fun modeString(Mode: Mode){
+        if (Mode.stringResourceId == st){
+            return
+        }
+    }*/
+
     /*  성별 지정 창 */
 
     private val _GenderResponse = mutableStateOf<Gender?>(null)
@@ -72,8 +81,8 @@ class QuestionViewModel: ViewModel(){
 
     // 선택된 week 아이템 리스트
     private val _selectedWeeks = mutableStateListOf<WeekItem>()
-    val selectedWeeks: List<WeekItem>
-        get() = _selectedWeeks
+    val selectedWeeks: List<String>
+        get() = _selectedWeeks.map { it.title }
 
     // Week 아이템을 선택 또는 해제하는 함수
     fun toggleWeekItem(weekItem: WeekItem) {
@@ -146,27 +155,48 @@ class QuestionViewModel: ViewModel(){
         // Here is where you could validate that the requirements of the survey are complete
 
         //값들 포스트 하기
-        val data = UserInfo(email = "jiwons@gmail.com", name = Name, role = ModeString, gender = GenderString,
-            locationsido = selectedCity, locationgu =selectedDistrict , tutoringMethod = CommnunicationString,
-            introduction = intro, photourl = photouriString)
+        val data = UserInfo(email = "test10@gmail.com", name = Name, role = /*ModeString*/"tutor", gender = GenderString,
+        locationsido = selectedCity, locationgu =selectedDistrict , tutoringMethod = CommnunicationString,
+        introduction = intro, photourl = photouriString)
         SettingBuilder.SettingService.addUserInfo(data)
-            .enqueue(object: Callback<UserInfo>{
-                override fun onResponse(call: Call<UserInfo>, response : Response<UserInfo>){
+            .enqueue(object: Callback<Boolean>{
+                override fun onResponse(call: Call<Boolean>, response : Response<Boolean>){
                     if (response.isSuccessful.not()){
-                        Log.e(ContentValues.TAG, response.toString())
+                        Log.d("mytag 세부조건", response.toString())
                         return
                     }else{
-                        Log.e(ContentValues.TAG, "초기 정보 등록 성공")
+                        onTimePressed()
+                        Log.e("mytag 세부조건", "초기 정보 등록 성공")
                     }
                 }
-                override fun onFailure(call: Call<UserInfo>, t: Throwable){
-                    Log.e(ContentValues.TAG, "연결 실패")
-                    Log.e(ContentValues.TAG, t.toString())
+                override fun onFailure(call: Call<Boolean>, t: Throwable){
+                    Log.e("mytag 세부조건", "연결 실패")
+                    Log.e("mytag 세부조건", t.toString())
                 }
 
             })
         onSurveyComplete()
 
+    }
+
+    fun onTimePressed(){
+        var data = UserInfoTime(email = "test10@gmail.com", times = selectedWeeks)
+        SettingBuilder.SettingService.addUserTime(data)
+            .enqueue(object: Callback<UserInfoTimeResponse>{
+                override fun onResponse(call: Call<UserInfoTimeResponse>, response: Response<UserInfoTimeResponse>){
+                    if(response.isSuccessful.not()){
+                        Log.e(ContentValues.TAG, response.toString())
+                        return
+                    }else{
+                        Log.e(ContentValues.TAG, "초기 시간 정보 성공")
+                    }
+                }
+
+                override fun onFailure(call: Call<UserInfoTimeResponse>, t: Throwable){
+                    Log.e(ContentValues.TAG, "연결 실패")
+                    Log.e(ContentValues.TAG, t.toString())
+                }
+            })
     }
 
     val mainScope = MainScope()
