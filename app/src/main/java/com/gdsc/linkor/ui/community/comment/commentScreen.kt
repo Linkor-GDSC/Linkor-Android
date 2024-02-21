@@ -47,6 +47,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.gdsc.linkor.R
 import com.gdsc.linkor.ui.community.CommunityViewmodel
+import com.gdsc.linkor.ui.community.data.comment.AllComment
 import com.gdsc.linkor.ui.community.data.post.Post2
 import com.gdsc.linkor.ui.community.data.post.PostDetail
 import com.gdsc.linkor.util.DateConverter
@@ -64,6 +65,8 @@ fun commentScreen(navController: NavController,
             Log.e("mytag 댓글창","에러",e)
         }
     }
+    viewmodel.getComment(id)
+    val commentList by viewmodel.commentList.collectAsState()
 
     /*try{
         viewmodel.getPostSet(id=id)
@@ -174,12 +177,14 @@ fun commentScreen(navController: NavController,
                     }
 
                 }
-                val comments = remember { getComment() }
+
+                //댓글 시작
+                //val comments = remember { getComment() }
                 Column(
                 modifier = Modifier
                    // .padding(16.dp)
                 ) {
-                comments.forEach { comment ->
+                    commentList.forEach { comment ->
                     Postcomment(comment,viewmodel)
                 }
             }
@@ -205,7 +210,7 @@ fun commentScreen(navController: NavController,
 }
 
 @Composable
-fun Postcomment(comment: Comment, viewmodel: CommunityViewmodel){
+fun Postcomment(comment: AllComment, viewmodel: CommunityViewmodel){
 // 게시글 내용을 표시
     Surface(
         modifier = Modifier
@@ -225,7 +230,7 @@ fun Postcomment(comment: Comment, viewmodel: CommunityViewmodel){
             ) {
                 //프로필
                 AsyncImage(
-                    model = comment.photoUrl,
+                    model = comment.writerPhotoUrl,
                     " Profile Image",
                     modifier = Modifier
                         .size(35.dp, 35.dp)
@@ -235,7 +240,7 @@ fun Postcomment(comment: Comment, viewmodel: CommunityViewmodel){
 
                 //이름
 
-                Text(text = comment.name,
+                Text(text = comment.writer,
                     modifier = Modifier.align(Alignment.CenterVertically) // 수정된 부분
 
                 )
@@ -288,7 +293,7 @@ fun CommentInput(post : PostDetail, viewmodel: CommunityViewmodel) {
         //박스 크기 조절
         modifier = Modifier
             .fillMaxWidth()
-            .size(210.dp)
+            .size(100.dp)
             .padding(13.dp)
     ) {
         Surface(

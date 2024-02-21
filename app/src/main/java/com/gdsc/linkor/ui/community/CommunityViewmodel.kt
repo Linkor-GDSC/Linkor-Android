@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.ui.community.data.CommnunityBuilder
+import com.gdsc.linkor.ui.community.data.comment.AllComment
+import com.gdsc.linkor.ui.community.data.comment.GetCommentResponse
 import com.gdsc.linkor.ui.community.data.post.GetPostId
 import com.gdsc.linkor.ui.community.data.comment.PostCommentResponse
 import com.gdsc.linkor.ui.community.data.comment.PostCommentWriting
@@ -47,6 +49,8 @@ class CommunityViewmodel(): ViewModel(){
 
     val postDetail = MutableStateFlow<PostDetail>(PostDetail())
 
+    val commentList = MutableStateFlow<List<AllComment>>(emptyList())
+
     val isCommentLoading = MutableStateFlow(true)
     init {
         //getPosts2()
@@ -81,25 +85,31 @@ class CommunityViewmodel(): ViewModel(){
     }
 
  //댓글 조회
-/*
+
     fun getComment(id: Int){
         CommnunityBuilder.communityService.getComment(id)
             .enqueue(object: Callback<GetCommentResponse>{
                 override fun onResponse(call: Call<GetCommentResponse>, response: Response<GetCommentResponse>){
-                    if
+                    if(response.isSuccessful.not()){
+                        Log.e("mytag 댓글조회", response.toString())
+                        return
+                    }else{
+                        Log.d("mytag 댓글조회", "성공: ${response.body().toString()}")
+                        commentList.value= response.body()?.data!!
+                    }
                 }
-                override fun onFailure(call: Call<PostWriteResponse?>, t: Throwable){
-                    Log.e(TAG, "연결 실패")
-                    Log.e(TAG, t.toString())
+                override fun onFailure(call: Call<GetCommentResponse>, t: Throwable){
+                    Log.e("mytag 댓글조회", "연결 실패")
+                    Log.e("mytag 댓글조회", t.toString())
                 }
             })
     }
-*/
+
 
 //게시글 올리기
     fun sendPost(titleWriting: String, ContentWriting: String) {
         //writer -> Email 로 바꾸기
-        val data = PostWriting(titleWriting, ContentWriting,  "jiwons@gmail.com")
+        val data = PostWriting(titleWriting, ContentWriting,  "jac@gmail.com")
         CommnunityBuilder.communityService.addPost(data)
             .enqueue(object : Callback<PostWriteResponse> {
                 override fun onResponse(call: Call<PostWriteResponse?>, response: Response<PostWriteResponse?>){
