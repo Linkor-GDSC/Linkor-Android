@@ -3,6 +3,7 @@ package com.gdsc.linkor.network
 import com.gdsc.linkor.model.MessagePostRequest
 import com.gdsc.linkor.model.MessagePostResponse
 import com.gdsc.linkor.model.MessageResponse
+import com.gdsc.linkor.model.TuteeResponse
 import com.gdsc.linkor.model.TutorDetailResponse
 import com.gdsc.linkor.model.TutorListResponse
 import retrofit2.Response
@@ -16,6 +17,11 @@ import javax.inject.Singleton
 
 @Singleton
 interface ApiService {
+
+    //마이페이지 튜티 불러오기
+    @GET("messages/userlist/{email}")
+    suspend fun getTutee(@Path("email") email:String) : Response<TuteeResponse>
+
     //기존 회원인지 확인
     @GET("user/register/{email}/exists")
     suspend fun checkExistingMember(@Path("email") email:String): Response<Boolean>
