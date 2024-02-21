@@ -99,7 +99,7 @@ class CommunityViewmodel(): ViewModel(){
 //게시글 올리기
     fun sendPost(titleWriting: String, ContentWriting: String) {
         //writer -> Email 로 바꾸기
-        val data = PostWriting(titleWriting, ContentWriting,  "jiwons@gmail.com")
+        val data = PostWriting(titleWriting, ContentWriting,  "jac@gmail.com")
         CommnunityBuilder.communityService.addPost(data)
             .enqueue(object : Callback<PostWriteResponse> {
                 override fun onResponse(call: Call<PostWriteResponse?>, response: Response<PostWriteResponse?>){
