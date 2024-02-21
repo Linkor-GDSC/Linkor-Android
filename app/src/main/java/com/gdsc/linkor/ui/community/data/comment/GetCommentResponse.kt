@@ -9,5 +9,6 @@ data class GetCommentResponse(
 data class AllComment(
     val content: String,
     val id: Int,
-    val writer: String
+    val writer: String,
+    val writerPhotoUrl:String
 )
