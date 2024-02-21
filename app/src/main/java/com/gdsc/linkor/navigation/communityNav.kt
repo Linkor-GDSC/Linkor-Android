@@ -3,9 +3,11 @@ package com.gdsc.linkor.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.gdsc.linkor.ui.community.comment.commentScreen
 import com.gdsc.linkor.ui.community.CommunityScreen
@@ -28,7 +30,7 @@ fun NavGraphBuilder.communityListGraph(navController: NavController, viewmodel: 
     navigation(startDestination = "community_list", route = Route.COMMUNITY) {
         composable(Route.COMMUNITYLIST) { CommunityScreen(navController, viewModel = viewmodel)
         }
-        composable("comment/{id}/{writerPhotoUrl}/{writer}/{title}/{content}/{createdAt}")
+        /*composable("comment/{id}/{writerPhotoUrl}/{writer}/{title}/{content}/{createdAt}")
         {
             val post = Post2(
                 id = it.arguments?.getInt("id"),
@@ -41,10 +43,25 @@ fun NavGraphBuilder.communityListGraph(navController: NavController, viewmodel: 
             )
 
             commentScreen(navController = navController, post = post, viewmodel= viewmodel)
-            //TutorDetailScreen(/*tutor = */navController=navController,name=name,gender=gender,locationGu=locationGu)
-        }
+
+        }*/
         composable("writingScreenRoute"){
             WritingScreen(navController = navController, viewModel = viewmodel)
         }
+        composable(
+            route = "comment/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getInt("id")
+            if (id != null) {
+                commentScreen(navController = navController, viewmodel = viewmodel,id=id)
+                //commentScreen(navController = navController, id=id,viewmodel=viewmodel)
+            }
+        }
+        /*composable(
+            route = "comment"
+        ){
+            commentScreen(navController = navController, viewmodel=viewmodel)
+        }*/
     }
 }

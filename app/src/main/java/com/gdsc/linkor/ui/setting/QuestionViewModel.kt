@@ -158,7 +158,7 @@ class QuestionViewModel: ViewModel(){
         // Here is where you could validate that the requirements of the survey are complete
 
         //값들 포스트 하기
-        val data = UserInfo(email = "test20@gmail.com", name = Name, role = /*ModeString*/"tutor", gender = GenderString,
+        /*val data = UserInfo(email = "test20@gmail.com", name = Name, role = *//*ModeString*//*"tutor", gender = GenderString,
         locationsido = selectedCity, locationgu =selectedDistrict , tutoringMethod = CommnunicationString,
         introduction = intro, photourl = photouriString)
         SettingBuilder.SettingService.addUserInfo(data)
@@ -177,7 +177,7 @@ class QuestionViewModel: ViewModel(){
                     Log.e("mytag 세부조건", t.toString())
                 }
 
-            })
+            })*/
         onSurveyComplete()
 
     }

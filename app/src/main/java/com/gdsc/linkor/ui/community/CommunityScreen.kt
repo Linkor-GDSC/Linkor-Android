@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -40,6 +41,7 @@ import coil.compose.AsyncImage
 import com.gdsc.linkor.R
 import com.gdsc.linkor.navigation.LinkorBottomNavigation
 import com.gdsc.linkor.ui.community.data.post.Post2
+import com.gdsc.linkor.util.DateConverter
 
 @Composable
 fun CommunityScreen(
@@ -48,7 +50,10 @@ fun CommunityScreen(
 ) {
     //val posts = remember { viewModel.getPosts2() }
    // val posts = viewModel.getPosts2()
-    val posts by remember{viewModel.posts }
+    //val posts by remember{viewModel.posts }
+    //val posts by viewModel.posts
+    viewModel.getPosts3()
+    val posts by viewModel.postList.collectAsState()
 
     Scaffold(
         bottomBar = { LinkorBottomNavigation(navController = navController) }
@@ -60,14 +65,20 @@ fun CommunityScreen(
             ) {
                 LazyColumn {
                     Log.d("MyTAGUI", "$posts")
-                    items(posts.data.orEmpty()) { post ->
+                    /*items(posts.data.orEmpty()) { post ->*/
+                    items(posts) { post ->
                         PostItem(post,viewModel){
                             try {
-                                navController.navigate(
+                                /*navController.navigate(
                                     "comment/${post.toRouteString()}"
+                                )*/
+                                navController.navigate(
+                                    "comment/${post.id}"
                                 )
+                                Log.d("MYTAG 커뮤니티 게시글","게시글: $post")
+
                             }catch (e:Exception){
-                                Log.e("MYTAG","navigation 오류",e)
+                                Log.e("MYTAG 커뮤니티 네비","navigation 오류",e)
                             }
                         }
                     }
@@ -97,6 +108,7 @@ fun CommunityScreen(
 @Composable
 fun PostItem(post: Post2, viewModel: CommunityViewmodel, onClick: (Post2)->Unit) {
     // 게시글 내용을 표시
+    val dateConverter = DateConverter()
     Surface(
         onClick = { onClick(post) },
         modifier = Modifier
@@ -147,7 +159,12 @@ fun PostItem(post: Post2, viewModel: CommunityViewmodel, onClick: (Post2)->Unit)
                         )
                         Spacer(modifier = Modifier.width(3.dp))
 
-                        post.createdAt?.let { Text(text = it, fontSize = 11.sp, color= Color.DarkGray) }
+                        //post.createdAt?.let { Text(text = it, fontSize = 11.sp, color= Color.DarkGray) }
+                        post.createdAt?.let {
+                            dateConverter.convertDateToString(it)
+                                ?.let { Text(text = it, fontSize = 11.sp, color= Color.DarkGray) }
+                        }
+
                     }
                   
                 }

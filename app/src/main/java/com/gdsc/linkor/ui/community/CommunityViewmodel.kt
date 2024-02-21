@@ -10,13 +10,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.ui.community.data.CommnunityBuilder
-import com.gdsc.linkor.ui.community.data.comment.GetCommentResponse
 import com.gdsc.linkor.ui.community.data.post.GetPostId
 import com.gdsc.linkor.ui.community.data.comment.PostCommentResponse
 import com.gdsc.linkor.ui.community.data.comment.PostCommentWriting
+import com.gdsc.linkor.ui.community.data.post.Post2
+import com.gdsc.linkor.ui.community.data.post.PostDetail
+import com.gdsc.linkor.ui.community.data.post.PostDetailResponse
 import com.gdsc.linkor.ui.community.data.post.PostWriteResponse
 import com.gdsc.linkor.ui.community.data.post.PostWriting
 import com.gdsc.linkor.ui.signin.SignInViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,16 +42,22 @@ class CommunityViewmodel(): ViewModel(){
 
     var _posts = mutableStateOf(PostWriteResponse(data=emptyList(),message="",success=""))
      val posts:State<PostWriteResponse> = _posts
+
+    val postList=MutableStateFlow<List<Post2>>(emptyList())
+
+    val postDetail = MutableStateFlow<PostDetail>(PostDetail())
+
+    val isCommentLoading = MutableStateFlow(true)
     init {
-        getPosts2()
+        //getPosts2()
     }
 
-   var _postId = mutableStateOf(GetPostId(data = emptyList(), message = "", success = ""))
-    val postId:State<GetPostId> = _postId
-    init {
+   /*var _postId = mutableStateOf(GetPostId(data = emptyList(), message = "", success = ""))
+    val postId:State<GetPostId> = _postId*/
+    /*init {
         getPostSet(1)
     }
-
+*/
 
 // comment 전송
     fun sendComment(id: Int, commentWriting: String){
@@ -110,7 +121,59 @@ class CommunityViewmodel(): ViewModel(){
 
 
 // 게시글 가져오기
-    fun getPosts2() {
+fun getPosts3() {
+    //   val posts =  mutableListOf<Post>()
+
+    CommnunityBuilder.communityService.getPostList()
+        .enqueue(object: Callback<PostWriteResponse>{
+            override fun onResponse(call: Call<PostWriteResponse>, response: Response<PostWriteResponse>){
+                if (response.isSuccessful.not()){
+                    Log.e("MyTAG", response.toString())
+                    return
+                }else{
+                    //_posts.value = response.body()!!.data
+                    postList.value= response.body()?.data!!
+                    Log.d("MyTAG"," $posts.value")
+                }
+            }
+            override fun onFailure(call: Call<PostWriteResponse>, t: Throwable){
+                Log.e("MyTAG", "연결 실패")
+                Log.e("MyTAG", t.toString())
+            }
+
+        }
+
+        )
+
+}
+
+
+/*fun getPosts2() {
+    //   val posts =  mutableListOf<Post>()
+
+    CommnunityBuilder.communityService.getPostList()
+        .enqueue(object: Callback<PostWriteResponse>{
+            override fun onResponse(call: Call<PostWriteResponse>, response: Response<PostWriteResponse>){
+                if (response.isSuccessful.not()){
+                    Log.e("MyTAG", response.toString())
+                    return
+                }else{
+                    _posts.value = response.body()!!
+                    Log.d("MyTAG"," $posts.value")
+                }
+            }
+            override fun onFailure(call: Call<PostWriteResponse>, t: Throwable){
+                Log.e("MyTAG", "연결 실패")
+                Log.e("MyTAG", t.toString())
+            }
+
+        }
+
+        )
+
+}*/
+
+    /*fun getPosts2() {
      //   val posts =  mutableListOf<Post>()
 
         CommnunityBuilder.communityService.getPostList()
@@ -133,10 +196,52 @@ class CommunityViewmodel(): ViewModel(){
 
             )
 
-    }
+    }*/
 
     //하나의 게시글 정보 가져오기
-    fun getPostSet(id: Int){
+    suspend fun getPostSet(id: Int) {
+        isCommentLoading.value = true
+        try {
+            val response = withContext(Dispatchers.IO) {
+                CommnunityBuilder.communityService.getPostById(id).execute()
+            }
+
+            if (response.isSuccessful) {
+                Log.d("mytag 특정 게시글","${response.body()}")
+                response.body()?.data?.let {
+                    postDetail.value = it
+                    Log.d("MyTAG 특정 게시글"," $postDetail")
+                } ?: Log.e("MyTAG", "postDetail is null")
+            } else {
+                Log.e("MyTAG 특정 게시글", response.toString())
+            }
+        } catch (e: Exception) {
+            Log.e("MyTAG 특정 게시글", "Error in getPostSet", e)
+        } finally {
+            isCommentLoading.value = false
+        }
+    }
+    /*fun getPostSet(id: Int){
+        CommnunityBuilder.communityService.getPostById(id)
+            .enqueue(object : Callback<PostDetailResponse>{
+                override fun onResponse(call: Call<PostDetailResponse>, response: Response<PostDetailResponse>){
+                    if(response.isSuccessful.not()){
+                        Log.e("MyTAG 특정 게시글", response.toString())
+                        return
+                    }else{
+                        //_postId.value = response.body()!!
+                        postDetail.value= response.body()?.postDetail!!
+                        Log.d("MyTAG 특정 게시글"," $postDetail")
+                    }
+                }
+                override fun onFailure(call: Call<PostDetailResponse>, t: Throwable){
+                    Log.e("MyTAG", "연결 실패")
+                    Log.e("MyTAG", t.toString())
+                }
+            })
+    }*/
+
+    /*fun getPostSet(id: Int){
         CommnunityBuilder.communityService.getPostId(id)
             .enqueue(object : Callback<GetPostId>{
                 override fun onResponse(call: Call<GetPostId>, response: Response<GetPostId>){
@@ -153,7 +258,7 @@ class CommunityViewmodel(): ViewModel(){
                     Log.e("MyTAG", t.toString())
                 }
             })
-    }
+    }*/
 
 
 
