@@ -1,3 +1,62 @@
 <resources>
     <string name="app_name">linkor</string>
+
+    <!-- bottomNavigation -->
+    <string name="text_tutor_list">tutor list</string>
+    <string name="text_learning">learning</string>
+    <string name="text_community">community</string>
+    <string name="text_mypage">mypage</string>
+
+    <!-- tutorList -->
+    <string name="filter">Filter</string>
+    <string name="send_message">Send Message</string>
+    <string name="search">Search</string>
+    <string name="ftf">FTF</string>
+    <string name="nftf">NFTF</string>
+
+    <!-- 로그인 시 필요 -->
+    <string name="web_client_id">298378042723-kitu6dn7t0kad9aebpnc07h6ilfs8euu.apps.googleusercontent.com</string>
+
+    <!-- 성별 -->
+    <string name="titleGender">I am a </string>
+    <string name="Woman">Woman</string>
+    <string name="Man">Man</string>
+    <string name="Other">Other</string>
+
+    <!--위치 -->
+    <string name="titleLocation">Profile details</string>
+    <string name="Sun">SUN</string>
+    <string name="Mon">MON</string>
+    <string name="Tue">TUE</string>
+    <string name="Wed">WED</string>
+    <string name="Thu">THU</string>
+    <string name="Fri">FRI</string>
+    <string name="Sat">SAT</string>
+    <string name="All">ALL</string>
+
+    <!--대면/비대면-->
+    <string name="titleCommunication">Profile details</string>
+    <string name="FTF">Face-To-Face</string>
+    <string name="NFTF">Non-Face-To-Face</string>
+
+    <!--자기소개 -->
+    <string name="titleIntro">Let me introduce myself</string>
+
+    <!--tutor/student-->
+    <string name="titleMode">I am a</string>
+    <string name="student">Student &#10; learning Korean</string>
+    <string name="tutor">Tutor &#10; teaching Korean</string>
+
+    <!--question-->
+    <string name ="question_count">\u00A0of %d</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="done">Done</string>
+    <string name="back">Back</string>
+    <string name="close">Close</string>
+
+    <!--commnuity writing -->
+    <string name="user_community_writing_titlebox_content_placeholder">Title</string>
+    <string name="user_community_writing_contentbox_content_placeholder">Content</string>
+
 </resources>
