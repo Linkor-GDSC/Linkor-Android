@@ -1,8 +1,7 @@
 package com.gdsc.linkor.setting
 
+import android.content.ContentValues
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -12,10 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.gdsc.linkor.setting.question.Communication
 import com.gdsc.linkor.setting.question.Gender
 import com.gdsc.linkor.setting.question.WeekItem
+import com.gdsc.linkor.ui.community.signInViewModel
+import com.gdsc.linkor.ui.setting.dataSetting.SettingBuilder
+import com.gdsc.linkor.ui.setting.dataSetting.UserInfo
 import kotlinx.coroutines.MainScope
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 enum class Questions {
     Mode,
@@ -25,7 +28,11 @@ enum class Questions {
     Introduction,
 }
 
-class QuestionViewModel(): ViewModel(){
+val photoUri = signInViewModel.getImage()
+val Name = signInViewModel.getName()
+val Email = signInViewModel.getEmail()
+
+class QuestionViewModel: ViewModel(){
     private val questionOrder: List<Questions> = listOf(
         Questions.Mode,
         Questions.Gender,
@@ -126,37 +133,46 @@ class QuestionViewModel(): ViewModel(){
         _questionScreenData.value = createQuestionScreenData()
     }
 
+   /* fun getString(): String? {
+        return getApplication<Application>().resources.getString(ModeResponse.)
+    }*/
+
+    var ModeString : String = ModeResponse?.stringResourceId.toString()
+    var GenderString : String = GenderResponse?.stringResourceId.toString()
+    var CommnunicationString : String = CommunicationResponse?.stringResourceId.toString()
+    var photouriString : String = photoUri.toString()
+
     fun onDonePressed(onSurveyComplete: () -> Unit) {
         // Here is where you could validate that the requirements of the survey are complete
+
+        //값들 포스트 하기
+        val data = UserInfo(email = "jiwons@gmail.com", name = Name, role = ModeString, gender = GenderString,
+            locationsido = selectedCity, locationgu =selectedDistrict , tutoringMethod = CommnunicationString,
+            introduction = intro, photourl = photouriString)
+        SettingBuilder.SettingService.addUserInfo(data)
+            .enqueue(object: Callback<UserInfo>{
+                override fun onResponse(call: Call<UserInfo>, response : Response<UserInfo>){
+                    if (response.isSuccessful.not()){
+                        Log.e(ContentValues.TAG, response.toString())
+                        return
+                    }else{
+                        Log.e(ContentValues.TAG, "초기 정보 등록 성공")
+                    }
+                }
+                override fun onFailure(call: Call<UserInfo>, t: Throwable){
+                    Log.e(ContentValues.TAG, "연결 실패")
+                    Log.e(ContentValues.TAG, t.toString())
+                }
+
+            })
         onSurveyComplete()
+
     }
+
     val mainScope = MainScope()
 
     fun onModeResponse(Mode: Mode) {
             _ModeResponse.value = Mode
-/*
-        val Role = Role(Role = Mode)
-        val call: Call<Any> = RetrofitClient.WebService.addUserRegister(Role)
-
-        call.enqueue(object : Callback<Any> {
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                // 서버 응답을 처리
-                if (response.isSuccessful) {
-                    // 성공적으로 응답을 받았을 때의 처리
-                    Log.d("QuestionViewModel", "성공 메시지: ${response.body()}") // 성공 메시지 로그 출력
-                } else {
-                    // 응답이 실패한 경우에 대한 처리
-                    Log.e("QuestionViewModel", "응답 실패: ") // 실패 메시지 로그 출력
-                }
-            }
-       //     ${t.message}
-
-            override fun onFailure(call: Call<Any>, t: Throwable) {
-                // 통신 실패시의 처리
-                Log.e("QuestionViewModel", "통신 실패:*") // 실패 메시지 로그 출력
-                t.printStackTrace()
-            }
-        })*/
     }
 
     fun onGenderResponse(Gender: Gender) {

@@ -1,5 +1,6 @@
 package com.gdsc.linkor.setting
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -159,6 +160,7 @@ fun QuestionBottomBar(
                         .weight(1f)
                         .height(48.dp),
                     onClick = onDonePressed,
+
                    // enabled = isNextButtonEnabled, -> 선택지 선택 시 next 보이게
                     colors = ButtonDefaults.outlinedButtonColors(
                         contentColor = Color.White, // 텍스트 색상 변경
