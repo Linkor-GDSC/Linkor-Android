@@ -124,27 +124,27 @@ fun GenderFilter(
                 onDismissRequest = { isDropDownMenuExpanded = false }
             ) {
                 
-                DropdownMenuItem(text =  {Text(text = "man")},
+                DropdownMenuItem(text =  {Text(text = "Man")},
                     onClick = {
                         isDropDownMenuExpanded = false
-                        selectGender = "man"
-                        tutorListViewModel.selectGender(gender="man")
+                        selectGender = "Man"
+                        tutorListViewModel.selectGender(gender="Man")
                     }
                 )
 
-                DropdownMenuItem(text =  {Text(text = "woman")},
+                DropdownMenuItem(text =  {Text(text = "Woman")},
                     onClick = {
                         isDropDownMenuExpanded = false
-                        selectGender = "woman"
-                        tutorListViewModel.selectGender(gender="woman")
+                        selectGender = "Woman"
+                        tutorListViewModel.selectGender(gender="Woman")
                     }
                 )
 
-                DropdownMenuItem(text =  {Text(text = "other")},
+                DropdownMenuItem(text =  {Text(text = "Other")},
                     onClick = {
                         isDropDownMenuExpanded = false
-                        selectGender = "other"
-                        tutorListViewModel.selectGender(gender="other")
+                        selectGender = "Other"
+                        tutorListViewModel.selectGender(gender="Other")
                     }
                 )
 
