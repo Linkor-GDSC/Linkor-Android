@@ -12,16 +12,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.gdsc.linkor.R
 import com.gdsc.linkor.ui.component.MultipleButton
 
 //Time 버튼들
 @Composable
-fun TimeButtons() {
+fun TimeButtons(tutorListViewModel: TutorListViewModel= hiltViewModel()) {
 
+    /*var daysOfWeek by remember {
+        mutableStateOf(listOf(true, false, false, false, false, false, false))
+    }*/
     var daysOfWeek by remember {
-        mutableStateOf(listOf(false, false, false, false, false, false, false))
+        mutableStateOf(tutorListViewModel.finalSelectedDaysOfWeek)
     }
+
+
 
     Column(
         modifier= Modifier
@@ -43,7 +49,11 @@ fun TimeButtons() {
                         }
                     ),
                     isChosen = daysOfWeek[i],
-                    onClick = { daysOfWeek = daysOfWeek.toMutableList().apply { set(i, !get(i)) } }
+                    //onClick = { daysOfWeek = daysOfWeek.toMutableList().apply { set(i, !get(i)) } }
+                    onClick={
+                        daysOfWeek = daysOfWeek.toMutableList().apply { set(i, !get(i)) }
+                        tutorListViewModel.selectDaysOfWeek(daysOfWeek)
+                    }
                 )
             }
         }
@@ -60,17 +70,21 @@ fun TimeButtons() {
                         }
                     ),
                     isChosen = daysOfWeek[i],
-                    onClick = { daysOfWeek = daysOfWeek.toMutableList().apply { set(i, !get(i)) } }
+                    onClick = {
+                        //daysOfWeek = daysOfWeek.toMutableList().apply { set(i, !get(i)) }
+                        daysOfWeek = daysOfWeek.toMutableList().apply { set(i, !get(i)) }
+                        tutorListViewModel.selectDaysOfWeek(daysOfWeek)
+                    }
                 )
             }
 
-            MultipleButton(
+            /*MultipleButton(
                 text = stringResource(id = R.string.All),
                 isChosen = daysOfWeek.all { it },
                 onClick = {
                     daysOfWeek = List(7) { !daysOfWeek.all { it } }
                 }
-            )
+            )*/
         }
     }
 }

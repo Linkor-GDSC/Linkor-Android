@@ -12,7 +12,6 @@ import com.gdsc.linkor.model.Tutor
 import com.gdsc.linkor.model.TutorDetailResponse
 import com.gdsc.linkor.model.TutorListResponse
 import com.gdsc.linkor.repository.TutorRepository
-import com.gdsc.linkor.setting.question.Gender
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,38 +26,108 @@ class TutorListViewModel @Inject constructor(private val tutorRepository: TutorR
     val tutorDetail:State<TutorDetailResponse> = _tutorDetail
 
     var selectedGender by mutableStateOf<String?>(null)
-    var selectedLocationSido by mutableStateOf(null)
-    var selectedLocationGu by mutableStateOf(null)
-    var selectedTime by mutableStateOf(null)
+    var finalSelectedGender by mutableStateOf(selectedGender)
+
+    var selectedLocationSido by mutableStateOf<String?>(null)
+    var finalSelectedLocationSido by mutableStateOf<String?>(selectedLocationSido)
+    var selectedLocationGu by mutableStateOf<String?>(null)
+    var finalSelectedLocationGu by mutableStateOf<String?>(selectedLocationGu)
+
     var selectedTutoringMethod by mutableStateOf<String?>(null)
+    var finalSelectedTutoringMethod by mutableStateOf(selectedTutoringMethod)
 
-
-    /*private val _tutorList = MutableLiveData<List<Tutor>>()
-    val tutorList: LiveData<List<Tutor>> get() = _tutorList*/
+    var selectedDaysOfWeek by mutableStateOf(listOf(false, false, false, false, false, false, false))
+    var finalSelectedDaysOfWeek by mutableStateOf(selectedDaysOfWeek)
+    var time1 by mutableStateOf<String?>(null)
+    var time2 by mutableStateOf<String?>(null)
+    var time3 by mutableStateOf<String?>(null)
+    var time4 by mutableStateOf<String?>(null)
+    var time5 by mutableStateOf<String?>(null)
+    var time6 by mutableStateOf<String?>(null)
+    var time7 by mutableStateOf<String?>(null)
 
 
     init {
-        getAllTutor()
+        getTutor()
     }
 
-    /*fun selectGender(gender: String) {
-        selectedGender=gender
-    }*/
+    //모든 선택 저장
+    fun filterAll(){
 
+    }
+
+    //위치 선택
+    fun selectSido(sido:String?){
+        selectedLocationSido = sido
+    }
+    fun selectGu(gu:String?){
+        selectedLocationGu = gu
+    }
+
+    //위치 저장
+    fun filterLocation(){
+        finalSelectedLocationSido=selectedLocationSido
+        finalSelectedLocationGu=selectedLocationGu
+    }
+
+
+    //성별 선택
+    fun selectGender(gender:String?){
+        selectedGender=gender
+    }
+
+    //성별 저장
+    fun filterGenderMethod(){
+        finalSelectedGender=selectedGender
+    }
+
+    //튜터링 방식 선택
     fun selectTutoringMethod(tutoringMethod:String?){
         selectedTutoringMethod=tutoringMethod
     }
 
+    //튜터링 방식 저장
+    fun filterTutoringMethod(){
+        finalSelectedTutoringMethod=selectedTutoringMethod
+    }
 
-    fun getAllTutor() {
+    //요일 선택
+    fun selectDaysOfWeek(days: List<Boolean>) {
+        selectedDaysOfWeek = days
+    }
+
+    //요일 저장
+    fun filterDaysOfWeek(){
+        finalSelectedDaysOfWeek = selectedDaysOfWeek
+        for (i in finalSelectedDaysOfWeek.indices){
+            when (i) {
+                0 -> time1 = if (finalSelectedDaysOfWeek[i]) "Sunday" else null
+                1 -> time2 = if (finalSelectedDaysOfWeek[i]) "Monday" else null
+                2 -> time3 = if (finalSelectedDaysOfWeek[i]) "Tuesday" else null
+                3 -> time4 = if (finalSelectedDaysOfWeek[i]) "Wednesday" else null
+                4 -> time5 = if (finalSelectedDaysOfWeek[i]) "Thursday" else null
+                5 -> time6 = if (finalSelectedDaysOfWeek[i]) "Friday" else null
+                6 -> time7 = if (finalSelectedDaysOfWeek[i]) "Saturday" else null
+            }
+        }
+    }
+
+
+    fun getTutor() {
         viewModelScope.launch {
             try{
                 _tutorList.value = tutorRepository.getAllTutor(
-                    gender = selectedGender,
-                    locationSido=selectedLocationSido,
-                    locationGu = selectedLocationGu,
-                    tutoringMethod = selectedTutoringMethod,
-                    time = selectedTime
+                    gender = finalSelectedGender,
+                    locationSido=finalSelectedLocationSido,
+                    locationGu = finalSelectedLocationGu,
+                    tutoringMethod = finalSelectedTutoringMethod,
+                    time1 = time1,
+                    time2 = time2,
+                    time3 = time3,
+                    time4 = time4,
+                    time5 = time5,
+                    time6 = time6,
+                    time7 = time7
                 )!!
             }catch (e:Exception){
                 Log.e("MYTAGTutorViewModel","tutor list api error",e)

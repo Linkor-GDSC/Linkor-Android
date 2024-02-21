@@ -53,15 +53,18 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.gdsc.linkor.R
 import com.gdsc.linkor.model.Message
+import com.gdsc.linkor.ui.signin.SignInViewModel
+import com.gdsc.linkor.util.DateConverter
 
-val myEmail="test01@gmail.com"
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MessageScreen(navController: NavController,
                   otherUserName:String,
                   otherUserEmail:String,
                   otherUserPhotoUrl:String,
-                  viewModel:MessageViewModel= hiltViewModel()){
+                  viewModel:MessageViewModel= hiltViewModel(),
+                  signInViewModel: SignInViewModel= hiltViewModel()){
 
     //Log.d("mytag message","url: ${otherUserPhotoUrl}")
     //Log.d("mytag message","email: ${otherUserEmail}")
@@ -72,8 +75,13 @@ fun MessageScreen(navController: NavController,
         Message(content="Nice to meet you", senderEmail = "nykim1016@naver.com", receiverEmail = "s@naver.com", regDate = "2024-02-04 9:13"),
     ))
     }*/
+
+    val myEmail=signInViewModel.getEmail()
+
     //메세지 목록
-    viewModel.getAllMessage(senderEmail = myEmail, receiverEmail = otherUserEmail)
+    if (myEmail != null) {
+        viewModel.getAllMessage(senderEmail = myEmail, receiverEmail = otherUserEmail)
+    }
     val messages = viewModel.messages.value
 
     val listState = rememberLazyListState()
@@ -112,7 +120,7 @@ fun MessageScreen(navController: NavController,
                         .fillMaxWidth(),
                     color = Color(0xFFFDFDFD)
                 ) {
-                    MessageInput(viewModel = viewModel,otherUserEmail)
+                    MessageInput(viewModel = viewModel,otherUserEmail=otherUserEmail)
                 }
             }
         }
@@ -161,11 +169,12 @@ fun MessageTopAppBar(otherUserName: String,otherUserPhotoUrl: String,onClick:()-
 
 
 @Composable
-fun MessageInput(viewModel: MessageViewModel, otherUserEmail: String){
+fun MessageInput(viewModel: MessageViewModel= hiltViewModel(), signInViewModel: SignInViewModel= hiltViewModel(), otherUserEmail: String){
     var inputValue by remember{ mutableStateOf("") }
 
     fun sendMessage() {
-        viewModel.postMessage(email = myEmail, content = inputValue, receiverEmail = otherUserEmail)
+        signInViewModel.getEmail()
+            ?.let { viewModel.postMessage(email = it, content = inputValue, receiverEmail = otherUserEmail) }
         inputValue = ""
     }
 
@@ -218,6 +227,7 @@ fun MessageInput(viewModel: MessageViewModel, otherUserEmail: String){
 
 @Composable
 fun Message(isMyMessage:Boolean,message: Message){
+    val dateConverter = DateConverter()
     Column(
         horizontalAlignment = if (isMyMessage) Alignment.End else Alignment.Start,
         modifier = Modifier
@@ -246,11 +256,14 @@ fun Message(isMyMessage:Boolean,message: Message){
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 //시간
-                Text(
-                    text = message.regDate,
-                    color = if (isMyMessage) Color(0xFFD0CDCD) else Color(0xFF4F4F4F),
-                    modifier = Modifier.align(Alignment.End)
-                )
+                dateConverter.convertDateToString(message.regDate)?.let {
+                    Text(
+                        //text = message.regDate,
+                        text = it,
+                        color = if (isMyMessage) Color(0xFFD0CDCD) else Color(0xFF4F4F4F),
+                        modifier = Modifier.align(Alignment.End)
+                    )
+                }
             }
         }
     }

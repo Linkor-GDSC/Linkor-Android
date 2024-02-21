@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.gdsc.linkor.R
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.setting.question.Gender
@@ -51,7 +52,7 @@ fun FilterBottomSheet(onDismiss: () -> Unit,onClick: () -> Unit){
 }
 
 @Composable
-fun BottomSheetContent(onDismiss: () -> Unit,onClick: () -> Unit){
+fun BottomSheetContent(tutorListViewModel: TutorListViewModel= hiltViewModel(),onDismiss: () -> Unit,onClick: () -> Unit){
     val questionViewModel = QuestionViewModel()
     Surface{
         Column(
@@ -64,7 +65,7 @@ fun BottomSheetContent(onDismiss: () -> Unit,onClick: () -> Unit){
             //성별
             Text(text="Gender")
             Spacer(modifier = Modifier.height(spaceSmall))
-            GenderDropDown(viewModel = questionViewModel, possibleAnswers = listOf(
+            GenderFilter(viewModel = questionViewModel, possibleAnswers = listOf(
                 Gender(R.string.Woman),
                 Gender(R.string.Man),
                 Gender(R.string.Other),
@@ -74,9 +75,9 @@ fun BottomSheetContent(onDismiss: () -> Unit,onClick: () -> Unit){
             Text(text="Location")
             Spacer(modifier = Modifier.height(spaceSmall))
             Row{
-                sidoDropdown(questionViewModel)
+                SidoFilter(questionViewModel)
                 Spacer(modifier = Modifier.width(35.dp))
-                gunguDropdown(questionViewModel)
+                GuFilter(questionViewModel)
             }
             Spacer(modifier = Modifier.height(spaceBig))
             //날짜
@@ -92,8 +93,13 @@ fun BottomSheetContent(onDismiss: () -> Unit,onClick: () -> Unit){
 
             //누르면 필터링
             SearchButton(){
+                tutorListViewModel.filterDaysOfWeek()
+                tutorListViewModel.filterTutoringMethod()
+                tutorListViewModel.filterGenderMethod()
+                tutorListViewModel.filterLocation()
                 onDismiss()
                 onClick()
+
             }
         }
 
