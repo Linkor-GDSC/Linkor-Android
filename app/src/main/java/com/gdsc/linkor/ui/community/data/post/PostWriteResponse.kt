@@ -1,6 +1,4 @@
-package com.gdsc.linkor.ui.community.data
-
-import android.net.Uri
+package com.gdsc.linkor.ui.community.data.post
 
 data class PostWriteResponse(
     val success: String?,

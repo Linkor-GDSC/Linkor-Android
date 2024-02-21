@@ -2,18 +2,20 @@ package com.gdsc.linkor.ui.community
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import android.view.View
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.gdsc.linkor.ui.community.data.CommnunityBuilder
-import com.gdsc.linkor.ui.community.data.PostWriteResponse
-import com.gdsc.linkor.ui.community.data.PostWriting
+import com.gdsc.linkor.ui.community.data.comment.GetCommentResponse
+import com.gdsc.linkor.ui.community.data.post.GetPostId
+import com.gdsc.linkor.ui.community.data.comment.PostCommentResponse
+import com.gdsc.linkor.ui.community.data.comment.PostCommentWriting
+import com.gdsc.linkor.ui.community.data.post.PostWriteResponse
+import com.gdsc.linkor.ui.community.data.post.PostWriting
 import com.gdsc.linkor.ui.signin.SignInViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,11 +41,51 @@ class CommunityViewmodel(): ViewModel(){
         getPosts2()
     }
 
-    fun sendComment(commentWriting: String){
-
-
+   var _postId = mutableStateOf(GetPostId(data = emptyList(), message = "", success = ""))
+    val postId:State<GetPostId> = _postId
+    init {
+        getPostSet(1)
     }
 
+
+// comment 전송
+    fun sendComment(id: Int, commentWriting: String){
+        var data = PostCommentWriting(commentWriting,"jiwons@gmail.com" )
+        CommnunityBuilder.communityService.addComment(id,data)
+            .enqueue(object : Callback<PostCommentResponse>{
+                override fun onResponse(call: Call<PostCommentResponse>, response: Response<PostCommentResponse>){
+                    if(response.isSuccessful.not()){
+                        Log.e(TAG, response.toString())
+                        return
+                    }else{
+                        Log.e(TAG, response.toString())
+                    }
+                }
+                override fun onFailure(call: Call<PostCommentResponse?>, t: Throwable){
+                    Log.e(TAG, "연결 실패")
+                    Log.e(TAG, t.toString())
+                }
+
+            })
+    }
+
+ //댓글 조회
+/*
+    fun getComment(id: Int){
+        CommnunityBuilder.communityService.getComment(id)
+            .enqueue(object: Callback<GetCommentResponse>{
+                override fun onResponse(call: Call<GetCommentResponse>, response: Response<GetCommentResponse>){
+                    if
+                }
+                override fun onFailure(call: Call<PostWriteResponse?>, t: Throwable){
+                    Log.e(TAG, "연결 실패")
+                    Log.e(TAG, t.toString())
+                }
+            })
+    }
+*/
+
+//게시글 올리기
     fun sendPost(titleWriting: String, ContentWriting: String) {
         //writer -> Email 로 바꾸기
         val data = PostWriting(titleWriting, ContentWriting,  "jiwons@gmail.com")
@@ -57,7 +99,7 @@ class CommunityViewmodel(): ViewModel(){
                         Log.e(TAG, "포스트 게시글 성공")
                     }
                 }
-                override fun onFailure(call: Call<PostWriteResponse?>,t: Throwable){
+                override fun onFailure(call: Call<PostWriteResponse?>, t: Throwable){
                     Log.e(TAG, "연결 실패")
                     Log.e(TAG, t.toString())
                 }
@@ -66,6 +108,8 @@ class CommunityViewmodel(): ViewModel(){
             )
     }
 
+
+// 게시글 가져오기
     fun getPosts2() {
      //   val posts =  mutableListOf<Post>()
 
@@ -78,20 +122,6 @@ class CommunityViewmodel(): ViewModel(){
                     }else{
                         _posts.value = response.body()!!
                         Log.d("MyTAG"," $posts.value")
-                      /*  response.body()?.let{postWriteResponse ->
-                            postWriteResponse.data?.let { data ->
-                                    val post = Post(
-                                        id = data.id ?: 0,  // id에 대한 null 체크 추가
-                                        name = data.writer.orEmpty(),
-                                        photoUrl = data.writerPhotoUrl,
-                                        title = data.title.orEmpty(),
-                                        content = data.content.orEmpty(),
-                                        time = data.createdAt.orEmpty()
-                                    )
-                                    posts.add(post)
-                            }
-                        }*/
-
                     }
                 }
                 override fun onFailure(call: Call<PostWriteResponse>, t: Throwable){
@@ -104,7 +134,32 @@ class CommunityViewmodel(): ViewModel(){
             )
 
     }
+
+    //하나의 게시글 정보 가져오기
+    fun getPostSet(id: Int){
+        CommnunityBuilder.communityService.getPostId(id)
+            .enqueue(object : Callback<GetPostId>{
+                override fun onResponse(call: Call<GetPostId>, response: Response<GetPostId>){
+                    if(response.isSuccessful.not()){
+                        Log.e("MyTAG", response.toString())
+                        return
+                    }else{
+                        _postId.value = response.body()!!
+                        Log.d("MyTAG"," $postId.value")
+                    }
+                }
+                override fun onFailure(call: Call<GetPostId>, t: Throwable){
+                    Log.e("MyTAG", "연결 실패")
+                    Log.e("MyTAG", t.toString())
+                }
+            })
+    }
+
+
+
 }
+
+
 
 class CommunityViewModelFactory(
 ) : ViewModelProvider.Factory {
