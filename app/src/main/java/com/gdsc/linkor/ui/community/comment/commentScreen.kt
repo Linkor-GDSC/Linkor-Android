@@ -27,6 +27,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,14 +48,36 @@ import coil.compose.AsyncImage
 import com.gdsc.linkor.R
 import com.gdsc.linkor.ui.community.CommunityViewmodel
 import com.gdsc.linkor.ui.community.data.post.Post2
+import com.gdsc.linkor.ui.community.data.post.PostDetail
+import com.gdsc.linkor.util.DateConverter
 
 @Composable
 fun commentScreen(navController: NavController,
-                  post: Post2, viewmodel: CommunityViewmodel
+                  //post: Post2,
+                  viewmodel: CommunityViewmodel,
+                  id: Int
 ){
+    LaunchedEffect(Unit) {
+        try {
+            viewmodel.getPostSet(id)
+        } catch (e: Exception) {
+            Log.e("mytag 댓글창","에러",e)
+        }
+    }
 
+    /*try{
+        viewmodel.getPostSet(id=id)
 
-    Log.d("MyTAGUI", "$post")
+    }catch (e:Exception){
+        Log.e("mytag 댓글창","에러",e)
+    }*/
+
+    val post by viewmodel.postDetail.collectAsState()
+    //val post = PostDetail(content = "$id",createdAt="2024-02-18T20:19:48.0104",id=1,title="title", writer = "writier",
+        //writerPhotoUrl="https://lh3.googleusercontent.com/a/ACg8ocIEuFKe7nru_wkMIgvUTufE09Z5w6PKHfu8VjOTBWMutbro6XPdmQQAiG4qe_7U0ceWrEuOdWSxe9H6OSupUnWVtME=s576-c")
+
+    val dateConverter = DateConverter()
+    //Log.d("MyTAGUI", "$post")
     Column {
         //뒤로 가기 버튼
         IconButton(onClick = { navController.navigateUp() }) {
@@ -113,7 +138,11 @@ fun commentScreen(navController: NavController,
                                 )
                             Spacer(modifier = Modifier.width(3.dp))
 
-                            post.createdAt?.let { Text(text = it, fontSize = 11.sp, color= Color.DarkGray) }
+                            //post.createdAt?.let { Text(text = it, fontSize = 11.sp, color= Color.DarkGray) }
+                            post.createdAt?.let {
+                                dateConverter.convertDateToString(it)
+                                    ?.let { Text(text = it, fontSize = 11.sp, color= Color.DarkGray) }
+                            }
                         }
 
                     }
@@ -240,7 +269,7 @@ fun Postcomment(comment: Comment, viewmodel: CommunityViewmodel){
 }
 
 @Composable
-fun CommentInput(post : Post2, viewmodel: CommunityViewmodel) {
+fun CommentInput(post : PostDetail, viewmodel: CommunityViewmodel) {
 
     fun sendComment() {
         post.id?.let { viewmodel.sendComment(it,viewmodel.commentWriting) }
