@@ -3,6 +3,7 @@ package com.gdsc.linkor.ui.mypage
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -26,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,29 +42,38 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.gdsc.linkor.R
+import com.gdsc.linkor.model.Tutee
 import com.gdsc.linkor.ui.signin.SignInViewModel
 import com.gdsc.linkor.navigation.LinkorBottomNavigation
+import com.gdsc.linkor.navigation.Route
 import com.gdsc.linkor.setting.QuestionViewModel
 import com.google.firebase.auth.FirebaseAuth
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun Mypage(
     questionViewModel: QuestionViewModel,
     signInViewModel: SignInViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
+    myPageViewModel: MyPageViewModel= hiltViewModel()
 ){
+    signInViewModel.getEmail()?.let { myPageViewModel.getTutee(email = it) }
+    val tuteeList by myPageViewModel.tuteeList.collectAsState()
 
     Scaffold (
         bottomBar = { LinkorBottomNavigation(navController = navController) }
     )
     {
         Column(
-            modifier=Modifier
+            modifier= Modifier
                 .background(Color.White)
                 .fillMaxSize()
                 .padding(it)
@@ -72,6 +86,7 @@ fun Mypage(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+
             ) {
                 Column(
                     modifier = Modifier
@@ -79,7 +94,7 @@ fun Mypage(
                 ) {
                     Text(text = "Hello, $Name !",
                         fontStyle = FontStyle.Normal,
-                        fontSize = 30.sp,
+                        fontSize = 25.sp,
                         color = Color.Black,
                         modifier = Modifier
                             .padding(horizontal = 35.dp)
@@ -94,7 +109,7 @@ fun Mypage(
                         fontSize = 15.sp,
                         color = Color.DarkGray,
                         modifier = Modifier
-                            .padding(horizontal = 35.dp)
+                            .padding(start = 35.dp)
                     )
                 }
 
@@ -118,9 +133,8 @@ fun Mypage(
 
                         )
                     }
-
-
                 }
+
 
             }
 
@@ -227,7 +241,19 @@ fun Mypage(
 
                     }
 
-                    Box(
+
+                    //튜티 목록
+                    LazyColumn {
+                        items(tuteeList) { tutee ->
+                            TuteeItem(tutee=tutee){
+                                val photoUrl = if (tutee.photoUrl.isNotEmpty()) URLEncoder.encode(tutee.photoUrl, StandardCharsets.UTF_8.toString()) else tutee.photoUrl
+                                navController.navigate("${Route.MESSAGE}/${tutee.name}/${tutee.email}/${photoUrl}")
+                            }
+                            /*Text(text = "이름: ${tutee.name}")
+                            Text(text = "이메일: ${tutee.email}")*/
+                        }
+                    }
+                    /*Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .size(60.dp)
@@ -236,7 +262,7 @@ fun Mypage(
                     ) {
 
 
-                    }
+                    }*/
                 }
 
 
@@ -278,6 +304,54 @@ fun Mypage(
 
 
 }
+
+@Composable
+fun TuteeItem(
+    tutee: Tutee,
+    onClick:(Tutee)->Unit
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .size(60.dp)
+            .padding(horizontal = 25.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(Color.White, /*shape = RoundedCornerShape(10.dp)*/),
+        onClick = {onClick(tutee)}
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Spacer(Modifier.width(10.dp))
+            AsyncImage(
+                model =tutee.photoUrl,
+                contentDescription = "Tutee Profile Image",
+                modifier = Modifier
+                    .size(30.dp, 30.dp)
+                    .clip(RoundedCornerShape(50))
+                    //.padding(start=5.dp)
+            )
+            //Spacer(Modifier.width(10.dp))
+
+            Text(text = tutee.name,
+                fontStyle = FontStyle.Normal,
+                fontSize = 20.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp)
+
+                
+
+            )
+            //Text(text="HyunJung")
+        }
+
+    }
+
+}
+
+
 
 
 

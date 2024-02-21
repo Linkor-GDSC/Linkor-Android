@@ -40,6 +40,7 @@ fun FilterBottomSheet(onDismiss: () -> Unit,onClick: () -> Unit){
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
         sheetState=filterBottomSheetState,
+        containerColor = Color.White
         /*modifier=Modifier.heightIn(
             min = 800.dp,
         )*/
@@ -54,7 +55,9 @@ fun FilterBottomSheet(onDismiss: () -> Unit,onClick: () -> Unit){
 @Composable
 fun BottomSheetContent(tutorListViewModel: TutorListViewModel= hiltViewModel(),onDismiss: () -> Unit,onClick: () -> Unit){
     val questionViewModel = QuestionViewModel()
-    Surface{
+    Surface(
+        color = Color.White
+    ){
         Column(
             modifier = Modifier.padding(horizontal = 45.dp,vertical=30.dp),
             //verticalArrangement = Arrangement.spacedBy(40.dp)
