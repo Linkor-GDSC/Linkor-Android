@@ -293,7 +293,7 @@ fun CommentInput(post : PostDetail, viewmodel: CommunityViewmodel) {
         //박스 크기 조절
         modifier = Modifier
             .fillMaxWidth()
-            .size(210.dp)
+            .size(100.dp)
             .padding(13.dp)
     ) {
         Surface(
