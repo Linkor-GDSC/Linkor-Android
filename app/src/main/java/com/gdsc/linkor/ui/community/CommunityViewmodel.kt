@@ -21,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-//val signInViewModel = SignInViewModel()
+val signInViewModel = SignInViewModel()
 val questionViewModel = QuestionViewModel()
 
 class CommunityViewmodel(): ViewModel(){
