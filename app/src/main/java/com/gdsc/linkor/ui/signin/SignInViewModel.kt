@@ -47,8 +47,8 @@ class SignInViewModel @Inject constructor(private val repository: SignInReposito
 
                         if (email != null) {
                             viewModelScope.launch {
-                                isExistingMember = checkExistingMember(email = email)
-                                Log.d("MyTag check", "기존 멤버인가? ${isExistingMember}")
+                                //isExistingMember = checkExistingMember(email = email)
+                                //Log.d("MyTag check", "기존 멤버인가? ${isExistingMember}")
                                 onSuccess(user)
                             }
                         }
