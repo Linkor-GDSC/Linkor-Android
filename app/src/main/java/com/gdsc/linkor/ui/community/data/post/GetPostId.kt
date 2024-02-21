@@ -1,7 +1,7 @@
 package com.gdsc.linkor.ui.community.data.post
 
 data class GetPostId(
-    val `data`: List<PostId>,
+    val data: String,
     val message: String,
     val success: String
 )
