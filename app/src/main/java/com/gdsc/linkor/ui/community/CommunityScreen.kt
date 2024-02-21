@@ -56,7 +56,8 @@ fun CommunityScreen(
     val posts by viewModel.postList.collectAsState()
 
     Scaffold(
-        bottomBar = { LinkorBottomNavigation(navController = navController) }
+        bottomBar = { LinkorBottomNavigation(navController = navController) },
+        containerColor = Color.White
     ) {
         Surface(color = Color.White,modifier = Modifier.padding(it)) {
             Surface(
@@ -83,22 +84,23 @@ fun CommunityScreen(
                         }
                     }
                 }
-                //추가 버튼
-                IconButton(
-                    modifier = Modifier
-                        .size(60.dp)
-                        .offset(300.dp, 600.dp),
-                    onClick = { navController.navigate("writingScreenRoute") },
 
-                ){
-                    Image(painter = painterResource(id = R.drawable.add_box),
-                        contentDescription =null,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.White)
-                    )
-                }
             }
+        }
+        //추가 버튼
+        IconButton(
+            modifier = Modifier
+                .size(60.dp)
+                .offset(300.dp, 600.dp),
+            onClick = { navController.navigate("writingScreenRoute") },
+
+            ){
+            Image(painter = painterResource(id = R.drawable.add_box),
+                contentDescription =null,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+            )
         }
     }
 
