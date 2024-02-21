@@ -1,4 +1,4 @@
-package com.gdsc.linkor.ui.community.data
+package com.gdsc.linkor.ui.community.data.post
 
 data class PostWriting(
     val title: String?,
