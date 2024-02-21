@@ -34,6 +34,9 @@ enum class Questions {
 val photoUri = signInViewModel.getImage()
 val Name = signInViewModel.getName()
 val Email = signInViewModel.getEmail()
+/*val photoUri = ""
+val Name = ""
+val Email = "email"*/
 
 class QuestionViewModel: ViewModel(){
     private val questionOrder: List<Questions> = listOf(
@@ -155,7 +158,7 @@ class QuestionViewModel: ViewModel(){
         // Here is where you could validate that the requirements of the survey are complete
 
         //값들 포스트 하기
-        val data = UserInfo(email = "test14@gmail.com", name = Name, role = /*ModeString*/"tutor", gender = GenderString,
+        val data = UserInfo(email = "test20@gmail.com", name = Name, role = /*ModeString*/"tutor", gender = GenderString,
         locationsido = selectedCity, locationgu =selectedDistrict , tutoringMethod = CommnunicationString,
         introduction = intro, photourl = photouriString)
         SettingBuilder.SettingService.addUserInfo(data)
@@ -180,7 +183,7 @@ class QuestionViewModel: ViewModel(){
     }
 
     fun onTimePressed(){
-        var data = UserInfoTime(email = "test14@gmail.com", times = selectedWeeks)
+        var data = UserInfoTime(email = "test20@gmail.com", times = selectedWeeks)
         SettingBuilder.SettingService.addUserTime(data)
             .enqueue(object: Callback<UserInfoTimeResponse>{
                 override fun onResponse(call: Call<UserInfoTimeResponse>, response: Response<UserInfoTimeResponse>){
