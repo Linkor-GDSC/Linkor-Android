@@ -1,45 +1,33 @@
 package com.gdsc.linkor.ui.community.comment
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.traceEventEnd
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,7 +37,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,14 +44,15 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.gdsc.linkor.R
 import com.gdsc.linkor.ui.community.CommunityViewmodel
-import com.gdsc.linkor.ui.community.Post
-import com.gdsc.linkor.ui.message.MessageInput
+import com.gdsc.linkor.ui.community.data.post.Post2
 
 @Composable
 fun commentScreen(navController: NavController,
-            post: Post, viewmodel: CommunityViewmodel
+                  post: Post2, viewmodel: CommunityViewmodel
 ){
 
+
+    Log.d("MyTAGUI", "$post")
     Column {
         //뒤로 가기 버튼
         IconButton(onClick = { navController.navigateUp() }) {
@@ -94,7 +82,7 @@ fun commentScreen(navController: NavController,
                 ) {
                     //프로필
                     AsyncImage(
-                        model = post.photoUrl,
+                        model = post.writerPhotoUrl,
                         " Profile Image",
                         modifier = Modifier
                             .size(40.dp, 40.dp)
@@ -108,8 +96,10 @@ fun commentScreen(navController: NavController,
                         modifier = Modifier
                     ) {
                         //이름
-                        Text(text = post.name,
-                        )
+                        post.writer?.let {
+                            Text(text = it,
+                            )
+                        }
 
                         Spacer(modifier = Modifier.height(3.dp))
 
@@ -123,7 +113,7 @@ fun commentScreen(navController: NavController,
                                 )
                             Spacer(modifier = Modifier.width(3.dp))
 
-                            Text(text = post.time, fontSize = 11.sp, color= Color.DarkGray)
+                            post.createdAt?.let { Text(text = it, fontSize = 11.sp, color= Color.DarkGray) }
                         }
 
                     }
@@ -137,18 +127,22 @@ fun commentScreen(navController: NavController,
                 )
                 {
                     //제목
-                    Text(
-                        text = post.title,
-                        style = MaterialTheme.typography.titleMedium
-                    )
+                    post.title?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(10.dp))
 
                     //내용
-                    Text(
-                        text = post.content,
-                        style = MaterialTheme.typography.bodySmall,
-                    )
+                    post.content?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
 
                 }
                 val comments = remember { getComment() }
@@ -173,7 +167,7 @@ fun commentScreen(navController: NavController,
                 .fillMaxWidth(),
             color = Color(0xFFFDFDFD)
         ) {
-            CommentInput(viewmodel)
+            CommentInput(post, viewmodel)
         }
 
     }
@@ -246,10 +240,10 @@ fun Postcomment(comment: Comment, viewmodel: CommunityViewmodel){
 }
 
 @Composable
-fun CommentInput(viewmodel: CommunityViewmodel) {
+fun CommentInput(post : Post2, viewmodel: CommunityViewmodel) {
 
     fun sendComment() {
-        viewmodel.sendComment(viewmodel.commentWriting)
+        post.id?.let { viewmodel.sendComment(it,viewmodel.commentWriting) }
         viewmodel.commentWriting = ""
     }
 
