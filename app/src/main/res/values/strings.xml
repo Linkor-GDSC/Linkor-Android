@@ -14,8 +14,6 @@
     <string name="ftf">FTF</string>
     <string name="nftf">NFTF</string>
 
-    <!-- 로그인 시 필요 -->
-    <string name="web_client_id">298378042723-kitu6dn7t0kad9aebpnc07h6ilfs8euu.apps.googleusercontent.com</string>
 
     <!-- 성별 -->
     <string name="titleGender">I am a </string>

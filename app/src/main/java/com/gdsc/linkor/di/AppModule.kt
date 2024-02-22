@@ -1,5 +1,6 @@
 package com.gdsc.linkor.di
 
+import com.gdsc.linkor.BuildConfig
 import com.gdsc.linkor.network.ApiService
 import com.gdsc.linkor.repository.MessageRepository
 import com.gdsc.linkor.repository.MyPageRepository
@@ -22,7 +23,7 @@ object AppModule {
     @Provides
     fun provideApiService():ApiService{
         return Retrofit.Builder()
-            .baseUrl("http://35.192.104.105:8080/")
+            .baseUrl(BuildConfig.SERVER_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)

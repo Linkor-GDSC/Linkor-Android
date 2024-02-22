@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.gdsc.linkor.BuildConfig
 import com.gdsc.linkor.R
 import com.gdsc.linkor.data.UserPreferencesDataStore
 import com.gdsc.linkor.navigation.Route
@@ -104,7 +105,8 @@ fun SignInScreen(signInViewModel: SignInViewModel= hiltViewModel(), navControlle
             SignInGoogleButton {
                 val googleSignInOptions = GoogleSignInOptions
                     .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(context.getString(R.string.web_client_id))
+                    //.requestIdToken(context.getString(R.string.web_client_id))
+                    .requestIdToken(BuildConfig.FIREBASE_CLIENT_ID)
                     .requestEmail()
                     .build()
 
