@@ -9,5 +9,5 @@ data class UserInfo(
     val name: String?,
     val photourl: String?,
     val role: String?,
-    val tutoringMethod: String?
+    val tutoringmethod: String?
 )
