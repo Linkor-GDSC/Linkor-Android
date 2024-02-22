@@ -56,7 +56,7 @@ fun Mode(
         possibleAnswers.forEach {
             val selected = it == selectedAnswer
 
-            NFT(
+            mode(
                 modifier= Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
@@ -70,7 +70,7 @@ fun Mode(
 }
 
 @Composable
-fun NFT(
+fun mode(
     text: String,
     selected: Boolean,
     onOptionSelected: () -> Unit,

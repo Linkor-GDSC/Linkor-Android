@@ -64,8 +64,8 @@ fun SignInScreen(signInViewModel: SignInViewModel= hiltViewModel(), navControlle
                 try {
                     if (user != null) {
                         //자동 로그인을 위해 사용자 이메일, 이름 저장
-                    //    user.displayName?.let { it1 -> userPreferencesDataStore.saveName(it1) }
-                    //    user.email?.let { it1 -> userPreferencesDataStore.saveEmail(it1) }
+                      //  user.displayName?.let { it1 -> userPreferencesDataStore.saveName(it1) }
+                       // user.email?.let { it1 -> userPreferencesDataStore.saveEmail(it1) }
                         Log.d("mytag","savedEmail: ${userPreferencesDataStore.savedEmail}")
 
 
