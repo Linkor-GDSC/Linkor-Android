@@ -142,7 +142,7 @@ fun LinkorNavHost(userPreferencesDataStore: UserPreferencesDataStore,ttsManager:
         composable("${Route.MESSAGE}/{otherUserName}/{otherUserEmail}/{otherUserPhotoUrl}"){
             val otherUserName = it.arguments?.getString("otherUserName")?:""
             val otherUserEmail = it.arguments?.getString("otherUserEmail")?:""
-            val otherUserPhotoUrl = it.arguments?.getString("photoUrl")?:""
+            val otherUserPhotoUrl = it.arguments?.getString("otherUserPhotoUrl")?:""
 
             MessageScreen(navController=navController,otherUserName = otherUserName, otherUserEmail = otherUserEmail,otherUserPhotoUrl=otherUserPhotoUrl)
         }
