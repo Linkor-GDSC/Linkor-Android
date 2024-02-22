@@ -9,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.gdsc.linkor.R
 import com.gdsc.linkor.setting.question.Communication
 import com.gdsc.linkor.setting.question.Gender
 import com.gdsc.linkor.setting.question.WeekItem
@@ -55,11 +56,7 @@ class QuestionViewModel: ViewModel(){
     val ModeResponse: Mode?
         get()= _ModeResponse.value
 
-/*    fun modeString(Mode: Mode){
-        if (Mode.stringResourceId == st){
-            return
-        }
-    }*/
+
 
     /*  성별 지정 창 */
 
@@ -88,12 +85,15 @@ class QuestionViewModel: ViewModel(){
         get() = _selectedWeeks.map { it.title }
 
     // Week 아이템을 선택 또는 해제하는 함수
+    //문제발생의심. . .
     fun toggleWeekItem(weekItem: WeekItem) {
         weekItem.checkedStatus.value = !weekItem.checkedStatus.value
         if (weekItem.checkedStatus.value) {
             _selectedWeeks.add(weekItem)
+            Log.d("mytag 토글","요일: ${weekItem}")
         } else {
             _selectedWeeks.remove(weekItem)
+            Log.d("mytag 토글","요일 취소: ${weekItem}")
         }
     }
 
@@ -148,19 +148,48 @@ class QuestionViewModel: ViewModel(){
    /* fun getString(): String? {
         return getApplication<Application>().resources.getString(ModeResponse.)
     }*/
-
-    var ModeString : String = ModeResponse?.stringResourceId.toString()
+/*    var ModeString : String = ModeResponse?.stringResourceId.toString()
     var GenderString : String = GenderResponse?.stringResourceId.toString()
-    var CommnunicationString : String = CommunicationResponse?.stringResourceId.toString()
+    var CommnunicationString : String = CommunicationResponse?.stringResourceId.toString()*/
     var photouriString : String = photoUri.toString()
+   fun getRoleString(): String {
+       val selectedMode = ModeResponse ?: return "" // ModeResponse가 null이면 빈 문자열 반환
+
+       return when (selectedMode.stringResourceId) {
+           R.string.student -> "tutee"
+           R.string.tutor -> "tutor"
+           else -> "" // 다른 리소스 ID에 대한 처리를 원할 경우 추가
+       }
+   }
+    fun getGenderString(): String {
+        val selectedGender = GenderResponse ?: return ""
+
+        return when (selectedGender.stringResourceId) {
+            R.string.Woman -> "Woman"
+            R.string.Man -> "Man"
+            R.string.Other -> "Other"
+            else -> "" // 다른 리소스 ID에 대한 처리를 원할 경우 추가
+        }
+    }
+    fun getTutoringMethodString(): String {
+        val selectedCommunication = CommunicationResponse ?: return ""
+
+        return when (selectedCommunication.stringResourceId) {
+            R.string.FTF -> "FTF"
+            R.string.NFTF-> "NFTF"
+            else -> "" // 다른 리소스 ID에 대한 처리를 원할 경우 추가
+        }
+    }
+
 
     fun onDonePressed(onSurveyComplete: () -> Unit) {
         // Here is where you could validate that the requirements of the survey are complete
 
         //값들 포스트 하기
-        /*val data = UserInfo(email = "test20@gmail.com", name = Name, role = *//*ModeString*//*"tutor", gender = GenderString,
-        locationsido = selectedCity, locationgu =selectedDistrict , tutoringMethod = CommnunicationString,
+        val data = UserInfo(email = "test24@gmail.com", name = Name, role = getRoleString(), gender = getGenderString(),
+        locationsido = selectedCity, locationgu =selectedDistrict , tutoringmethod = getTutoringMethodString(),
         introduction = intro, photourl = photouriString)
+        Log.d("mytag 세부조건","데이터: ${data}")
         SettingBuilder.SettingService.addUserInfo(data)
             .enqueue(object: Callback<Boolean>{
                 override fun onResponse(call: Call<Boolean>, response : Response<Boolean>){
@@ -170,6 +199,7 @@ class QuestionViewModel: ViewModel(){
                     }else{
                         onTimePressed()
                         Log.e("mytag 세부조건", "초기 정보 등록 성공")
+                        Log.e("mytag 세부조건", response.toString())
                     }
                 }
                 override fun onFailure(call: Call<Boolean>, t: Throwable){
@@ -177,13 +207,14 @@ class QuestionViewModel: ViewModel(){
                     Log.e("mytag 세부조건", t.toString())
                 }
 
-            })*/
+            })
         onSurveyComplete()
 
     }
 
     fun onTimePressed(){
-        var data = UserInfoTime(email = "test20@gmail.com", times = selectedWeeks)
+        var data = UserInfoTime(email = "test24@gmail.com", times = selectedWeeks)
+        Log.d("mytag 세부조건","데이터 시간: ${data}")
         SettingBuilder.SettingService.addUserTime(data)
             .enqueue(object: Callback<UserInfoTimeResponse>{
                 override fun onResponse(call: Call<UserInfoTimeResponse>, response: Response<UserInfoTimeResponse>){
