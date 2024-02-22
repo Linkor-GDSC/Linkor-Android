@@ -3,33 +3,41 @@ package com.gdsc.linkor
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
-import com.gdsc.linkor.data.UserPreferencesDataStore
-import com.gdsc.linkor.navigation.LinkorNavHost
-import com.gdsc.linkor.ui.learning.LearningSentencesScreen
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.gdsc.linkor.ui.theme.LinkorTheme
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private lateinit var ttsManager: TTSManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ttsManager=TTSManager(this)
         setContent {
             LinkorTheme {
-
-                val context = LocalContext.current
-                val userPreferencesDataStore = remember { UserPreferencesDataStore(this) }
-
-                LinkorNavHost(userPreferencesDataStore,ttsManager)
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
+                    Greeting("Android")
+                }
             }
         }
     }
+}
 
-    override fun onDestroy() {
-        super.onDestroy()
-        ttsManager.shutdown()
+@Composable
+fun Greeting(name: String) {
+    Text(text = "Hello $name!")
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    LinkorTheme {
+        Greeting("Android")
     }
 }
