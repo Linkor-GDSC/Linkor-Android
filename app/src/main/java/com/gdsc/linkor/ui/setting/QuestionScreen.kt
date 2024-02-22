@@ -45,10 +45,12 @@ fun QuestionScreen(
 ){
     Surface(
         modifier = Modifier
-            .supportWideScreen()
+            .supportWideScreen(),
+        color = Color.White
     ) {
         Scaffold (
             content = content,
+            containerColor = Color.White,
             bottomBar = {
                 QuestionBottomBar(
                     shouldShowPreviousButton = questionScreenData.shouldShowPreviousButton,
@@ -127,7 +129,9 @@ fun QuestionBottomBar(
     onNextPressed: () -> Unit,
     onDonePressed: () -> Unit
 ){
-    Surface(shadowElevation = 7.dp) {
+    Surface(shadowElevation = 7.dp,
+        color = Color.White
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
