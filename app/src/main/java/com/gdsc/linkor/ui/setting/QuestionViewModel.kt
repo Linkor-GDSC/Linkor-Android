@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
@@ -85,12 +86,12 @@ class QuestionViewModel: ViewModel(){
         get() = _selectedWeeks.map { it.title }
 
     // Week 아이템을 선택 또는 해제하는 함수
-    //문제발생의심. . .
+
     fun toggleWeekItem(weekItem: WeekItem) {
         weekItem.checkedStatus.value = !weekItem.checkedStatus.value
         if (weekItem.checkedStatus.value) {
             _selectedWeeks.add(weekItem)
-            Log.d("mytag 토글","요일: ${weekItem}")
+            Log.d("mytag 토글","요일 저장: ${weekItem}")
         } else {
             _selectedWeeks.remove(weekItem)
             Log.d("mytag 토글","요일 취소: ${weekItem}")
@@ -186,34 +187,38 @@ class QuestionViewModel: ViewModel(){
         // Here is where you could validate that the requirements of the survey are complete
 
         //값들 포스트 하기
-        /*val data = UserInfo(email = "test24@gmail.com", name = Name, role = getRoleString(), gender = getGenderString(),
-        locationsido = selectedCity, locationgu =selectedDistrict , tutoringmethod = getTutoringMethodString(),
-        introduction = intro, photourl = photouriString)
+        val data = Email?.let {
+            UserInfo(email = it, name = Name, role = getRoleString(), gender = getGenderString(),
+            locationsido = selectedCity, locationgu =selectedDistrict , tutoringmethod = getTutoringMethodString(),
+            introduction = intro, photourl = photouriString)
+        }
         Log.d("mytag 세부조건","데이터: ${data}")
-        SettingBuilder.SettingService.addUserInfo(data)
-            .enqueue(object: Callback<Boolean>{
-                override fun onResponse(call: Call<Boolean>, response : Response<Boolean>){
-                    if (response.isSuccessful.not()){
-                        Log.d("mytag 세부조건", response.toString())
-                        return
-                    }else{
-                        onTimePressed()
-                        Log.e("mytag 세부조건", "초기 정보 등록 성공")
-                        Log.e("mytag 세부조건", response.toString())
+        if (data != null) {
+            SettingBuilder.SettingService.addUserInfo(data)
+                .enqueue(object: Callback<Boolean>{
+                    override fun onResponse(call: Call<Boolean>, response : Response<Boolean>){
+                        if (response.isSuccessful.not()){
+                            Log.d("mytag 세부조건", response.toString())
+                            return
+                        }else{
+                            data.email.let { onTimePressed(email = it) }
+                            Log.e("mytag 세부조건", "초기 정보 등록 성공")
+                            Log.e("mytag 세부조건", response.toString())
+                        }
                     }
-                }
-                override fun onFailure(call: Call<Boolean>, t: Throwable){
-                    Log.e("mytag 세부조건", "연결 실패")
-                    Log.e("mytag 세부조건", t.toString())
-                }
+                    override fun onFailure(call: Call<Boolean>, t: Throwable){
+                        Log.e("mytag 세부조건", "연결 실패")
+                        Log.e("mytag 세부조건", t.toString())
+                    }
 
-            })*/
+                })
+        }
         onSurveyComplete()
 
     }
 
-    fun onTimePressed(){
-        var data = UserInfoTime(email = "test24@gmail.com", times = selectedWeeks)
+    fun onTimePressed(email:String){
+        var data = UserInfoTime(email = email, times = selectedWeeks)
         Log.d("mytag 세부조건","데이터 시간: ${data}")
         SettingBuilder.SettingService.addUserTime(data)
             .enqueue(object: Callback<UserInfoTimeResponse>{

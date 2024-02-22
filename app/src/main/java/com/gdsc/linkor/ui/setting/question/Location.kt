@@ -1,5 +1,6 @@
 package com.gdsc.linkor.setting.question
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -68,7 +69,7 @@ fun Location(
             WeekItem("THU", mutableStateOf(false)),
             WeekItem("FRI", mutableStateOf(false)),
             WeekItem("SAT", mutableStateOf(false)),
-            WeekItem("ALL", mutableStateOf(false))
+            //WeekItem("ALL", mutableStateOf(false))
         )
     }
     val All: Boolean = week.all { it.checkedStatus.value }
@@ -139,21 +140,25 @@ fun Location(
 
             items(week.size) { index ->
                 val weekItem = week[index]
+
                 Weekend2(
                     viewModel = viewModel,
                     title = weekItem.title,
                     checkedStatus = weekItem.checkedStatus,
-                    onClick = { viewModel.toggleWeekItem(weekItem) }
+                    onClick = {
+                        Log.d("mytag 시간 클릭", "클릭: ${week[index]}")
+                        viewModel.toggleWeekItem(weekItem)
+                    }
                 )
 
-                if (index == week.size - 1) {
+                /*if (index == week.size - 1) {
                     AllAgree2(
                         viewModel = viewModel,
-                        title = weekItem.title,
+                        title = week[index].title,
                         shouldChecked = All,
                         allBoxChecked = allBoxChecked,
                     )
-                }
+                }*/
             }
 
 
@@ -292,10 +297,12 @@ fun Weekend2(
                                     checkmarkColor = Color.White
                                 ),
                                 onCheckedChange = {
+                                    onClick.invoke()
                                     checkedStatus.value = it
 
+
                                 },
-                                modifier = Modifier.clickable { onClick.invoke() } // Checkbox 클릭 이벤트 추가
+                                //modifier = Modifier.clickable { onClick.invoke() } // Checkbox 클릭 이벤트 추가
                             )
                         }
                     )
