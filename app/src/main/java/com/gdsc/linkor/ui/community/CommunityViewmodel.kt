@@ -65,7 +65,9 @@ class CommunityViewmodel(): ViewModel(){
 
 // comment 전송
     fun sendComment(id: Int, commentWriting: String){
-        var data = PostCommentWriting(commentWriting,"jiwons@gmail.com" )
+        val writer = signInViewModel.getEmail()
+        var data = writer?.let { PostCommentWriting(commentWriting, it) }
+    if (data != null) {
         CommnunityBuilder.communityService.addComment(id,data)
             .enqueue(object : Callback<PostCommentResponse>{
                 override fun onResponse(call: Call<PostCommentResponse>, response: Response<PostCommentResponse>){
@@ -74,6 +76,7 @@ class CommunityViewmodel(): ViewModel(){
                         return
                     }else{
                         Log.e(TAG, response.toString())
+                        getComment(id=id)
                     }
                 }
                 override fun onFailure(call: Call<PostCommentResponse?>, t: Throwable){
@@ -82,6 +85,7 @@ class CommunityViewmodel(): ViewModel(){
                 }
 
             })
+    }
     }
 
  //댓글 조회
@@ -109,7 +113,8 @@ class CommunityViewmodel(): ViewModel(){
 //게시글 올리기
     fun sendPost(titleWriting: String, ContentWriting: String) {
         //writer -> Email 로 바꾸기
-        val data = PostWriting(titleWriting, ContentWriting,  "jac@gmail.com")
+        val writer = signInViewModel.getEmail()
+        val data = PostWriting(titleWriting, ContentWriting,  writer=writer)
         CommnunityBuilder.communityService.addPost(data)
             .enqueue(object : Callback<PostWriteResponse> {
                 override fun onResponse(call: Call<PostWriteResponse?>, response: Response<PostWriteResponse?>){
