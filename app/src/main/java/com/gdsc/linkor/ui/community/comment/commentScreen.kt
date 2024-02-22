@@ -7,8 +7,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -81,130 +83,138 @@ fun commentScreen(navController: NavController,
 
     val dateConverter = DateConverter()
     //Log.d("MyTAGUI", "$post")
-    Column {
-        //뒤로 가기 버튼
-        IconButton(onClick = { navController.navigateUp() }) {
-            Image(painter = painterResource(id = R.drawable.ic_arrow_left), contentDescription = "arrow left",
-                modifier = Modifier
-                    .padding(8.dp),
-                alignment = Alignment.TopStart)
-        }
-
-        //질문글
-        Surface(
-            modifier = Modifier
-                .heightIn(max = 630.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .verticalScroll(rememberScrollState())
-                .fillMaxWidth(),
-            color= Color(0xFFFFFFFF),
-            border = BorderStroke(width = 1.dp, color = Color(0xFFE0E0E0))
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = Color(0xFFFFFFFF)
         ) {
-            Column(
-                modifier = Modifier.padding(/*horizontal = 14.dp,*/ vertical = 6.dp),
-                verticalArrangement = Arrangement.spacedBy(2.dp),
+        Column(modifier=Modifier.fillMaxSize()) {
+            //뒤로 가기 버튼
+            IconButton(onClick = { navController.navigateUp() }) {
+                Image(painter = painterResource(id = R.drawable.ic_arrow_left), contentDescription = "arrow left",
+                    modifier = Modifier
+                        .padding(8.dp),
+                    alignment = Alignment.TopStart)
+            }
 
-                ) {
-                Row(
-                    modifier=Modifier.padding(horizontal = 20.dp, vertical = 5.dp),
-                ) {
-                    //프로필
-                    AsyncImage(
-                        model = post.writerPhotoUrl,
-                        " Profile Image",
-                        modifier = Modifier
-                            .size(40.dp, 40.dp)
-                            .clip(RoundedCornerShape(50))
-                            .align(Alignment.CenterVertically)
+            //질문글
+            Surface(
+                modifier = Modifier
+                    .heightIn(max = 630.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxSize()
+                    .weight(1f),
+                color= Color(0xFFFFFFFF),
+                //border = BorderStroke(width = 1.dp, color = Color(0xFFE0E0E0))
+            ) {
+                Column(
+                    modifier = Modifier.padding(/*horizontal = 14.dp,*/ vertical = 6.dp),
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
 
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
+                    ) {
+                    Row(
+                        modifier=Modifier.padding(horizontal = 20.dp, vertical = 5.dp),
+                    ) {
+                        //프로필
+                        AsyncImage(
+                            model = post.writerPhotoUrl,
+                            " Profile Image",
+                            modifier = Modifier
+                                .size(40.dp, 40.dp)
+                                .clip(RoundedCornerShape(50))
+                                .align(Alignment.CenterVertically)
+
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+
+                        Column(
+                            modifier = Modifier
+                        ) {
+                            //이름
+                            post.writer?.let {
+                                Text(text = it,
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(3.dp))
+
+                            //작성 시간
+                            Row(
+                                // modifier =Modifier.align(Alignment.CenterHorizontally )
+                            ) {
+                                Image(painter = painterResource(id = R.drawable.bx_bx_time),
+                                    contentDescription = "time",
+
+                                    )
+                                Spacer(modifier = Modifier.width(3.dp))
+
+                                //post.createdAt?.let { Text(text = it, fontSize = 11.sp, color= Color.DarkGray) }
+                                post.createdAt?.let {
+                                    dateConverter.convertDateToString(it)
+                                        ?.let { Text(text = it, fontSize = 11.sp, color= Color.DarkGray) }
+                                }
+                            }
+
+                        }
+
+
+                    }
 
                     Column(
-                        modifier = Modifier
-                    ) {
-                        //이름
-                        post.writer?.let {
-                            Text(text = it,
+                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 6.dp),
+                        verticalArrangement = Arrangement.spacedBy(2.dp),
+                    )
+                    {
+                        //제목
+                        post.title?.let {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.titleMedium
                             )
                         }
 
-                        Spacer(modifier = Modifier.height(3.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
 
-                        //작성 시간
-                        Row(
-                           // modifier =Modifier.align(Alignment.CenterHorizontally )
-                        ) {
-                            Image(painter = painterResource(id = R.drawable.bx_bx_time),
-                                contentDescription = "time",
-
-                                )
-                            Spacer(modifier = Modifier.width(3.dp))
-
-                            //post.createdAt?.let { Text(text = it, fontSize = 11.sp, color= Color.DarkGray) }
-                            post.createdAt?.let {
-                                dateConverter.convertDateToString(it)
-                                    ?.let { Text(text = it, fontSize = 11.sp, color= Color.DarkGray) }
-                            }
+                        //내용
+                        post.content?.let {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.bodySmall,
+                            )
                         }
 
                     }
 
+                    //댓글 시작
+                    //val comments = remember { getComment() }
+                    Column(
+                        modifier = Modifier
+                        // .padding(16.dp)
+                    ) {
+                        commentList.forEach { comment ->
+                            Postcomment(comment,viewmodel)
+                        }
+                    }
+
 
                 }
 
-                Column(
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 6.dp),
-                    verticalArrangement = Arrangement.spacedBy(2.dp),
-                )
-                {
-                    //제목
-                    post.title?.let {
-                        Text(
-                            text = it,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
+            }
 
-                    Spacer(modifier = Modifier.height(10.dp))
 
-                    //내용
-                    post.content?.let {
-                        Text(
-                            text = it,
-                            style = MaterialTheme.typography.bodySmall,
-                        )
-                    }
-
-                }
-
-                //댓글 시작
-                //val comments = remember { getComment() }
-                Column(
+            // 댓글 작성
+            Surface(
                 modifier = Modifier
-                   // .padding(16.dp)
-                ) {
-                    commentList.forEach { comment ->
-                    Postcomment(comment,viewmodel)
-                }
+                    .fillMaxWidth(),
+                color = Color(0xFFFDFDFD)
+            ) {
+                CommentInput(post, viewmodel)
             }
 
-
-            }
-
-        }
-
-
-        // 댓글 작성
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth(),
-            color = Color(0xFFFDFDFD)
-        ) {
-            CommentInput(post, viewmodel)
         }
 
     }
+
 
 
 }

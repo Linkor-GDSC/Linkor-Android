@@ -1,7 +1,7 @@
 package com.gdsc.linkor.ui.community.data.comment
 
 data class PostCommentResponse(
-    val `data`: List<Comment>,
+    val `data`: Comment,
     val message: String,
     val success: String
 )
