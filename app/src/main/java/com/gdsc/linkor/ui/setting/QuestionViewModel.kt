@@ -33,9 +33,7 @@ enum class Questions {
     Introduction,
 }
 
-val photoUri = signInViewModel.getImage()
-val Name = signInViewModel.getName()
-val Email = signInViewModel.getEmail()
+
 /*val photoUri = ""
 val Name = ""
 val Email = "email"*/
@@ -152,7 +150,7 @@ class QuestionViewModel: ViewModel(){
 /*    var ModeString : String = ModeResponse?.stringResourceId.toString()
     var GenderString : String = GenderResponse?.stringResourceId.toString()
     var CommnunicationString : String = CommunicationResponse?.stringResourceId.toString()*/
-    var photouriString : String = photoUri.toString()
+
    fun getRoleString(): String {
        val selectedMode = ModeResponse ?: return "" // ModeResponse가 null이면 빈 문자열 반환
 
@@ -186,11 +184,12 @@ class QuestionViewModel: ViewModel(){
     fun onDonePressed(onSurveyComplete: () -> Unit) {
         // Here is where you could validate that the requirements of the survey are complete
 
+        Log.d("mytag 세부조건","이메일2: ${signInViewModel.getEmail()}")
         //값들 포스트 하기
-        val data = Email?.let {
-            UserInfo(email = it, name = Name, role = getRoleString(), gender = getGenderString(),
+        val data = signInViewModel.getEmail()?.let {
+            UserInfo(email = it, name = signInViewModel.getName(), role = getRoleString(), gender = getGenderString(),
             locationsido = selectedCity, locationgu =selectedDistrict , tutoringmethod = getTutoringMethodString(),
-            introduction = intro, photourl = photouriString)
+            introduction = intro, photourl = signInViewModel.getImage().toString())
         }
         Log.d("mytag 세부조건","데이터: ${data}")
         if (data != null) {

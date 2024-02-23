@@ -44,6 +44,7 @@ class SignInViewModel @Inject constructor(/*private val repository: SignInReposi
                         val name = user?.displayName
                         val email = user?.email
                         val photoUrl = user?.photoUrl
+                        Log.d("mytag 로그인 완료","유저 이메일: $email 유저 이름: $name")
 
                         if (email != null) {
                             viewModelScope.launch {
