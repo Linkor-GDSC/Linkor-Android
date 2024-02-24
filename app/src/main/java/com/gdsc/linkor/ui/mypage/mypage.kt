@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -244,7 +245,10 @@ fun Mypage(
 
 
                     //튜티 목록
-                    LazyColumn {
+                    LazyColumn(
+                        contentPadding = PaddingValues(end = 15.dp), // 전체 컨텐츠 하단에 패딩
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
                         items(tuteeList) { tutee ->
                             TuteeItem(tutee=tutee){
                                 val photoUrl = if (tutee.photoUrl.isNotEmpty()) URLEncoder.encode(tutee.photoUrl, StandardCharsets.UTF_8.toString()) else tutee.photoUrl
