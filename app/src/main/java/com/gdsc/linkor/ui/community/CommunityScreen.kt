@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -33,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -57,7 +59,22 @@ fun CommunityScreen(
 
     Scaffold(
         bottomBar = { LinkorBottomNavigation(navController = navController) },
-        containerColor = Color.White
+        containerColor = Color.White,
+        floatingActionButton = { // 여기에 floating action button 정의
+            IconButton(
+                onClick = { navController.navigate("writingScreenRoute") },
+                modifier = Modifier.size(60.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.add_box),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.White)
+                )
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End,
     ) {
         Surface(color = Color.White,modifier = Modifier.padding(it)) {
             Surface(
@@ -88,7 +105,7 @@ fun CommunityScreen(
             }
         }
         //추가 버튼
-        IconButton(
+        /*IconButton(
             modifier = Modifier
                 .size(60.dp)
                 .offset(300.dp, 600.dp),
@@ -101,7 +118,7 @@ fun CommunityScreen(
                     .fillMaxSize()
                     .background(Color.White)
             )
-        }
+        }*/
     }
 
 }
